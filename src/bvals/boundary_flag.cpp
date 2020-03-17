@@ -23,7 +23,7 @@
 // C++ headers
 #include <iostream>
 #include <sstream>
-#include <stdexcept>  // runtime_error
+#include <stdexcept> // runtime_error
 #include <string>
 
 // Athena++ headers
@@ -35,24 +35,24 @@ namespace parthenon {
 //  \brief Parses input string to return scoped enumerator flag specifying boundary
 //  condition. Typically called in Mesh() ctor and in pgen/*.cpp files.
 
-BoundaryFlag GetBoundaryFlag(const std::string& input_string) {
-  if (input_string == "reflecting") {
-    return BoundaryFlag::reflect;
-  } else if (input_string == "outflow") {
-    return BoundaryFlag::outflow;
-  } else if (input_string == "periodic") {
-    return BoundaryFlag::periodic;
-  } else if (input_string == "none") {
-    return BoundaryFlag::undef;
-  } else if (input_string == "block") {
-    return BoundaryFlag::block;
-  } else {
-    std::stringstream msg;
-    msg << "### FATAL ERROR in GetBoundaryFlag" << std::endl
-        << "Input string=" << input_string << "\n"
-        << "is an invalid boundary type" << std::endl;
-    ATHENA_ERROR(msg);
-  }
+BoundaryFlag GetBoundaryFlag(const std::string &input_string) {
+    if (input_string == "reflecting") {
+        return BoundaryFlag::reflect;
+    } else if (input_string == "outflow") {
+        return BoundaryFlag::outflow;
+    } else if (input_string == "periodic") {
+        return BoundaryFlag::periodic;
+    } else if (input_string == "none") {
+        return BoundaryFlag::undef;
+    } else if (input_string == "block") {
+        return BoundaryFlag::block;
+    } else {
+        std::stringstream msg;
+        msg << "### FATAL ERROR in GetBoundaryFlag" << std::endl
+            << "Input string=" << input_string << "\n"
+            << "is an invalid boundary type" << std::endl;
+        ATHENA_ERROR(msg);
+    }
 }
 
 //----------------------------------------------------------------------------------------
@@ -62,25 +62,25 @@ BoundaryFlag GetBoundaryFlag(const std::string& input_string) {
 //  or diagnostics. Inverse of GetBoundaryFlag().
 
 std::string GetBoundaryString(BoundaryFlag input_flag) {
-  switch (input_flag) {
-    case BoundaryFlag::block:  // -1
-      return "block";
-    case BoundaryFlag::undef:  // 0
-      return "none";
+    switch (input_flag) {
+    case BoundaryFlag::block: // -1
+        return "block";
+    case BoundaryFlag::undef: // 0
+        return "none";
     case BoundaryFlag::reflect:
-      return "reflecting";
+        return "reflecting";
     case BoundaryFlag::outflow:
-      return "outflow";
+        return "outflow";
     case BoundaryFlag::periodic:
-      return "periodic";
+        return "periodic";
     default:
-      std::stringstream msg;
-      msg << "### FATAL ERROR in GetBoundaryString" << std::endl
-          << "Input enum class BoundaryFlag=" << static_cast<int>(input_flag) << "\n"
-          << "is an invalid boundary type" << std::endl;
-      ATHENA_ERROR(msg);
-      break;
-  }
+        std::stringstream msg;
+        msg << "### FATAL ERROR in GetBoundaryString" << std::endl
+            << "Input enum class BoundaryFlag=" << static_cast<int>(input_flag) << "\n"
+            << "is an invalid boundary type" << std::endl;
+        ATHENA_ERROR(msg);
+        break;
+    }
 }
 
 //----------------------------------------------------------------------------------------
@@ -92,38 +92,39 @@ std::string GetBoundaryString(BoundaryFlag input_flag) {
 //  valid MeshBlock boundary.
 
 void CheckBoundaryFlag(BoundaryFlag block_flag, CoordinateDirection dir) {
-  std::stringstream msg;
-  msg << "### FATAL ERROR in CheckBoundaryFlag" << std::endl
-      << "Attempting to set invalid MeshBlock boundary= " << GetBoundaryString(block_flag)
-      << "\nin x" << dir+1 << " direction" << std::endl;
-  switch(dir) {
+    std::stringstream msg;
+    msg << "### FATAL ERROR in CheckBoundaryFlag" << std::endl
+        << "Attempting to set invalid MeshBlock boundary= "
+        << GetBoundaryString(block_flag) << "\nin x" << dir + 1 << " direction"
+        << std::endl;
+    switch (dir) {
     case CoordinateDirection::X1DIR:
-      switch(block_flag) {
+        switch (block_flag) {
         case BoundaryFlag::undef:
-          ATHENA_ERROR(msg);
-          break;
+            ATHENA_ERROR(msg);
+            break;
         default:
-          break;
-      }
-      break;
+            break;
+        }
+        break;
     case CoordinateDirection::X2DIR:
-      switch(block_flag) {
+        switch (block_flag) {
         case BoundaryFlag::undef:
-          ATHENA_ERROR(msg);
-          break;
+            ATHENA_ERROR(msg);
+            break;
         default:
-          break;
-      }
-      break;
+            break;
+        }
+        break;
     case CoordinateDirection::X3DIR:
-      switch(block_flag) {
+        switch (block_flag) {
         case BoundaryFlag::undef:
-          ATHENA_ERROR(msg);
-          break;
+            ATHENA_ERROR(msg);
+            break;
         default:
-          break;
-      }
-  }
-  return;
+            break;
+        }
+    }
+    return;
 }
-}
+} // namespace parthenon

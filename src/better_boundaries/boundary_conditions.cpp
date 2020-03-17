@@ -19,105 +19,110 @@
 
 namespace parthenon {
 
-void ApplyBoundaryConditions(Container<Real>& rc) {
+void ApplyBoundaryConditions(Container<Real> &rc) {
     MeshBlock *pmb = rc.pmy_block;
-    const int is = pmb->is; const int js = pmb->js; const int ks = pmb->ks;
-    const int ie = pmb->ie; const int je = pmb->je; const int ke = pmb->ke;
-    const int imax = pmb->ncells1; const int jmax = pmb->ncells2; const int kmax = pmb->ncells3;
+    const int is = pmb->is;
+    const int js = pmb->js;
+    const int ks = pmb->ks;
+    const int ie = pmb->ie;
+    const int je = pmb->je;
+    const int ke = pmb->ke;
+    const int imax = pmb->ncells1;
+    const int jmax = pmb->ncells2;
+    const int kmax = pmb->ncells3;
 
     Metadata m;
-    ContainerIterator<Real> citer(rc, std::vector<parthenon::Metadata::flags> {m.independent});
+    ContainerIterator<Real> citer(rc,
+                                  std::vector<parthenon::Metadata::flags>{m.independent});
     const int nvars = citer.vars.size();
 
     switch (pmb->boundary_flag[BoundaryFace::inner_x1]) {
-        case BoundaryFlag::outflow: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                for (int l=0; l<q.GetDim4(); l++) {
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=0; i<is; i++) {
-                                q(l,k,j,i) = q(l,k,j,is);
-                            }
+    case BoundaryFlag::outflow: {
+        for (int n = 0; n < nvars; n++) {
+            Variable<Real> &q = *citer.vars[n];
+            for (int l = 0; l < q.GetDim4(); l++) {
+                for (int k = ks; k <= ke; k++) {
+                    for (int j = 0; j < jmax; j++) {
+                        for (int i = 0; i < is; i++) {
+                            q(l, k, j, i) = q(l, k, j, is);
                         }
                     }
                 }
             }
-            break;
         }
-        case BoundaryFlag::reflect: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                bool vec = q.metadata().isVector();
-                for (int l=0; l<q.GetDim4(); l++) {
-                    Real reflect = (l==0 && vec ? -1.0 : 1.0);
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=0; i<is; i++) {
-                                q(l,k,j,i) = reflect*q(l,k,j,2*is-i-1);
-                            }
+        break;
+    }
+    case BoundaryFlag::reflect: {
+        for (int n = 0; n < nvars; n++) {
+            Variable<Real> &q = *citer.vars[n];
+            bool vec = q.metadata().isVector();
+            for (int l = 0; l < q.GetDim4(); l++) {
+                Real reflect = (l == 0 && vec ? -1.0 : 1.0);
+                for (int k = ks; k <= ke; k++) {
+                    for (int j = 0; j < jmax; j++) {
+                        for (int i = 0; i < is; i++) {
+                            q(l, k, j, i) = reflect * q(l, k, j, 2 * is - i - 1);
                         }
                     }
                 }
             }
-            break;
         }
+        break;
+    }
     default: {
-      break;
+        break;
     }
     };
 
     switch (pmb->boundary_flag[BoundaryFace::outer_x1]) {
-        case BoundaryFlag::outflow: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                for (int l=0; l<q.GetDim4(); l++) {
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=ie+1; i<imax; i++) {
-                                q(l,k,j,i) = q(l,k,j,ie);
-                            }
+    case BoundaryFlag::outflow: {
+        for (int n = 0; n < nvars; n++) {
+            Variable<Real> &q = *citer.vars[n];
+            for (int l = 0; l < q.GetDim4(); l++) {
+                for (int k = ks; k <= ke; k++) {
+                    for (int j = 0; j < jmax; j++) {
+                        for (int i = ie + 1; i < imax; i++) {
+                            q(l, k, j, i) = q(l, k, j, ie);
                         }
                     }
                 }
             }
-            break;
         }
-        case BoundaryFlag::reflect: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                bool vec = q.metadata().isVector();
-                for (int l=0; l<q.GetDim4(); l++) {
-                    Real reflect = (l==0 && vec ? -1.0 : 1.0);
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=ie+1; i<imax; i++) {
-                                q(l,k,j,i) = reflect*q(l,k,j,2*ie-i+1);
-                            }
+        break;
+    }
+    case BoundaryFlag::reflect: {
+        for (int n = 0; n < nvars; n++) {
+            Variable<Real> &q = *citer.vars[n];
+            bool vec = q.metadata().isVector();
+            for (int l = 0; l < q.GetDim4(); l++) {
+                Real reflect = (l == 0 && vec ? -1.0 : 1.0);
+                for (int k = ks; k <= ke; k++) {
+                    for (int j = 0; j < jmax; j++) {
+                        for (int i = ie + 1; i < imax; i++) {
+                            q(l, k, j, i) = reflect * q(l, k, j, 2 * ie - i + 1);
                         }
                     }
                 }
             }
-            break;
         }
+        break;
+    }
     default: {
-      break;
+        break;
     }
     };
-
-
 
     if (pmb->pmy_mesh->f2) {
 
-    switch (pmb->boundary_flag[BoundaryFace::inner_x2]) {
+        switch (pmb->boundary_flag[BoundaryFace::inner_x2]) {
         case BoundaryFlag::outflow: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                for (int l=0; l<q.GetDim4(); l++) {
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=0; j<js; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = q(l,k,js,i);
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    for (int k = ks; k <= ke; k++) {
+                        for (int j = 0; j < js; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = q(l, k, js, i);
                             }
                         }
                     }
@@ -126,15 +131,15 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             break;
         }
         case BoundaryFlag::reflect: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
                 bool vec = q.metadata().isVector();
-                for (int l=0; l<q.GetDim4(); l++) {
-                    Real reflect = (l==1 && vec ? -1.0 : 1.0);
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=0; j<js; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = reflect*q(l,k,2*js-j-1,i);
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    Real reflect = (l == 1 && vec ? -1.0 : 1.0);
+                    for (int k = ks; k <= ke; k++) {
+                        for (int j = 0; j < js; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = reflect * q(l, k, 2 * js - j - 1, i);
                             }
                         }
                     }
@@ -142,20 +147,20 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             }
             break;
         }
-    default: {
-      break;
-    }
-    };
+        default: {
+            break;
+        }
+        };
 
-    switch (pmb->boundary_flag[BoundaryFace::outer_x2]) {
+        switch (pmb->boundary_flag[BoundaryFace::outer_x2]) {
         case BoundaryFlag::outflow: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                for (int l=0; l<q.GetDim4(); l++) {
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=je+1; j<jmax; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = q(l,k,je,i);
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    for (int k = ks; k <= ke; k++) {
+                        for (int j = je + 1; j < jmax; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = q(l, k, je, i);
                             }
                         }
                     }
@@ -164,15 +169,15 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             break;
         }
         case BoundaryFlag::reflect: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
                 bool vec = q.metadata().isVector();
-                for (int l=0; l<q.GetDim4(); l++) {
-                    Real reflect = (l==1 && vec ? -1.0 : 1.0);
-                    for (int k=ks; k<=ke; k++) {
-                        for (int j=je+1; j<jmax; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = reflect*q(l,k,2*je-j+1,i);
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    Real reflect = (l == 1 && vec ? -1.0 : 1.0);
+                    for (int k = ks; k <= ke; k++) {
+                        for (int j = je + 1; j < jmax; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = reflect * q(l, k, 2 * je - j + 1, i);
                             }
                         }
                     }
@@ -180,25 +185,24 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             }
             break;
         }
-    default: {
-      break;
-    }
-    };
+        default: {
+            break;
+        }
+        };
 
     } // if f2
 
-
     if (pmb->pmy_mesh->f3) {
 
-   switch (pmb->boundary_flag[BoundaryFace::inner_x3]) {
+        switch (pmb->boundary_flag[BoundaryFace::inner_x3]) {
         case BoundaryFlag::outflow: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                for (int l=0; l<q.GetDim4(); l++) {
-                    for (int k=0; k<ks; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = q(l,ks,j,i);
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    for (int k = 0; k < ks; k++) {
+                        for (int j = 0; j < jmax; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = q(l, ks, j, i);
                             }
                         }
                     }
@@ -207,15 +211,15 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             break;
         }
         case BoundaryFlag::reflect: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
                 bool vec = q.metadata().isVector();
-                for (int l=0; l<q.GetDim4(); l++) {
-                    Real reflect = (l==2 && vec ? -1.0 : 1.0);
-                    for (int k=0; k<ks; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = reflect*q(l,2*ks-k-1,j,i);
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    Real reflect = (l == 2 && vec ? -1.0 : 1.0);
+                    for (int k = 0; k < ks; k++) {
+                        for (int j = 0; j < jmax; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = reflect * q(l, 2 * ks - k - 1, j, i);
                             }
                         }
                     }
@@ -223,20 +227,20 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             }
             break;
         }
-    default: {
-      break;
-    }
-    };
+        default: {
+            break;
+        }
+        };
 
-    switch (pmb->boundary_flag[BoundaryFace::outer_x3]) {
+        switch (pmb->boundary_flag[BoundaryFace::outer_x3]) {
         case BoundaryFlag::outflow: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
-                for (int l=0; l<q.GetDim4(); l++) {
-                    for (int k=ke+1; k<kmax; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = q(l,ke,j,i);
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    for (int k = ke + 1; k < kmax; k++) {
+                        for (int j = 0; j < jmax; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = q(l, ke, j, i);
                             }
                         }
                     }
@@ -245,15 +249,15 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             break;
         }
         case BoundaryFlag::reflect: {
-            for (int n=0; n<nvars; n++) {
-                Variable<Real>& q = *citer.vars[n];
+            for (int n = 0; n < nvars; n++) {
+                Variable<Real> &q = *citer.vars[n];
                 bool vec = q.metadata().isVector();
-                for (int l=0; l<q.GetDim4(); l++) {
-                    Real reflect = (l==2 && vec ? -1.0 : 1.0);
-                    for (int k=ke+1; k<kmax; k++) {
-                        for (int j=0; j<jmax; j++) {
-                            for (int i=0; i<imax; i++) {
-                                q(l,k,j,i) = reflect*q(l,2*ke-k+1,j,i);
+                for (int l = 0; l < q.GetDim4(); l++) {
+                    Real reflect = (l == 2 && vec ? -1.0 : 1.0);
+                    for (int k = ke + 1; k < kmax; k++) {
+                        for (int j = 0; j < jmax; j++) {
+                            for (int i = 0; i < imax; i++) {
+                                q(l, k, j, i) = reflect * q(l, 2 * ke - k + 1, j, i);
                             }
                         }
                     }
@@ -261,13 +265,12 @@ void ApplyBoundaryConditions(Container<Real>& rc) {
             }
             break;
         }
-    default: {
-      break;
-    }
-    };
+        default: {
+            break;
+        }
+        };
 
     } // if f3
-
 }
 
-}
+} // namespace parthenon

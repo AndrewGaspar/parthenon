@@ -22,22 +22,22 @@
 // C++ headers
 #include <cmath>
 #include <cstdlib>
-#include <cstring>    // memcpy()
+#include <cstring> // memcpy()
 #include <iomanip>
-#include <iostream>   // endl
-#include <sstream>    // stringstream
-#include <stdexcept>  // runtime_error
-#include <string>     // c_str()
+#include <iostream>  // endl
+#include <sstream>   // stringstream
+#include <stdexcept> // runtime_error
+#include <string>    // c_str()
 
 // Athena++ headers
 #include "athena.hpp"
 #include "athena_arrays.hpp"
+#include "bvals_fc.hpp"
 #include "coordinates/coordinates.hpp"
 #include "globals.hpp"
 #include "mesh/mesh.hpp"
 #include "parameter_input.hpp"
 #include "utils/buffer_utils.hpp"
-#include "bvals_fc.hpp"
 
 // this is not added in flux_correction_cc.cpp:
 // #include "bvals.hpp"
@@ -55,16 +55,16 @@ namespace parthenon {
 //  \brief Restrict, pack and send the flux correction to the coarse neighbor(s) if needed
 
 void FaceCenteredBoundaryVariable::SendFluxCorrection() {
-  throw std::runtime_error("FaceCenteredBoundaryVariable::SendFluxCorrection not implemented yet");
+    throw std::runtime_error(
+        "FaceCenteredBoundaryVariable::SendFluxCorrection not implemented yet");
 }
-
 
 //----------------------------------------------------------------------------------------
 //! \fn void FaceCenteredBoundaryVariable::ReceiveFluxCorrection()
 //  \brief Receive and Apply the flux correction to the coarse neighbor(s) if needed
 
 bool FaceCenteredBoundaryVariable::ReceiveFluxCorrection() {
-  throw std::runtime_error(
-    "FaceCenteredBoundaryVariable::ReceiveFluxCorrection not implemented yet");
+    throw std::runtime_error(
+        "FaceCenteredBoundaryVariable::ReceiveFluxCorrection not implemented yet");
 }
-}
+} // namespace parthenon

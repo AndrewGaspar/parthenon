@@ -26,58 +26,69 @@ namespace parthenon {
 //! \fn Reconstruction::DonorCellX1()
 //  \brief reconstruct L/R surfaces of the i-th cells
 
-void Reconstruction::DonorCellX1(const int k, const int j, const int il, const int iu,
+void Reconstruction::DonorCellX1(const int k,
+                                 const int j,
+                                 const int il,
+                                 const int iu,
                                  const AthenaArray<Real> &q,
-                                 AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
-  const int nu = q.GetDim4() - 1;
+                                 AthenaArray<Real> &ql,
+                                 AthenaArray<Real> &qr) {
+    const int nu = q.GetDim4() - 1;
 
-  // compute L/R states for each variable
-  for (int n=0; n<=nu; ++n) {
+    // compute L/R states for each variable
+    for (int n = 0; n <= nu; ++n) {
 #pragma omp simd
-    for (int i=il; i<=iu; ++i) {
-      ql(n,i+1) = qr(n,i) = q(n,k,j,i);
+        for (int i = il; i <= iu; ++i) {
+            ql(n, i + 1) = qr(n, i) = q(n, k, j, i);
+        }
     }
-  }
-  return;
+    return;
 }
 
 //----------------------------------------------------------------------------------------
 //! \fn Reconstruction::DonorCellX2()
 //  \brief
 
-
-void Reconstruction::DonorCellX2(const int k, const int j, const int il, const int iu,
+void Reconstruction::DonorCellX2(const int k,
+                                 const int j,
+                                 const int il,
+                                 const int iu,
                                  const AthenaArray<Real> &q,
-                                 AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
-  //const int nu = q.GetDim4() - 1;
-  const int nu = 0;
-  // compute L/R states for each variable
-  //std::cout << "RECONSTRUCTING!!!" << std::endl;
-  for (int n=0; n<=nu; ++n) {
+                                 AthenaArray<Real> &ql,
+                                 AthenaArray<Real> &qr) {
+    // const int nu = q.GetDim4() - 1;
+    const int nu = 0;
+    // compute L/R states for each variable
+    // std::cout << "RECONSTRUCTING!!!" << std::endl;
+    for (int n = 0; n <= nu; ++n) {
 #pragma omp simd
-    for (int i=il; i<=iu; ++i) {
-      ql(n,i) = qr(n,i) = q(n,k,j,i);
-      //qr(n,i) = q(n,k,j,i);
+        for (int i = il; i <= iu; ++i) {
+            ql(n, i) = qr(n, i) = q(n, k, j, i);
+            // qr(n,i) = q(n,k,j,i);
+        }
     }
-  }
-  return;
+    return;
 }
 
 //----------------------------------------------------------------------------------------
 //! \fn Reconstruction::DonorCellX3()
 //  \brief
 
-void Reconstruction::DonorCellX3(const int k, const int j, const int il, const int iu,
+void Reconstruction::DonorCellX3(const int k,
+                                 const int j,
+                                 const int il,
+                                 const int iu,
                                  const AthenaArray<Real> &q,
-                                 AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
-  const int nu = q.GetDim4() - 1;
-  // compute L/R states for each variable
-  for (int n=0; n<=nu; ++n) {
+                                 AthenaArray<Real> &ql,
+                                 AthenaArray<Real> &qr) {
+    const int nu = q.GetDim4() - 1;
+    // compute L/R states for each variable
+    for (int n = 0; n <= nu; ++n) {
 #pragma omp simd
-    for (int i=il; i<=iu; ++i) {
-      ql(n,i) = qr(n,i) = q(n,k,j,i);
+        for (int i = il; i <= iu; ++i) {
+            ql(n, i) = qr(n, i) = q(n, k, j, i);
+        }
     }
-  }
-  return;
+    return;
 }
-}
+} // namespace parthenon

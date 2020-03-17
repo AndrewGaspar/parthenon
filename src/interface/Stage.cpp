@@ -11,47 +11,46 @@
 // the public, perform publicly and display publicly, and to permit others to do so.
 //========================================================================================
 
-#include <memory>
-#include "mesh/mesh.hpp"
 #include "Stage.hpp"
+#include "mesh/mesh.hpp"
+#include <memory>
 
 namespace parthenon {
 /// The implementation file for class Stage
 template <typename T>
-Stage<T>::Stage(std::string name, Stage<T>& src) :
-    _name(name), locked(true) {
-  if ( ! name.compare(src.name())) {
-    throw std::invalid_argument ("Duplicate stage name in copy constructor");
-  }
-
-  for ( auto v : src._varArray) {
-    const Metadata &m = v->metadata();
-    if (m.isSet(m.oneCopy)) {
-      // push back an alias of the variable
-      _varArray.push_back(v);//std::make_shared<Variable<T>>(v->label(),*v));
-    } else {
-      // create a deepcopy with shared fluxes
-      _varArray.push_back(std::make_shared<Variable<T>>(*v));
+Stage<T>::Stage(std::string name, Stage<T> &src) : _name(name), locked(true) {
+    if (!name.compare(src.name())) {
+        throw std::invalid_argument("Duplicate stage name in copy constructor");
     }
-  }
 
-  // // for now faces and edges are oneCopy
-  // for (auto v : src._edgeArray) {
-  //   EdgeVariable *vNew = new EdgeVariable(v->label(), *v);
-  //   _edgeArray.push_back(vNew);
-  // }
-  // for (auto v : src._faceArray) {
-  //   FaceVariable *vNew = new FaceVariable(v->label(), *v);
-  //   _faceArray.push_back(vNew);
-  // }
+    for (auto v : src._varArray) {
+        const Metadata &m = v->metadata();
+        if (m.isSet(m.oneCopy)) {
+            // push back an alias of the variable
+            _varArray.push_back(v); // std::make_shared<Variable<T>>(v->label(),*v));
+        } else {
+            // create a deepcopy with shared fluxes
+            _varArray.push_back(std::make_shared<Variable<T>>(*v));
+        }
+    }
 
-  // Now copy in the material arrays
-  for (auto vars : src._matVars.getAllCellVars()) {
-    auto& theLabel=vars.first;
-    _matVars.AddCopy(theLabel, src._matVars);
-  }
+    // // for now faces and edges are oneCopy
+    // for (auto v : src._edgeArray) {
+    //   EdgeVariable *vNew = new EdgeVariable(v->label(), *v);
+    //   _edgeArray.push_back(vNew);
+    // }
+    // for (auto v : src._faceArray) {
+    //   FaceVariable *vNew = new FaceVariable(v->label(), *v);
+    //   _faceArray.push_back(vNew);
+    // }
+
+    // Now copy in the material arrays
+    for (auto vars : src._matVars.getAllCellVars()) {
+        auto &theLabel = vars.first;
+        _matVars.AddCopy(theLabel, src._matVars);
+    }
 }
 
 template class Stage<Real>;
 
-}
+} // namespace parthenon

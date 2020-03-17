@@ -134,3 +134,5 @@ target_include_directories(parthenon PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}/generated
 )
+
+format_sources(parthenon)

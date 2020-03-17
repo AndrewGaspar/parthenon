@@ -20,8 +20,8 @@
 // C headers
 
 // C++ headers
-#include <cstdio>    // snprintf()
-#include <cstring>   // memcpy()
+#include <cstdio>  // snprintf()
+#include <cstring> // memcpy()
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -34,9 +34,8 @@
 #include "athena_arrays.hpp"
 #include "globals.hpp"
 #include "mesh/mesh.hpp"
-#include "parameter_input.hpp"
 #include "outputs.hpp"
-
+#include "parameter_input.hpp"
 
 namespace parthenon {
 //----------------------------------------------------------------------------------------
@@ -44,6 +43,6 @@ namespace parthenon {
 //  \brief Cycles over all MeshBlocks and writes data to a single restart file.
 
 void RestartOutput::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool force_write) {
-  throw std::runtime_error(std::string(__func__) + " is not implemented");
+    throw std::runtime_error(std::string(__func__) + " is not implemented");
 }
-}
+} // namespace parthenon

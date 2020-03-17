@@ -17,8 +17,8 @@
 //! \file task_id.cpp
 //  \brief implementation of the TaskID class
 
-#include <iostream>
 #include "tasks.hpp"
+#include <iostream>
 
 #define DEBUG_TASKID 0
 
@@ -26,35 +26,33 @@ namespace parthenon {
 // TaskID constructor. Default id = 0.
 
 TaskID::TaskID(unsigned int id) {
-  if (id > 0) bitfld_.set(id-1);
+    if (id > 0) bitfld_.set(id - 1);
 }
 
 void TaskID::Print(const std::string label) {
-  std::cout << label << " " << bitfld_.to_string() << std::endl;
+    std::cout << label << " " << bitfld_.to_string() << std::endl;
 }
 
 //----------------------------------------------------------------------------------------
 //! \fn void TaskID::Clear()
 //  \brief Clear all the bits in the TaskID
 
-void TaskID::clear() {
-  bitfld_.reset();
-}
+void TaskID::clear() { bitfld_.reset(); }
 
 //----------------------------------------------------------------------------------------
 //! \fn bool TaskID::IsUnfinished(const TaskID& id)
 //  \brief Check if the task with the given ID is unfinished. This function is to be
 //  called on Task States and returns true if the task is unfinished.
 
-bool TaskID::IsUnfinished(const TaskID& id) const {
+bool TaskID::IsUnfinished(const TaskID &id) const {
 #if DEBUG_TASKID
-  std::cout << "IsUnfinished " << bitfld_.to_string() << std::endl
-            << "             " << id.bitfld_.to_string() << std::endl
-            << "             " << (bitfld_ & id.bitfld_).to_string()
-            << "             " << (bitfld_ & id.bitfld_).none()
-            << std::endl << std::endl;
+    std::cout << "IsUnfinished " << bitfld_.to_string() << std::endl
+              << "             " << id.bitfld_.to_string() << std::endl
+              << "             " << (bitfld_ & id.bitfld_).to_string() << "             "
+              << (bitfld_ & id.bitfld_).none() << std::endl
+              << std::endl;
 #endif
-  return (bitfld_ & id.bitfld_).none();
+    return (bitfld_ & id.bitfld_).none();
 }
 
 //----------------------------------------------------------------------------------------
@@ -62,48 +60,46 @@ bool TaskID::IsUnfinished(const TaskID& id) const {
 //  \brief Check if the given dependencies are cleared. This function is to be
 //  called on Task States, and returns true if all the dependencies are clear.
 
-bool TaskID::CheckDependencies(const TaskID& dep) const {
+bool TaskID::CheckDependencies(const TaskID &dep) const {
 #if DEBUG_TASKID
-  std::cout << "CheckDepende " << bitfld_.to_string() << std::endl
-            << "        dep  " << dep.bitfld_.to_string() << std::endl
-            << "       dep2  " << (bitfld_ & dep.bitfld_).to_string() << std::endl
-	    << "     depAll  " << (bitfld_ & dep.bitfld_).all()       << std::endl
-            << std::endl << std::endl;
+    std::cout << "CheckDepende " << bitfld_.to_string() << std::endl
+              << "        dep  " << dep.bitfld_.to_string() << std::endl
+              << "       dep2  " << (bitfld_ & dep.bitfld_).to_string() << std::endl
+              << "     depAll  " << (bitfld_ & dep.bitfld_).all() << std::endl
+              << std::endl
+              << std::endl;
 #endif
-  return ((bitfld_ & dep.bitfld_) == dep.bitfld_);
+    return ((bitfld_ & dep.bitfld_) == dep.bitfld_);
 }
-
 
 //----------------------------------------------------------------------------------------
 //! \fn void TaskID::SetFinished(const TaskID& id)
 //  \brief Mark the task with the given ID finished.
 //  This function is to be called on Task States.
 
-void TaskID::SetFinished(const TaskID& id) {
-  #if DEBUG_TASKID
-  std::cout << "SetFinished  " << bitfld_.to_string() << std::endl
-            << "             " << id.bitfld_.to_string() << std::endl
-            << "             " << (bitfld_ ^ id.bitfld_).to_string() << std::endl << std::endl;
-  #endif
-  bitfld_ ^= id.bitfld_;
+void TaskID::SetFinished(const TaskID &id) {
+#if DEBUG_TASKID
+    std::cout << "SetFinished  " << bitfld_.to_string() << std::endl
+              << "             " << id.bitfld_.to_string() << std::endl
+              << "             " << (bitfld_ ^ id.bitfld_).to_string() << std::endl
+              << std::endl;
+#endif
+    bitfld_ ^= id.bitfld_;
 }
-
 
 //----------------------------------------------------------------------------------------
 //! \fn bool TaskID::operator== (const TaskID& rhs)
 //  \brief overloading operator == for TaskID
 
-bool TaskID::operator== (const TaskID& rhs) const {
-  return (bitfld_ == rhs.bitfld_);
-}
+bool TaskID::operator==(const TaskID &rhs) const { return (bitfld_ == rhs.bitfld_); }
 
 //----------------------------------------------------------------------------------------
 //! \fn TaskID TaskID::operator| (const TaskID& rhs)
 //  \brief overloading operator | for TaskID
 
-TaskID TaskID::operator| (const TaskID& rhs) const {
-  TaskID ret;
-  ret.bitfld_ = (bitfld_ | rhs.bitfld_);
-  return ret;
+TaskID TaskID::operator|(const TaskID &rhs) const {
+    TaskID ret;
+    ret.bitfld_ = (bitfld_ | rhs.bitfld_);
+    return ret;
 }
-}
+} // namespace parthenon

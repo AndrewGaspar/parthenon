@@ -19,8 +19,8 @@
 
 // C headers
 // POSIX C extensions
-#include <sys/stat.h>  // mkdir()
-#include <unistd.h>    // chdir()
+#include <sys/stat.h> // mkdir()
+#include <unistd.h>   // chdir()
 
 // C++ headers
 #include <iostream>
@@ -36,17 +36,17 @@ namespace parthenon {
 //  \brief change to input run directory; create if it does not exist yet
 
 void ChangeRunDir(const char *pdir) {
-  std::stringstream msg;
+    std::stringstream msg;
 
-  if (pdir == nullptr || *pdir == '\0') return;
+    if (pdir == nullptr || *pdir == '\0') return;
 
-  mkdir(pdir, 0775);
-  if (chdir(pdir)) {
-    msg << "### FATAL ERROR in function [ChangeToRunDir]" << std::endl
-        << "Cannot cd to directory '" << pdir << "'";
-    ATHENA_ERROR(msg);
-  }
+    mkdir(pdir, 0775);
+    if (chdir(pdir)) {
+        msg << "### FATAL ERROR in function [ChangeToRunDir]" << std::endl
+            << "Cannot cd to directory '" << pdir << "'";
+        ATHENA_ERROR(msg);
+    }
 
-  return;
+    return;
 }
-}
+} // namespace parthenon

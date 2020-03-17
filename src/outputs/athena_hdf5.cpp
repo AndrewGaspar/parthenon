@@ -22,7 +22,7 @@
 #include <defs.hpp>
 
 // C++ headers
-#include <fstream>    // ofstream, quoted
+#include <fstream> // ofstream, quoted
 #include <iomanip>
 
 // Athena++ headers
@@ -32,8 +32,8 @@
 #include "globals.hpp"
 #include "interface/ContainerIterator.hpp"
 #include "mesh/mesh.hpp"
-#include "parameter_input.hpp"
 #include "outputs.hpp"
+#include "parameter_input.hpp"
 
 // Only proceed if HDF5 output enabled
 #ifdef HDF5OUTPUT
@@ -44,10 +44,11 @@ using namespace H5;
 
 
 // macro to write an attribute to a HDF file
-#define WRITE_H5A(name, pData, file, dSpace, dSet, myAttrPredType, myDataPredType) { \
-    Attribute attribute = dSet.createAttribute(name, myAttrPredType, dSpace);        \
-    attribute.write(myDataPredType, pData);				             \
-  }
+#define WRITE_H5A(name, pData, file, dSpace, dSet, myAttrPredType, myDataPredType)       \
+    {                                                                                    \
+        Attribute attribute = dSet.createAttribute(name, myAttrPredType, dSpace);        \
+        attribute.write(myDataPredType, pData);                                          \
+    }
 #define PREDINT32 PredType::NATIVE_INT32
 #define PREDFLOAT64 PredType::NATIVE_DOUBLE
 
@@ -304,6 +305,5 @@ void ATHDF5Output::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
   return;
 }
 
-
-#endif  // HDF5OUTPUT
+#endif // HDF5OUTPUT
 #endif // new c interface

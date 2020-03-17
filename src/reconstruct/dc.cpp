@@ -24,48 +24,62 @@ namespace parthenon {
 //! \fn Reconstruction::DonorCellX1()
 //  \brief reconstruct L/R surfaces of the i-th cells
 
-void Reconstruction::DonorCellX1(const int k, const int j, const int il, const int iu,
-                                 const AthenaArray<Real> &w, const AthenaArray<Real> &bcc,
-                                 AthenaArray<Real> &wl, AthenaArray<Real> &wr) {
-  // compute L/R states for each variable
-  for (int n=0; n<NHYDRO; ++n) {
+void Reconstruction::DonorCellX1(const int k,
+                                 const int j,
+                                 const int il,
+                                 const int iu,
+                                 const AthenaArray<Real> &w,
+                                 const AthenaArray<Real> &bcc,
+                                 AthenaArray<Real> &wl,
+                                 AthenaArray<Real> &wr) {
+    // compute L/R states for each variable
+    for (int n = 0; n < NHYDRO; ++n) {
 #pragma omp simd
-    for (int i=il; i<=iu; ++i) {
-      wl(n,i+1) =  wr(n,i) = w(n,k,j,i);
+        for (int i = il; i <= iu; ++i) {
+            wl(n, i + 1) = wr(n, i) = w(n, k, j, i);
+        }
     }
-  }
 }
 
 //----------------------------------------------------------------------------------------
 //! \fn Reconstruction::DonorCellX2()
 //  \brief
 
-
-void Reconstruction::DonorCellX2(const int k, const int j, const int il, const int iu,
-                                 const AthenaArray<Real> &w, const AthenaArray<Real> &bcc,
-                                 AthenaArray<Real> &wl, AthenaArray<Real> &wr) {
-  // compute L/R states for each variable
-  for (int n=0; n<NHYDRO; ++n) {
+void Reconstruction::DonorCellX2(const int k,
+                                 const int j,
+                                 const int il,
+                                 const int iu,
+                                 const AthenaArray<Real> &w,
+                                 const AthenaArray<Real> &bcc,
+                                 AthenaArray<Real> &wl,
+                                 AthenaArray<Real> &wr) {
+    // compute L/R states for each variable
+    for (int n = 0; n < NHYDRO; ++n) {
 #pragma omp simd
-    for (int i=il; i<=iu; ++i) {
-      wl(n,i) = wr(n,i) = w(n,k,j,i);
+        for (int i = il; i <= iu; ++i) {
+            wl(n, i) = wr(n, i) = w(n, k, j, i);
+        }
     }
-  }
 }
 
 //----------------------------------------------------------------------------------------
 //! \fn Reconstruction::DonorCellX3()
 //  \brief
 
-void Reconstruction::DonorCellX3(const int k, const int j, const int il, const int iu,
-                                 const AthenaArray<Real> &w, const AthenaArray<Real> &bcc,
-                                 AthenaArray<Real> &wl, AthenaArray<Real> &wr) {
-  // compute L/R states for each variable
-  for (int n=0; n<NHYDRO; ++n) {
+void Reconstruction::DonorCellX3(const int k,
+                                 const int j,
+                                 const int il,
+                                 const int iu,
+                                 const AthenaArray<Real> &w,
+                                 const AthenaArray<Real> &bcc,
+                                 AthenaArray<Real> &wl,
+                                 AthenaArray<Real> &wr) {
+    // compute L/R states for each variable
+    for (int n = 0; n < NHYDRO; ++n) {
 #pragma omp simd
-    for (int i=il; i<=iu; ++i) {
-      wl(n,i) = wr(n,i) = w(n,k,j,i);
+        for (int i = il; i <= iu; ++i) {
+            wl(n, i) = wr(n, i) = w(n, k, j, i);
+        }
     }
-  }
 }
-}
+} // namespace parthenon
