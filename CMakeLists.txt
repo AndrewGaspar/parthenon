@@ -23,6 +23,8 @@ option(DISABLE_MPI "MPI is enabled by default if found, set this to True to disa
 option(DISABLE_OPENMP "OpenMP is enabled by default if found, set this to True to disable OpenMP" OFF)
 option(DISABLE_HDF5 "HDF5 is enabled by default if found, set this to True to disable HDF5" OFF)
 
+include(cmake/Format.cmake)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Don't allow in-source builds
@@ -93,7 +95,7 @@ if (${ENABLE_UNIT_TESTS} OR ${ENABLE_INTEGRATION_TESTS} OR ${ENABLE_REGRESSION_T
   # Try finding an installed Catch2 first
   find_package(Catch2 2.11.1)
 
-  if (NOT CATCH2_FOUND)
+  if (NOT Catch2_FOUND)
     # If Catch2 is not found, instead use the git submodule
     if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2/single_include)
       # Unable to find the header files for Catch2 or they don't exist
@@ -110,6 +112,7 @@ if (${ENABLE_UNIT_TESTS} OR ${ENABLE_INTEGRATION_TESTS} OR ${ENABLE_REGRESSION_T
   include(ParseAndAddCatchTests)
   add_subdirectory(tst)
 endif()
+
 
 add_subdirectory(src)
 add_subdirectory(example/calculate_pi)
