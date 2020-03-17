@@ -132,11 +132,7 @@ class BlockStageNamesIntegratorTask : public BaseTask {
   BlockStageNamesIntegratorTask(TaskID id, BlockStageNamesIntegratorTaskFunc *func,
                                 TaskID dep, MeshBlock *pmb, int stage,
                                 const std::vector<std::string> &sname, Integrator *integ)
-      : _func(func),
-        _pblock(pmb),
-        _stage(stage),
-        _sname(sname),
-        _int(integ),
+      : _func(func), _pblock(pmb), _stage(stage), _sname(sname), _int(integ),
         BaseTask(id, dep) {}
   TaskStatus operator()() { return _func(_pblock, _stage, _sname, _int); }
 

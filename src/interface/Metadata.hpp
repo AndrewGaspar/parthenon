@@ -97,9 +97,7 @@ class Metadata {
 
   /// copy constructor
   Metadata(const Metadata &m)
-      : material_id_(m.material_id_),
-        shape_(m.shape_),
-        theBits_(m.theBits_),
+      : material_id_(m.material_id_), shape_(m.shape_), theBits_(m.theBits_),
         associated_(m.associated_) {}
 
   void setFlags(std::bitset<_MAXBITS_> bitflags) { theBits_ = bitflags; }

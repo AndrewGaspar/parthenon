@@ -76,9 +76,7 @@ class Variable : public AthenaArray<T> {
   Variable<T>(const std::string label, const std::array<int, 6> dims,
               const Metadata &metadata)
       : AthenaArray<T>(dims[5], dims[4], dims[3], dims[2], dims[1], dims[0]),
-        _label(label),
-        _m(metadata),
-        mpiStatus(true) {
+        _label(label), _m(metadata), mpiStatus(true) {
     //    std::cout << "_____CREATED 6D VAR: " << _label << ":" << this << std::endl;
   }
 

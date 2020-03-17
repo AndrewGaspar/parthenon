@@ -26,9 +26,7 @@ struct AMRCriteria {
  public:
   AMRCriteria(std::string field, RefineFunction *rfunc, const Real refine_criteria,
               const Real derefine_criteria)
-      : _field(field),
-        _refine_func(rfunc),
-        _refine_criteria(refine_criteria),
+      : _field(field), _refine_func(rfunc), _refine_criteria(refine_criteria),
         _derefine_criteria(derefine_criteria) {}
   std::string _field;
   RefineFunction *_refine_func;

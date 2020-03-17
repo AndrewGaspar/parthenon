@@ -45,81 +45,39 @@ class AthenaArray {
   // ctors
   // default ctor: simply set null AthenaArray
   AthenaArray()
-      : pdata_(nullptr),
-        nx1_(0),
-        nx2_(0),
-        nx3_(0),
-        nx4_(0),
-        nx5_(0),
-        nx6_(0),
+      : pdata_(nullptr), nx1_(0), nx2_(0), nx3_(0), nx4_(0), nx5_(0), nx6_(0),
         state_(DataStatus::empty) {}
   // ctor overloads: set expected size of unallocated container, maybe allocate
   // (default)
   explicit AthenaArray(int nx1, DataStatus init = DataStatus::allocated)
-      : pdata_(nullptr),
-        nx1_(nx1),
-        nx2_(1),
-        nx3_(1),
-        nx4_(1),
-        nx5_(1),
-        nx6_(1),
+      : pdata_(nullptr), nx1_(nx1), nx2_(1), nx3_(1), nx4_(1), nx5_(1), nx6_(1),
         state_(init) {
     AllocateData();
   }
   AthenaArray(int nx2, int nx1, DataStatus init = DataStatus::allocated)
-      : pdata_(nullptr),
-        nx1_(nx1),
-        nx2_(nx2),
-        nx3_(1),
-        nx4_(1),
-        nx5_(1),
-        nx6_(1),
+      : pdata_(nullptr), nx1_(nx1), nx2_(nx2), nx3_(1), nx4_(1), nx5_(1), nx6_(1),
         state_(init) {
     AllocateData();
   }
   AthenaArray(int nx3, int nx2, int nx1, DataStatus init = DataStatus::allocated)
-      : pdata_(nullptr),
-        nx1_(nx1),
-        nx2_(nx2),
-        nx3_(nx3),
-        nx4_(1),
-        nx5_(1),
-        nx6_(1),
+      : pdata_(nullptr), nx1_(nx1), nx2_(nx2), nx3_(nx3), nx4_(1), nx5_(1), nx6_(1),
         state_(init) {
     AllocateData();
   }
   AthenaArray(int nx4, int nx3, int nx2, int nx1, DataStatus init = DataStatus::allocated)
-      : pdata_(nullptr),
-        nx1_(nx1),
-        nx2_(nx2),
-        nx3_(nx3),
-        nx4_(nx4),
-        nx5_(1),
-        nx6_(1),
+      : pdata_(nullptr), nx1_(nx1), nx2_(nx2), nx3_(nx3), nx4_(nx4), nx5_(1), nx6_(1),
         state_(init) {
     AllocateData();
   }
   AthenaArray(int nx5, int nx4, int nx3, int nx2, int nx1,
               DataStatus init = DataStatus::allocated)
-      : pdata_(nullptr),
-        nx1_(nx1),
-        nx2_(nx2),
-        nx3_(nx3),
-        nx4_(nx4),
-        nx5_(nx5),
-        nx6_(1),
+      : pdata_(nullptr), nx1_(nx1), nx2_(nx2), nx3_(nx3), nx4_(nx4), nx5_(nx5), nx6_(1),
         state_(init) {
     AllocateData();
   }
   AthenaArray(int nx6, int nx5, int nx4, int nx3, int nx2, int nx1,
               DataStatus init = DataStatus::allocated)
-      : pdata_(nullptr),
-        nx1_(nx1),
-        nx2_(nx2),
-        nx3_(nx3),
-        nx4_(nx4),
-        nx5_(nx5),
-        nx6_(nx6),
+      : pdata_(nullptr), nx1_(nx1), nx2_(nx2), nx3_(nx3), nx4_(nx4), nx5_(nx5), nx6_(nx6),
         state_(init) {
     AllocateData();
   }

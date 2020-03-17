@@ -49,14 +49,8 @@ CellCenteredBoundaryVariable::CellCenteredBoundaryVariable(MeshBlock *pmb,
                                                            AthenaArray<Real> *var,
                                                            AthenaArray<Real> *coarse_var,
                                                            AthenaArray<Real> *var_flux)
-    : BoundaryVariable(pmb),
-      var_cc(var),
-      coarse_buf(coarse_var),
-      x1flux(var_flux[X1DIR]),
-      x2flux(var_flux[X2DIR]),
-      x3flux(var_flux[X3DIR]),
-      nl_(0),
-      nu_(var->GetDim4() - 1) {
+    : BoundaryVariable(pmb), var_cc(var), coarse_buf(coarse_var), x1flux(var_flux[X1DIR]),
+      x2flux(var_flux[X2DIR]), x3flux(var_flux[X3DIR]), nl_(0), nu_(var->GetDim4() - 1) {
   // CellCenteredBoundaryVariable should only be used w/ 4D or 3D (nx4=1) AthenaArray
   // For now, assume that full span of 4th dim of input AthenaArray should be used:
   // ---> get the index limits directly from the input AthenaArray
