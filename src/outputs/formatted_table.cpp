@@ -152,8 +152,7 @@ void FormattedTableOutput::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool f
           OutputData *pdata_inner_loop = pfirst_data_;
           while (pdata_inner_loop != nullptr) {
             for (int n = 0; n < (pdata_inner_loop->data.GetDim4()); ++n) {
-              std::fprintf(pfile,
-                           output_params.data_format.c_str(),
+              std::fprintf(pfile, output_params.data_format.c_str(),
                            pdata_inner_loop->data(n, k, j, i));
             }
             pdata_inner_loop = pdata_inner_loop->pnext;

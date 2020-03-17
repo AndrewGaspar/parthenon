@@ -57,75 +57,25 @@ class MeshRefinement {
 
   // functions
   void RestrictCellCenteredValues(const AthenaArray<Real> &fine,
-                                  AthenaArray<Real> &coarse,
-                                  int sn,
-                                  int en,
-                                  int csi,
-                                  int cei,
-                                  int csj,
-                                  int cej,
-                                  int csk,
-                                  int cek);
-  void RestrictFieldX1(const AthenaArray<Real> &fine,
-                       AthenaArray<Real> &coarse,
-                       int csi,
-                       int cei,
-                       int csj,
-                       int cej,
-                       int csk,
-                       int cek);
-  void RestrictFieldX2(const AthenaArray<Real> &fine,
-                       AthenaArray<Real> &coarse,
-                       int csi,
-                       int cei,
-                       int csj,
-                       int cej,
-                       int csk,
-                       int cek);
-  void RestrictFieldX3(const AthenaArray<Real> &fine,
-                       AthenaArray<Real> &coarse,
-                       int csi,
-                       int cei,
-                       int csj,
-                       int cej,
-                       int csk,
-                       int cek);
+                                  AthenaArray<Real> &coarse, int sn, int en, int csi,
+                                  int cei, int csj, int cej, int csk, int cek);
+  void RestrictFieldX1(const AthenaArray<Real> &fine, AthenaArray<Real> &coarse, int csi,
+                       int cei, int csj, int cej, int csk, int cek);
+  void RestrictFieldX2(const AthenaArray<Real> &fine, AthenaArray<Real> &coarse, int csi,
+                       int cei, int csj, int cej, int csk, int cek);
+  void RestrictFieldX3(const AthenaArray<Real> &fine, AthenaArray<Real> &coarse, int csi,
+                       int cei, int csj, int cej, int csk, int cek);
   void ProlongateCellCenteredValues(const AthenaArray<Real> &coarse,
-                                    AthenaArray<Real> &fine,
-                                    int sn,
-                                    int en,
-                                    int si,
-                                    int ei,
-                                    int sj,
-                                    int ej,
-                                    int sk,
-                                    int ek);
-  void ProlongateSharedFieldX1(const AthenaArray<Real> &coarse,
-                               AthenaArray<Real> &fine,
-                               int si,
-                               int ei,
-                               int sj,
-                               int ej,
-                               int sk,
+                                    AthenaArray<Real> &fine, int sn, int en, int si,
+                                    int ei, int sj, int ej, int sk, int ek);
+  void ProlongateSharedFieldX1(const AthenaArray<Real> &coarse, AthenaArray<Real> &fine,
+                               int si, int ei, int sj, int ej, int sk, int ek);
+  void ProlongateSharedFieldX2(const AthenaArray<Real> &coarse, AthenaArray<Real> &fine,
+                               int si, int ei, int sj, int ej, int sk, int ek);
+  void ProlongateSharedFieldX3(const AthenaArray<Real> &coarse, AthenaArray<Real> &fine,
+                               int si, int ei, int sj, int ej, int sk, int ek);
+  void ProlongateInternalField(FaceField &fine, int si, int ei, int sj, int ej, int sk,
                                int ek);
-  void ProlongateSharedFieldX2(const AthenaArray<Real> &coarse,
-                               AthenaArray<Real> &fine,
-                               int si,
-                               int ei,
-                               int sj,
-                               int ej,
-                               int sk,
-                               int ek);
-  void ProlongateSharedFieldX3(const AthenaArray<Real> &coarse,
-                               AthenaArray<Real> &fine,
-                               int si,
-                               int ei,
-                               int sj,
-                               int ej,
-                               int sk,
-                               int ek);
-  void ProlongateInternalField(
-      FaceField &fine, int si, int ei, int sj, int ej, int sk, int ek);
   void CheckRefinementCondition();
   void SetRefinement(int flag);
 

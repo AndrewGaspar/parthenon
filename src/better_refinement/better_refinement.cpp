@@ -43,8 +43,7 @@ int CheckRefinement(Container<Real> &rc) {
   return delta_level;
 }
 
-int FirstDerivative(Variable<Real> &q,
-                    const Real refine_criteria,
+int FirstDerivative(Variable<Real> &q, const Real refine_criteria,
                     const Real derefine_criteria) {
   return -1;
 }

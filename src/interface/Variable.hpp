@@ -49,10 +49,7 @@ class Variable : public AthenaArray<T> {
   }
 
   /// Initialize with a slice from another Variable
-  Variable<T>(const std::string label,
-              Variable<T> &src,
-              const int dim,
-              const int index,
+  Variable<T>(const std::string label, Variable<T> &src, const int dim, const int index,
               const int nvar)
       : AthenaArray<T>(), _label(label), _m(src.metadata()), mpiStatus(true) {
     this->InitWithShallowSlice(src, dim, index, nvar);
@@ -76,8 +73,7 @@ class Variable : public AthenaArray<T> {
   }
 
   /// Initialize a 6D variable
-  Variable<T>(const std::string label,
-              const std::array<int, 6> dims,
+  Variable<T>(const std::string label, const std::array<int, 6> dims,
               const Metadata &metadata)
       : AthenaArray<T>(dims[5], dims[4], dims[3], dims[2], dims[1], dims[0]),
         _label(label),
@@ -87,8 +83,7 @@ class Variable : public AthenaArray<T> {
   }
 
   /// copy constructor
-  Variable<T>(const Variable<T> &src,
-              const bool allocComms = false,
+  Variable<T>(const Variable<T> &src, const bool allocComms = false,
               MeshBlock *pmb = nullptr);
 
   /// Return a new array with dimension 4 as dimension 1
@@ -96,12 +91,8 @@ class Variable : public AthenaArray<T> {
     // shuffles dim 4 to dim1
 
     // first construct new athena array
-    const std::array<int, 6> dims = {this->GetDim4(),
-                                     this->GetDim1(),
-                                     this->GetDim2(),
-                                     this->GetDim3(),
-                                     this->GetDim5(),
-                                     this->GetDim6()};
+    const std::array<int, 6> dims = {this->GetDim4(), this->GetDim1(), this->GetDim2(),
+                                     this->GetDim3(), this->GetDim5(), this->GetDim6()};
     size_t stride = this->GetDim1() * this->GetDim2() * this->GetDim3();
     Variable<T> *vNew = new Variable<T>(_label, dims, _m);
 
@@ -159,11 +150,8 @@ class Variable : public AthenaArray<T> {
 struct FaceVariable : FaceField {
  public:
   /// Initialize a face variable
-  FaceVariable(const std::string label,
-               const Metadata &metadata,
-               const int ncells3,
-               const int ncells2,
-               const int ncells1,
+  FaceVariable(const std::string label, const Metadata &metadata, const int ncells3,
+               const int ncells2, const int ncells1,
                const DATASTATUS init = DATASTATUS::allocated)
       : FaceField(ncells3, ncells2, ncells1, init), _label(label), _m(metadata) {
     if (metadata.hasMaterials()) {
@@ -204,11 +192,8 @@ struct EdgeVariable : EdgeField {
   Metadata metadata() const { return _m; }
 
   /// Initialize a edge variable
-  EdgeVariable(const std::string label,
-               const Metadata &metadata,
-               const int ncells3,
-               const int ncells2,
-               const int ncells1,
+  EdgeVariable(const std::string label, const Metadata &metadata, const int ncells3,
+               const int ncells2, const int ncells1,
                const DATASTATUS init = DATASTATUS::allocated)
       : EdgeField(ncells3, ncells2, ncells1, init), _label(label), _m(metadata) {
     if (metadata.hasMaterials()) {

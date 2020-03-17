@@ -150,9 +150,7 @@ Outputs::Outputs(Mesh *pm, ParameterInput *pin) {
         op.file_number = pin->GetOrAddInteger(op.block_name, "file_number", 0);
         op.file_basename = pin->GetString("job", "problem_id");
         char define_id[10];
-        std::snprintf(define_id,
-                      sizeof(define_id),
-                      "out%d",
+        std::snprintf(define_id, sizeof(define_id), "out%d",
                       op.block_number); // default id="outN"
         op.file_id = pin->GetOrAddString(op.block_name, "id", define_id);
         op.file_type = pin->GetString(op.block_name, "file_type");
@@ -631,7 +629,6 @@ void OutputType::SumOutputData(MeshBlock *pmb, int dim) {
 //                                AthenaArray<Real> &dst, Coordinates *pco)
 //  \brief Convert vectors in curvilinear coordinates into Cartesian
 
-void OutputType::CalculateCartesianVector(AthenaArray<Real> &src,
-                                          AthenaArray<Real> &dst,
+void OutputType::CalculateCartesianVector(AthenaArray<Real> &src, AthenaArray<Real> &dst,
                                           Coordinates *pco) {}
 } // namespace parthenon

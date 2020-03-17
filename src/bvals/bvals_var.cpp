@@ -122,8 +122,8 @@ void BoundaryVariable::CopyVariableBufferSameProcess(NeighborBlock &nb, int ssiz
   MeshBlock *ptarget_block = pmy_mesh_->FindMeshBlock(nb.snb.gid);
   // 2) which element in vector of BoundaryVariable *?
   BoundaryData<> *ptarget_bdata = &(ptarget_block->pbval->bvars[bvar_index]->bd_var_);
-  std::memcpy(
-      ptarget_bdata->recv[nb.targetid], bd_var_.send[nb.bufid], ssize * sizeof(Real));
+  std::memcpy(ptarget_bdata->recv[nb.targetid], bd_var_.send[nb.bufid],
+              ssize * sizeof(Real));
   // finally, set the BoundaryStatus flag on the destination buffer
   ptarget_bdata->flag[nb.targetid] = BoundaryStatus::arrived;
   return;
@@ -138,8 +138,7 @@ void BoundaryVariable::CopyFluxCorrectionBufferSameProcess(NeighborBlock &nb, in
   // 2) which element in vector of BoundaryVariable *?
   BoundaryData<> *ptarget_bdata =
       &(ptarget_block->pbval->bvars[bvar_index]->bd_var_flcor_);
-  std::memcpy(ptarget_bdata->recv[nb.targetid],
-              bd_var_flcor_.send[nb.bufid],
+  std::memcpy(ptarget_bdata->recv[nb.targetid], bd_var_flcor_.send[nb.bufid],
               ssize * sizeof(Real));
   ptarget_bdata->flag[nb.targetid] = BoundaryStatus::arrived;
   return;

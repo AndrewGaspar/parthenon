@@ -16,30 +16,30 @@
 namespace parthenon {
 ///< a class that includes bare minimum to help compile test
 class mesh {
-  public:
-    bool f2;
-    bool f3;
-    bool multilevel;
-    mesh(bool a, bool b, bool c) : f2(a), f3(b), multilevel(c) {}
+ public:
+  bool f2;
+  bool f3;
+  bool multilevel;
+  mesh(bool a, bool b, bool c) : f2(a), f3(b), multilevel(c) {}
 };
 class MeshBlock {
-  public:
-    int ncells1;
-    int ncells2;
-    int ncells3;
-    int ncc1;
-    int ncc2;
-    int ncc3;
-    struct mesh *pmy_mesh;
-    MeshBlock(int nc1, int nc2, int nc3)
-        : ncells1(nc1), ncells2(nc2), ncells3(nc3), ncc1(nc1), ncc2(nc2), ncc3(nc3) {
-        pmy_mesh = new mesh(true, true, true);
-    };
+ public:
+  int ncells1;
+  int ncells2;
+  int ncells3;
+  int ncc1;
+  int ncc2;
+  int ncc3;
+  struct mesh *pmy_mesh;
+  MeshBlock(int nc1, int nc2, int nc3)
+      : ncells1(nc1), ncells2(nc2), ncells3(nc3), ncc1(nc1), ncc2(nc2), ncc3(nc3) {
+    pmy_mesh = new mesh(true, true, true);
+  };
 };
 
 class CellCenteredBoundaryVariable {
-  public:
-    int a;
+ public:
+  int a;
 };
 
 #include "Container.hpp"

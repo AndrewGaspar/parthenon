@@ -121,20 +121,10 @@ void HistoryOutput::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
 #ifdef MPI_PARALLEL
   // sum built-in/predefined hst_data[] over all ranks
   if (Globals::my_rank == 0) {
-    MPI_Reduce(MPI_IN_PLACE,
-               hst_data.get(),
-               NHISTORY_VARS,
-               MPI_ATHENA_REAL,
-               MPI_SUM,
-               0,
+    MPI_Reduce(MPI_IN_PLACE, hst_data.get(), NHISTORY_VARS, MPI_ATHENA_REAL, MPI_SUM, 0,
                MPI_COMM_WORLD);
   } else {
-    MPI_Reduce(hst_data.get(),
-               hst_data.get(),
-               NHISTORY_VARS,
-               MPI_ATHENA_REAL,
-               MPI_SUM,
-               0,
+    MPI_Reduce(hst_data.get(), hst_data.get(), NHISTORY_VARS, MPI_ATHENA_REAL, MPI_SUM, 0,
                MPI_COMM_WORLD);
   }
   // apply separate chosen operations to each user-defined history output
@@ -153,11 +143,11 @@ void HistoryOutput::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
       break;
     }
     if (Globals::my_rank == 0) {
-      MPI_Reduce(
-          MPI_IN_PLACE, usr_hst_data, 1, MPI_ATHENA_REAL, usr_op, 0, MPI_COMM_WORLD);
+      MPI_Reduce(MPI_IN_PLACE, usr_hst_data, 1, MPI_ATHENA_REAL, usr_op, 0,
+                 MPI_COMM_WORLD);
     } else {
-      MPI_Reduce(
-          usr_hst_data, usr_hst_data, 1, MPI_ATHENA_REAL, usr_op, 0, MPI_COMM_WORLD);
+      MPI_Reduce(usr_hst_data, usr_hst_data, 1, MPI_ATHENA_REAL, usr_op, 0,
+                 MPI_COMM_WORLD);
     }
   }
 #endif
@@ -194,8 +184,8 @@ void HistoryOutput::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
       std::fprintf(pfile, "[%d]=2-KE     ", iout++);
       std::fprintf(pfile, "[%d]=3-KE     ", iout++);
       for (int n = 0; n < pm->nuser_history_output_; n++)
-        std::fprintf(
-            pfile, "[%d]=%-8s", iout++, pm->user_history_output_names_[n].c_str());
+        std::fprintf(pfile, "[%d]=%-8s", iout++,
+                     pm->user_history_output_names_[n].c_str());
       std::fprintf(pfile, "\n"); // terminate line
     }
 

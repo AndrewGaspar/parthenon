@@ -199,10 +199,8 @@ void BoundaryValues::ProlongateBoundaries(const Real time, const Real dt) {
   return;
 }
 
-void BoundaryValues::RestrictGhostCellsOnSameLevel(const NeighborBlock &nb,
-                                                   int nk,
-                                                   int nj,
-                                                   int ni) {
+void BoundaryValues::RestrictGhostCellsOnSameLevel(const NeighborBlock &nb, int nk,
+                                                   int nj, int ni) {
   MeshBlock *pmb = pmy_block_;
   MeshRefinement *pmr = pmb->pmr.get();
 
@@ -247,8 +245,8 @@ void BoundaryValues::RestrictGhostCellsOnSameLevel(const NeighborBlock &nb,
     AthenaArray<Real> *var_cc = std::get<0>(cc_pair);
     AthenaArray<Real> *coarse_cc = std::get<1>(cc_pair);
     int nu = var_cc->GetDim4() - 1;
-    pmb->pmr->RestrictCellCenteredValues(
-        *var_cc, *coarse_cc, 0, nu, ris, rie, rjs, rje, rks, rke);
+    pmb->pmr->RestrictCellCenteredValues(*var_cc, *coarse_cc, 0, nu, ris, rie, rjs, rje,
+                                         rks, rke);
   }
 
   for (auto fc_pair : pmr->pvars_fc_) {
@@ -292,22 +290,17 @@ void BoundaryValues::RestrictGhostCellsOnSameLevel(const NeighborBlock &nb,
 //  \brief
 
 void BoundaryValues::ApplyPhysicalBoundariesOnCoarseLevel(const NeighborBlock &nb,
-                                                          const Real time,
-                                                          const Real dt,
-                                                          int si,
-                                                          int ei,
-                                                          int sj,
-                                                          int ej,
-                                                          int sk,
-                                                          int ek) {
+                                                          const Real time, const Real dt,
+                                                          int si, int ei, int sj, int ej,
+                                                          int sk, int ek) {
   // TODO(SS)
   // Write code to take a container as input and apply
   // appropriate boundary condiditions
   throw std::runtime_error(std::string(__func__) + " is not implemented");
 }
 
-void BoundaryValues::ProlongateGhostCells(
-    const NeighborBlock &nb, int si, int ei, int sj, int ej, int sk, int ek) {
+void BoundaryValues::ProlongateGhostCells(const NeighborBlock &nb, int si, int ei, int sj,
+                                          int ej, int sk, int ek) {
   MeshBlock *pmb = pmy_block_;
   auto &pmr = pmb->pmr;
 

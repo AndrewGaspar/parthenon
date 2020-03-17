@@ -46,13 +46,9 @@ namespace parthenon {
 //  \brief Returns L/R interface values in X1-dir constructed using fourth-order PPM and
 //         Colella-Sekora or Mignone limiting over [kl,ku][jl,ju][il,iu]
 
-void Reconstruction::PiecewiseParabolicX1(const int k,
-                                          const int j,
-                                          const int il,
-                                          const int iu,
-                                          const AthenaArray<Real> &q,
-                                          AthenaArray<Real> &ql,
-                                          AthenaArray<Real> &qr) {
+void Reconstruction::PiecewiseParabolicX1(const int k, const int j, const int il,
+                                          const int iu, const AthenaArray<Real> &q,
+                                          AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
   const int nu = q.GetDim4() - 1;
 
   // CS08 constant used in second derivative limiter, >1 , independent of h
@@ -311,13 +307,9 @@ void Reconstruction::PiecewiseParabolicX1(const int k,
 //  \brief Returns L/R interface values in X2-dir constructed using fourth-order PPM and
 //         Colella-Sekora or Mignone limiting over [kl,ku][jl,ju][il,iu]
 
-void Reconstruction::PiecewiseParabolicX2(const int k,
-                                          const int j,
-                                          const int il,
-                                          const int iu,
-                                          const AthenaArray<Real> &q,
-                                          AthenaArray<Real> &ql,
-                                          AthenaArray<Real> &qr) {
+void Reconstruction::PiecewiseParabolicX2(const int k, const int j, const int il,
+                                          const int iu, const AthenaArray<Real> &q,
+                                          AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
   const int nu = q.GetDim4() - 1;
   // CS08 constant used in second derivative limiter, >1 , independent of h
   const Real C2 = 1.25;
@@ -570,13 +562,9 @@ void Reconstruction::PiecewiseParabolicX2(const int k,
 //  \brief Returns L/R interface values in X3-dir constructed using fourth-order PPM and
 //         Colella-Sekora or Mignone limiting over [kl,ku][jl,ju][il,iu]
 
-void Reconstruction::PiecewiseParabolicX3(const int k,
-                                          const int j,
-                                          const int il,
-                                          const int iu,
-                                          const AthenaArray<Real> &q,
-                                          AthenaArray<Real> &ql,
-                                          AthenaArray<Real> &qr) {
+void Reconstruction::PiecewiseParabolicX3(const int k, const int j, const int il,
+                                          const int iu, const AthenaArray<Real> &q,
+                                          AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
   const int nu = q.GetDim4() - 1;
   // CS08 constant used in second derivative limiter, >1 , independent of h
   const Real C2 = 1.25;

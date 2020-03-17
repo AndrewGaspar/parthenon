@@ -67,15 +67,8 @@ std::string Variable<T>::info() {
   s += " : ";
 
   // now append size
-  snprintf(tmp,
-           sizeof(tmp),
-           "%dx%dx%dx%dx%dx%d",
-           this->GetDim6(),
-           this->GetDim5(),
-           this->GetDim4(),
-           this->GetDim3(),
-           this->GetDim2(),
-           this->GetDim1());
+  snprintf(tmp, sizeof(tmp), "%dx%dx%dx%dx%dx%d", this->GetDim6(), this->GetDim5(),
+           this->GetDim4(), this->GetDim3(), this->GetDim2(), this->GetDim1());
   while (!strncmp(stmp, "1x", 2)) {
     stmp += 2;
   }
@@ -144,18 +137,12 @@ void Variable<T>::allocateComms(MeshBlock *pmb) {
   if (pmb->pmy_mesh->f3) {
     flux[2].NewAthenaArray(_dim4, pmb->ncells3 + 1, pmb->ncells2, pmb->ncells1);
   }
-  coarse_s = new AthenaArray<Real>(_dim4,
-                                   pmb->ncc3,
-                                   pmb->ncc2,
-                                   pmb->ncc1,
+  coarse_s = new AthenaArray<Real>(_dim4, pmb->ncc3, pmb->ncc2, pmb->ncc1,
                                    (pmb->pmy_mesh->multilevel
                                         ? AthenaArray<Real>::DataStatus::allocated
                                         : AthenaArray<Real>::DataStatus::empty));
 
-  coarse_r = new AthenaArray<Real>(_dim4,
-                                   pmb->ncc3,
-                                   pmb->ncc2,
-                                   pmb->ncc1,
+  coarse_r = new AthenaArray<Real>(_dim4, pmb->ncc3, pmb->ncc2, pmb->ncc1,
                                    (pmb->pmy_mesh->multilevel
                                         ? AthenaArray<Real>::DataStatus::allocated
                                         : AthenaArray<Real>::DataStatus::empty));
@@ -183,11 +170,7 @@ std::string FaceVariable::info() {
   s += " : ";
 
   // now append size
-  snprintf(tmp,
-           sizeof(tmp),
-           "%dx%dx%d",
-           this->x1f.GetDim3(),
-           this->x1f.GetDim2(),
+  snprintf(tmp, sizeof(tmp), "%dx%dx%d", this->x1f.GetDim3(), this->x1f.GetDim2(),
            this->x1f.GetDim1());
   s += std::string(tmp);
 
@@ -207,11 +190,7 @@ std::string EdgeVariable::info() {
   s.resize(20, '.');
 
   // now append size
-  snprintf(tmp,
-           sizeof(tmp),
-           "%dx%dx%d",
-           this->x1e.GetDim3(),
-           this->x1e.GetDim2(),
+  snprintf(tmp, sizeof(tmp), "%dx%dx%d", this->x1e.GetDim3(), this->x1e.GetDim2(),
            this->x1e.GetDim1());
   s += std::string(tmp);
 

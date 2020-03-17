@@ -63,9 +63,7 @@ class MaterialVariable {
   void AddCopy(const std::string &theLabel, MaterialVariable<T> &mv);
 
   /// create a new material variable
-  void Add(MeshBlock &pmb,
-           const std::string &label,
-           const Metadata &metadata,
+  void Add(MeshBlock &pmb, const std::string &label, const Metadata &metadata,
            const std::vector<int> &inDims = {});
 
   /// return information string

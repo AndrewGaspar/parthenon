@@ -5,6 +5,6 @@ AccessModifierOffset: -1
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortIfStatementsOnASingleLine: true
 AlwaysBreakTemplateDeclarations: true
-BinPackArguments: false
-BinPackParameters: false
+BinPackArguments: true
+BinPackParameters: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: true

@@ -72,10 +72,8 @@ void MaterialVariable<T>::AddCopy(const std::string &theLabel, MaterialVariable<
 }
 
 template <typename T>
-void MaterialVariable<T>::Add(MeshBlock &pmb,
-                              const std::string &label,
-                              const Metadata &metadata,
-                              const std::vector<int> &inDims) {
+void MaterialVariable<T>::Add(MeshBlock &pmb, const std::string &label,
+                              const Metadata &metadata, const std::vector<int> &inDims) {
   // Now allocate depending on topology
   if ((metadata.where() == metadata.cell) || (metadata.where() == metadata.node)) {
     // check if dimensions are in range: at most 3 dimensions

@@ -51,17 +51,11 @@ namespace parthenon {
 // MeshBlock constructor: constructs coordinate, boundary condition, hydro, field
 //                        and mesh refinement objects.
 static int id = 0;
-MeshBlock::MeshBlock(int igid,
-                     int ilid,
-                     LogicalLocation iloc,
-                     RegionSize input_block,
-                     BoundaryFlag *input_bcs,
-                     Mesh *pm,
-                     ParameterInput *pin,
+MeshBlock::MeshBlock(int igid, int ilid, LogicalLocation iloc, RegionSize input_block,
+                     BoundaryFlag *input_bcs, Mesh *pm, ParameterInput *pin,
                      std::vector<std::shared_ptr<PropertiesInterface>> &mats,
                      std::map<std::string, std::shared_ptr<StateDescriptor>> &phys,
-                     int igflag,
-                     bool ref_flag)
+                     int igflag, bool ref_flag)
     : pmy_mesh(pm),
       loc(iloc),
       block_size(input_block),
@@ -223,18 +217,11 @@ MeshBlock::MeshBlock(int igid,
 //----------------------------------------------------------------------------------------
 // MeshBlock constructor for restarts
 
-MeshBlock::MeshBlock(int igid,
-                     int ilid,
-                     Mesh *pm,
-                     ParameterInput *pin,
+MeshBlock::MeshBlock(int igid, int ilid, Mesh *pm, ParameterInput *pin,
                      std::vector<std::shared_ptr<PropertiesInterface>> &mats,
                      std::map<std::string, std::shared_ptr<StateDescriptor>> &phys,
-                     LogicalLocation iloc,
-                     RegionSize input_block,
-                     BoundaryFlag *input_bcs,
-                     double icost,
-                     char *mbdata,
-                     int igflag)
+                     LogicalLocation iloc, RegionSize input_block,
+                     BoundaryFlag *input_bcs, double icost, char *mbdata, int igflag)
     : pmy_mesh(pm),
       loc(iloc),
       block_size(input_block),
@@ -317,14 +304,12 @@ MeshBlock::MeshBlock(int igid,
 
   // load user MeshBlock data
   for (int n = 0; n < nint_user_meshblock_data_; n++) {
-    std::memcpy(iuser_meshblock_data[n].data(),
-                &(mbdata[os]),
+    std::memcpy(iuser_meshblock_data[n].data(), &(mbdata[os]),
                 iuser_meshblock_data[n].GetSizeInBytes());
     os += iuser_meshblock_data[n].GetSizeInBytes();
   }
   for (int n = 0; n < nreal_user_meshblock_data_; n++) {
-    std::memcpy(ruser_meshblock_data[n].data(),
-                &(mbdata[os]),
+    std::memcpy(ruser_meshblock_data[n].data(), &(mbdata[os]),
                 ruser_meshblock_data[n].GetSizeInBytes());
     os += ruser_meshblock_data[n].GetSizeInBytes();
   }

@@ -39,9 +39,7 @@ namespace parthenon {
 
 class FaceCenteredBoundaryVariable : public BoundaryVariable {
  public:
-  FaceCenteredBoundaryVariable(MeshBlock *pmb,
-                               FaceField *var,
-                               FaceField &coarse_buf,
+  FaceCenteredBoundaryVariable(MeshBlock *pmb, FaceField *var, FaceField &coarse_buf,
                                EdgeField &var_flux);
   ~FaceCenteredBoundaryVariable();
 
@@ -94,13 +92,8 @@ class FaceCenteredBoundaryVariable : public BoundaryVariable {
 
   void CountFineEdges(); // called in SetupPersistentMPI()
 
-  void RemapFlux(const int k,
-                 const int jinner,
-                 const int jouter,
-                 const int i,
-                 const Real eps,
-                 const AthenaArray<Real> &var,
-                 AthenaArray<Real> &flux);
+  void RemapFlux(const int k, const int jinner, const int jouter, const int i,
+                 const Real eps, const AthenaArray<Real> &var, AthenaArray<Real> &flux);
 };
 } // namespace parthenon
 #endif // BVALS_FC_BVALS_FC_HPP_

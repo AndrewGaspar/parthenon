@@ -151,17 +151,11 @@ class BoundaryValues : public BoundaryBase, // public BoundaryPhysics,
   // ProlongateBoundaries() wraps the following S/AMR-operations (within nneighbor
   // loop): (the next function is also called within 3x nested loops over nk,nj,ni)
   void RestrictGhostCellsOnSameLevel(const NeighborBlock &nb, int nk, int nj, int ni);
-  void ApplyPhysicalBoundariesOnCoarseLevel(const NeighborBlock &nb,
-                                            const Real time,
-                                            const Real dt,
-                                            int si,
-                                            int ei,
-                                            int sj,
-                                            int ej,
-                                            int sk,
-                                            int ek);
-  void ProlongateGhostCells(
-      const NeighborBlock &nb, int si, int ei, int sj, int ej, int sk, int ek);
+  void ApplyPhysicalBoundariesOnCoarseLevel(const NeighborBlock &nb, const Real time,
+                                            const Real dt, int si, int ei, int sj, int ej,
+                                            int sk, int ek);
+  void ProlongateGhostCells(const NeighborBlock &nb, int si, int ei, int sj, int ej,
+                            int sk, int ek);
 
   // temporary--- Added by @tomidakn on 2015-11-27 in f0f989f85f
   // TODO(KGF): consider removing this friendship designation

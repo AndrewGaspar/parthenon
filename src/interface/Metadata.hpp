@@ -89,8 +89,7 @@ class Metadata {
   }
 
   /// returns a metadata with bits, shape, and material ID set
-  explicit Metadata(const std::vector<flags> &bits,
-                    const int material_id,
+  explicit Metadata(const std::vector<flags> &bits, const int material_id,
                     std::vector<int> shape)
       : material_id_(material_id), shape_(shape) {
     setMultiple(bits);

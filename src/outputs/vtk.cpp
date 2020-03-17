@@ -411,8 +411,8 @@ void VTKOutput::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
             for (int i = 0; i < (nvar * ncells1); ++i)
               Swap4Bytes(&data[i]);
           }
-          std::fwrite(
-              data, sizeof(float), static_cast<std::size_t>(nvar * ncells1), pfile);
+          std::fwrite(data, sizeof(float), static_cast<std::size_t>(nvar * ncells1),
+                      pfile);
         }
       }
       pdata = pdata->pnext;

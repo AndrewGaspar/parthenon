@@ -125,8 +125,8 @@ Mesh::Mesh(ParameterInput *pin,
       lb_flag_(true),
       lb_automatic_(),
       lb_manual_(),
-      MeshGenerator_{
-          UniformMeshGeneratorX1, UniformMeshGeneratorX2, UniformMeshGeneratorX3},
+      MeshGenerator_{UniformMeshGeneratorX1, UniformMeshGeneratorX2,
+                     UniformMeshGeneratorX3},
       BoundaryFunction_{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
       AMRFlag_{},
       UserSourceTerm_{},
@@ -505,28 +505,12 @@ Mesh::Mesh(ParameterInput *pin,
     SetBlockSizeAndBoundaries(loclist[i], block_size, block_bcs);
     // create a block and add into the link list
     if (i == nbs) {
-      pblock = new MeshBlock(i,
-                             i - nbs,
-                             loclist[i],
-                             block_size,
-                             block_bcs,
-                             this,
-                             pin,
-                             materials,
-                             physics,
-                             gflag);
+      pblock = new MeshBlock(i, i - nbs, loclist[i], block_size, block_bcs, this, pin,
+                             materials, physics, gflag);
       pfirst = pblock;
     } else {
-      pblock->next = new MeshBlock(i,
-                                   i - nbs,
-                                   loclist[i],
-                                   block_size,
-                                   block_bcs,
-                                   this,
-                                   pin,
-                                   materials,
-                                   physics,
-                                   gflag);
+      pblock->next = new MeshBlock(i, i - nbs, loclist[i], block_size, block_bcs, this,
+                                   pin, materials, physics, gflag);
       pblock->next->prev = pblock;
       pblock = pblock->next;
     }
@@ -540,8 +524,7 @@ Mesh::Mesh(ParameterInput *pin,
 //----------------------------------------------------------------------------------------
 // Mesh constructor for restarts. Load the restart file
 
-Mesh::Mesh(ParameterInput *pin,
-           IOWrapper &resfile,
+Mesh::Mesh(ParameterInput *pin, IOWrapper &resfile,
            std::vector<std::shared_ptr<PropertiesInterface>> &materials,
            std::map<std::string, std::shared_ptr<StateDescriptor>> &physics,
            int mesh_test)
@@ -603,8 +586,8 @@ Mesh::Mesh(ParameterInput *pin,
       lb_flag_(true),
       lb_automatic_(),
       lb_manual_(),
-      MeshGenerator_{
-          UniformMeshGeneratorX1, UniformMeshGeneratorX2, UniformMeshGeneratorX3},
+      MeshGenerator_{UniformMeshGeneratorX1, UniformMeshGeneratorX2,
+                     UniformMeshGeneratorX3},
       BoundaryFunction_{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
       AMRFlag_{},
       UserSourceTerm_{},
@@ -752,14 +735,12 @@ Mesh::Mesh(ParameterInput *pin,
 
     IOWrapperSizeT udoffset = 0;
     for (int n = 0; n < nint_user_mesh_data_; n++) {
-      std::memcpy(iuser_mesh_data[n].data(),
-                  &(userdata[udoffset]),
+      std::memcpy(iuser_mesh_data[n].data(), &(userdata[udoffset]),
                   iuser_mesh_data[n].GetSizeInBytes());
       udoffset += iuser_mesh_data[n].GetSizeInBytes();
     }
     for (int n = 0; n < nreal_user_mesh_data_; n++) {
-      std::memcpy(ruser_mesh_data[n].data(),
-                  &(userdata[udoffset]),
+      std::memcpy(ruser_mesh_data[n].data(), &(userdata[udoffset]),
                   ruser_mesh_data[n].GetSizeInBytes());
       udoffset += ruser_mesh_data[n].GetSizeInBytes();
     }
@@ -867,32 +848,13 @@ Mesh::Mesh(ParameterInput *pin,
     SetBlockSizeAndBoundaries(loclist[i], block_size, block_bcs);
     // create a block and add into the link list
     if (i == nbs) {
-      pblock = new MeshBlock(i,
-                             i - nbs,
-                             this,
-                             pin,
-                             materials,
-                             physics,
-                             loclist[i],
-                             block_size,
-                             block_bcs,
-                             costlist[i],
-                             mbdata + buff_os,
-                             gflag);
+      pblock = new MeshBlock(i, i - nbs, this, pin, materials, physics, loclist[i],
+                             block_size, block_bcs, costlist[i], mbdata + buff_os, gflag);
       pfirst = pblock;
     } else {
-      pblock->next = new MeshBlock(i,
-                                   i - nbs,
-                                   this,
-                                   pin,
-                                   materials,
-                                   physics,
-                                   loclist[i],
-                                   block_size,
-                                   block_bcs,
-                                   costlist[i],
-                                   mbdata + buff_os,
-                                   gflag);
+      pblock->next =
+          new MeshBlock(i, i - nbs, this, pin, materials, physics, loclist[i], block_size,
+                        block_bcs, costlist[i], mbdata + buff_os, gflag);
       pblock->next->prev = pblock;
       pblock = pblock->next;
     }
@@ -1025,15 +987,11 @@ void Mesh::OutputMeshStructure(int ndim) {
         mincost = std::min(mincost, costlist[i]);
         maxcost = std::max(maxcost, costlist[i]);
         totalcost += costlist[i];
+        std::fprintf(fp, "#MeshBlock %d on rank=%d with cost=%g\n", j, ranklist[j],
+                     costlist[j]);
         std::fprintf(
-            fp, "#MeshBlock %d on rank=%d with cost=%g\n", j, ranklist[j], costlist[j]);
-        std::fprintf(fp,
-                     "#  Logical level %d, location = (%" PRId64 " %" PRId64 " %" PRId64
-                     ")\n",
-                     ll,
-                     lx1,
-                     lx2,
-                     lx3);
+            fp, "#  Logical level %d, location = (%" PRId64 " %" PRId64 " %" PRId64 ")\n",
+            ll, lx1, lx2, lx3);
         if (ndim == 2) {
           std::fprintf(fp, "%g %g\n", block_size.x1min, block_size.x2min);
           std::fprintf(fp, "%g %g\n", block_size.x1max, block_size.x2min);
@@ -1043,40 +1001,40 @@ void Mesh::OutputMeshStructure(int ndim) {
           std::fprintf(fp, "\n\n");
         }
         if (ndim == 3) {
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2min, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2min, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2max, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2max, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2min, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2min, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2min, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2min, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2min, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2max, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2max, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1max, block_size.x2max, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2max, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2max, block_size.x3min);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2max, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2min, block_size.x3max);
-          std::fprintf(
-              fp, "%g %g %g\n", block_size.x1min, block_size.x2min, block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2min,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2min,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2max,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2max,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2min,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2min,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2min,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2min,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2min,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2max,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2max,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1max, block_size.x2max,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2max,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2max,
+                       block_size.x3min);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2max,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2min,
+                       block_size.x3max);
+          std::fprintf(fp, "%g %g %g\n", block_size.x1min, block_size.x2min,
+                       block_size.x3min);
           std::fprintf(fp, "\n\n");
         }
       }
@@ -1241,9 +1199,7 @@ void Mesh::AllocateUserHistoryOutput(int n) {
 //                                         const char *name, UserHistoryOperation op)
 //  \brief Enroll a user-defined history output function and set its name
 
-void Mesh::EnrollUserHistoryOutput(int i,
-                                   HistoryOutputFunc my_func,
-                                   const char *name,
+void Mesh::EnrollUserHistoryOutput(int i, HistoryOutputFunc my_func, const char *name,
                                    UserHistoryOperation op) {
   std::stringstream msg;
   if (i >= nuser_history_output_) {
@@ -1487,8 +1443,7 @@ MeshBlock *Mesh::FindMeshBlock(int tgid) {
 //                 RegionSize &block_size, BundaryFlag *block_bcs)
 // \brief Set the physical part of a block_size structure and block boundary conditions
 
-void Mesh::SetBlockSizeAndBoundaries(LogicalLocation loc,
-                                     RegionSize &block_size,
+void Mesh::SetBlockSizeAndBoundaries(LogicalLocation loc, RegionSize &block_size,
                                      BoundaryFlag *block_bcs) {
   std::int64_t &lx1 = loc.lx1;
   int &ll = loc.level;

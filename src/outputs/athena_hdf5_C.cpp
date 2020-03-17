@@ -51,10 +51,8 @@ namespace parthenon {
 // XDMF subroutine to write a dataitem that refers to an HDF array
 static std::string stringXdmfArrayRef(const std::string &prefix,
                                       const std::string &hdfPath,
-                                      const std::string &label,
-                                      const hsize_t *dims,
-                                      const int &ndims,
-                                      const std::string &theType,
+                                      const std::string &label, const hsize_t *dims,
+                                      const int &ndims, const std::string &theType,
                                       const int &precision) {
   std::string mystr =
       prefix + R"(<DataItem Format="HDF" Dimensions=")" + std::to_string(dims[0]);
@@ -67,28 +65,20 @@ static std::string stringXdmfArrayRef(const std::string &prefix,
   return mystr;
 }
 
-static void writeXdmfArrayRef(std::ofstream &fid,
-                              const std::string &prefix,
-                              const std::string &hdfPath,
-                              const std::string &label,
-                              const hsize_t *dims,
-                              const int &ndims,
-                              const std::string &theType,
-                              const int &precision) {
+static void writeXdmfArrayRef(std::ofstream &fid, const std::string &prefix,
+                              const std::string &hdfPath, const std::string &label,
+                              const hsize_t *dims, const int &ndims,
+                              const std::string &theType, const int &precision) {
 
   fid << stringXdmfArrayRef(prefix, hdfPath, label, dims, ndims, theType, precision)
       << std::flush;
 }
 
 // XDMF subroutine to write a variable that reads from a HDF file
-static void writeXdmfVariableRef(std::ofstream &fid,
-                                 const std::string &prefix,
-                                 const std::string &hdfPath,
-                                 const std::string &label,
-                                 const hsize_t *dims,
-                                 const int &ndims,
-                                 const std::string &theType,
-                                 const int &precision) {
+static void writeXdmfVariableRef(std::ofstream &fid, const std::string &prefix,
+                                 const std::string &hdfPath, const std::string &label,
+                                 const hsize_t *dims, const int &ndims,
+                                 const std::string &theType, const int &precision) {
   std::string mystr =
       prefix + "<Attribute Name=\"" + label + R"(" Center="Cell">)" + '\n';
   mystr +=
@@ -97,13 +87,9 @@ static void writeXdmfVariableRef(std::ofstream &fid,
   fid << mystr << std::flush;
 }
 
-static void writeXdmfSlabVariableRef(std::ofstream &fid,
-                                     std::string &name,
-                                     std::string &hdfFile,
-                                     int iblock,
-                                     const int &vlen,
-                                     int &ndims,
-                                     hsize_t *dims,
+static void writeXdmfSlabVariableRef(std::ofstream &fid, std::string &name,
+                                     std::string &hdfFile, int iblock, const int &vlen,
+                                     int &ndims, hsize_t *dims,
                                      const std::string &dims321) {
   // writes a slab reference to file
 
@@ -128,11 +114,8 @@ static void writeXdmfSlabVariableRef(std::ofstream &fid,
   return;
 }
 
-static herr_t writeH5AI32(const char *name,
-                          const int *pData,
-                          hid_t &file,
-                          const hid_t &dSpace,
-                          const hid_t &dSet) {
+static herr_t writeH5AI32(const char *name, const int *pData, hid_t &file,
+                          const hid_t &dSpace, const hid_t &dSet) {
   // write an attribute to file
   herr_t status; // assumption that multiple errors are stacked in calls.
   hid_t attribute;
@@ -142,11 +125,8 @@ static herr_t writeH5AI32(const char *name,
   return status;
 }
 
-static herr_t writeH5AF64(const char *name,
-                          const Real *pData,
-                          hid_t &file,
-                          const hid_t &dSpace,
-                          const hid_t &dSet) {
+static herr_t writeH5AF64(const char *name, const Real *pData, hid_t &file,
+                          const hid_t &dSpace, const hid_t &dSet) {
   // write an attribute to file
   herr_t status; // assumption that multiple errors are stacked in calls.
   hid_t attribute;
@@ -210,24 +190,24 @@ void ATHDF5Output::genXDMF(std::string hdfFile, Mesh *pm) {
          << slabTrailer << std::endl;
 
     dims[1] = nx1 + 1;
-    writeXdmfArrayRef(
-        xdmf, "          ", hdfFile + ":/Locations/", "x", dims, 2, "Float", 8);
+    writeXdmfArrayRef(xdmf, "          ", hdfFile + ":/Locations/", "x", dims, 2, "Float",
+                      8);
     xdmf << "</DataItem>" << std::endl;
 
     xdmf << slabPreDim << nx2 + 1 << slabPreBlock2D << ib << " 0 1 1 1 " << nx2 + 1
          << slabTrailer << std::endl;
 
     dims[1] = nx2 + 1;
-    writeXdmfArrayRef(
-        xdmf, "          ", hdfFile + ":/Locations/", "y", dims, 2, "Float", 8);
+    writeXdmfArrayRef(xdmf, "          ", hdfFile + ":/Locations/", "y", dims, 2, "Float",
+                      8);
     xdmf << "</DataItem>" << std::endl;
 
     xdmf << slabPreDim << nx3 + 1 << slabPreBlock2D << ib << " 0 1 1 1 " << nx3 + 1
          << slabTrailer << std::endl;
 
     dims[1] = nx3 + 1;
-    writeXdmfArrayRef(
-        xdmf, "          ", hdfFile + ":/Locations/", "z", dims, 2, "Float", 8);
+    writeXdmfArrayRef(xdmf, "          ", hdfFile + ":/Locations/", "z", dims, 2, "Float",
+                      8);
     xdmf << "</DataItem>" << std::endl;
 
     xdmf << "      </Geometry>" << std::endl;
@@ -272,24 +252,19 @@ void ATHDF5Output::genXDMF(std::string hdfFile, Mesh *pm) {
 
 #define WRITEH5SLAB2(name, pData, theLocation, Starts, Counts, lDSpace, gDSpace, plist)  \
   {                                                                                      \
-    hid_t gDSet = H5Dcreate(theLocation,                                                 \
-                            name,                                                        \
-                            H5T_NATIVE_DOUBLE,                                           \
-                            gDSpace,                                                     \
-                            H5P_DEFAULT,                                                 \
-                            H5P_DEFAULT,                                                 \
-                            H5P_DEFAULT);                                                \
+    hid_t gDSet = H5Dcreate(theLocation, name, H5T_NATIVE_DOUBLE, gDSpace, H5P_DEFAULT,  \
+                            H5P_DEFAULT, H5P_DEFAULT);                                   \
     H5Sselect_hyperslab(gDSpace, H5S_SELECT_SET, Starts, NULL, Counts, NULL);            \
     H5Dwrite(gDSet, H5T_NATIVE_DOUBLE, lDSpace, gDSpace, plist, pData);                  \
     H5Dclose(gDSet);                                                                     \
   }
-#define WRITEH5SLAB(                                                                     \
-    name, pData, theLocation, localStart, localCount, globalCount, plist)                \
+#define WRITEH5SLAB(name, pData, theLocation, localStart, localCount, globalCount,       \
+                    plist)                                                               \
   {                                                                                      \
     hid_t lDSpace = H5Screate_simple(2, localCount, NULL);                               \
     hid_t gDSpace = H5Screate_simple(2, globalCount, NULL);                              \
-    WRITEH5SLAB2(                                                                        \
-        name, pData, theLocation, localStart, localCount, lDSpace, gDSpace, plist);      \
+    WRITEH5SLAB2(name, pData, theLocation, localStart, localCount, lDSpace, gDSpace,     \
+                 plist);                                                                 \
     H5Sclose(gDSpace);                                                                   \
     H5Sclose(lDSpace);                                                                   \
   }
@@ -404,8 +379,8 @@ void ATHDF5Output::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
   // attributes written here:
   // All ranks write attributes
   localDSpace = H5Screate(H5S_SCALAR);
-  myDSet = H5Dcreate(
-      file, "/Timestep", PREDINT32, localDSpace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+  myDSet = H5Dcreate(file, "/Timestep", PREDINT32, localDSpace, H5P_DEFAULT, H5P_DEFAULT,
+                     H5P_DEFAULT);
 
   int max_level = pm->current_level - pm->root_level;
   status = writeH5AI32("NCycle", &pm->ncycle, file, localDSpace, myDSet);
@@ -483,22 +458,22 @@ void ATHDF5Output::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
   pmb = pm->pblock;
   LOADVARIABLE(tmpData, pmb, pmb->pcoord->x1f, out_is, out_ie + 1, 0, 0, 0, 0);
   local_count[1] = global_count[1] = nx1 + 1;
-  WRITEH5SLAB(
-      "x", tmpData, gLocations, local_start, local_count, global_count, property_list);
+  WRITEH5SLAB("x", tmpData, gLocations, local_start, local_count, global_count,
+              property_list);
 
   // write Y coordinates
   pmb = pm->pblock;
   LOADVARIABLE(tmpData, pmb, pmb->pcoord->x2f, out_js, out_je + 1, 0, 0, 0, 0);
   local_count[1] = global_count[1] = nx2 + 1;
-  WRITEH5SLAB(
-      "y", tmpData, gLocations, local_start, local_count, global_count, property_list);
+  WRITEH5SLAB("y", tmpData, gLocations, local_start, local_count, global_count,
+              property_list);
 
   // write Z coordinates
   pmb = pm->pblock;
   LOADVARIABLE(tmpData, pmb, pmb->pcoord->x3f, out_ks, out_ke + 1, 0, 0, 0, 0);
   local_count[1] = global_count[1] = nx3 + 1;
-  WRITEH5SLAB(
-      "z", tmpData, gLocations, local_start, local_count, global_count, property_list);
+  WRITEH5SLAB("z", tmpData, gLocations, local_start, local_count, global_count,
+              property_list);
 
   // close locations tab
   H5Gclose(gLocations);
@@ -577,14 +552,8 @@ void ATHDF5Output::WriteOutputFile(Mesh *pm, ParameterInput *pin, bool flag) {
       pmb = pmb->next;
     }
     // write dataset to file
-    WRITEH5SLAB2(vWriteName.c_str(),
-                 tmpData,
-                 file,
-                 local_start,
-                 local_count,
-                 vLocalSpace,
-                 vGlobalSpace,
-                 property_list);
+    WRITEH5SLAB2(vWriteName.c_str(), tmpData, file, local_start, local_count, vLocalSpace,
+                 vGlobalSpace, property_list);
     if (vlen > 1) {
       H5Sclose(vLocalSpace);
       H5Sclose(vGlobalSpace);

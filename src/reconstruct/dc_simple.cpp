@@ -26,12 +26,8 @@ namespace parthenon {
 //! \fn Reconstruction::DonorCellX1()
 //  \brief reconstruct L/R surfaces of the i-th cells
 
-void Reconstruction::DonorCellX1(const int k,
-                                 const int j,
-                                 const int il,
-                                 const int iu,
-                                 const AthenaArray<Real> &q,
-                                 AthenaArray<Real> &ql,
+void Reconstruction::DonorCellX1(const int k, const int j, const int il, const int iu,
+                                 const AthenaArray<Real> &q, AthenaArray<Real> &ql,
                                  AthenaArray<Real> &qr) {
   const int nu = q.GetDim4() - 1;
 
@@ -49,12 +45,8 @@ void Reconstruction::DonorCellX1(const int k,
 //! \fn Reconstruction::DonorCellX2()
 //  \brief
 
-void Reconstruction::DonorCellX2(const int k,
-                                 const int j,
-                                 const int il,
-                                 const int iu,
-                                 const AthenaArray<Real> &q,
-                                 AthenaArray<Real> &ql,
+void Reconstruction::DonorCellX2(const int k, const int j, const int il, const int iu,
+                                 const AthenaArray<Real> &q, AthenaArray<Real> &ql,
                                  AthenaArray<Real> &qr) {
   // const int nu = q.GetDim4() - 1;
   const int nu = 0;
@@ -74,12 +66,8 @@ void Reconstruction::DonorCellX2(const int k,
 //! \fn Reconstruction::DonorCellX3()
 //  \brief
 
-void Reconstruction::DonorCellX3(const int k,
-                                 const int j,
-                                 const int il,
-                                 const int iu,
-                                 const AthenaArray<Real> &q,
-                                 AthenaArray<Real> &ql,
+void Reconstruction::DonorCellX3(const int k, const int j, const int il, const int iu,
+                                 const AthenaArray<Real> &q, AthenaArray<Real> &ql,
                                  AthenaArray<Real> &qr) {
   const int nu = q.GetDim4() - 1;
   // compute L/R states for each variable

@@ -58,8 +58,7 @@ class StateDescriptor {
 
   // field addition / retrieval routines
   // add a field with associated metadata
-  bool AddField(const std::string &field_name,
-                Metadata &m,
+  bool AddField(const std::string &field_name, Metadata &m,
                 DerivedOwnership owner = DerivedOwnership::unique) {
     const std::string &assoc = m.getAssociated();
     if (!assoc.length()) m.Associate(field_name);

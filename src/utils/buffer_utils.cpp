@@ -34,17 +34,8 @@ namespace BufferUtility {
 //  \brief pack a 4D AthenaArray into a one-dimensional buffer
 
 template <typename T>
-void PackData(AthenaArray<T> &src,
-              T *buf,
-              int sn,
-              int en,
-              int si,
-              int ei,
-              int sj,
-              int ej,
-              int sk,
-              int ek,
-              int &offset) {
+void PackData(AthenaArray<T> &src, T *buf, int sn, int en, int si, int ei, int sj, int ej,
+              int sk, int ek, int &offset) {
   for (int n = sn; n <= en; ++n) {
     for (int k = sk; k <= ek; k++) {
       for (int j = sj; j <= ej; j++) {
@@ -62,14 +53,7 @@ void PackData(AthenaArray<T> &src,
 //  \brief pack a 3D AthenaArray into a one-dimensional buffer
 
 template <typename T>
-void PackData(AthenaArray<T> &src,
-              T *buf,
-              int si,
-              int ei,
-              int sj,
-              int ej,
-              int sk,
-              int ek,
+void PackData(AthenaArray<T> &src, T *buf, int si, int ei, int sj, int ej, int sk, int ek,
               int &offset) {
   for (int k = sk; k <= ek; k++) {
     for (int j = sj; j <= ej; j++) {
@@ -87,17 +71,8 @@ void PackData(AthenaArray<T> &src,
 //  \brief unpack a one-dimensional buffer into a 4D AthenaArray
 
 template <typename T>
-void UnpackData(T *buf,
-                AthenaArray<T> &dst,
-                int sn,
-                int en,
-                int si,
-                int ei,
-                int sj,
-                int ej,
-                int sk,
-                int ek,
-                int &offset) {
+void UnpackData(T *buf, AthenaArray<T> &dst, int sn, int en, int si, int ei, int sj,
+                int ej, int sk, int ek, int &offset) {
   for (int n = sn; n <= en; ++n) {
     for (int k = sk; k <= ek; ++k) {
       for (int j = sj; j <= ej; ++j) {
@@ -116,15 +91,8 @@ void UnpackData(T *buf,
 //  \brief unpack a one-dimensional buffer into a 3D AthenaArray
 
 template <typename T>
-void UnpackData(T *buf,
-                AthenaArray<T> &dst,
-                int si,
-                int ei,
-                int sj,
-                int ej,
-                int sk,
-                int ek,
-                int &offset) {
+void UnpackData(T *buf, AthenaArray<T> &dst, int si, int ei, int sj, int ej, int sk,
+                int ek, int &offset) {
   for (int k = sk; k <= ek; ++k) {
     for (int j = sj; j <= ej; ++j) {
 #pragma omp simd
@@ -140,15 +108,15 @@ void UnpackData(T *buf,
 // for other TUs during linking time (~13x files include "buffer_utils.hpp")
 
 // 13x files include buffer_utils.hpp
-template void UnpackData<Real>(
-    Real *, AthenaArray<Real> &, int, int, int, int, int, int, int, int, int &);
-template void
-UnpackData<Real>(Real *, AthenaArray<Real> &, int, int, int, int, int, int, int &);
+template void UnpackData<Real>(Real *, AthenaArray<Real> &, int, int, int, int, int, int,
+                               int, int, int &);
+template void UnpackData<Real>(Real *, AthenaArray<Real> &, int, int, int, int, int, int,
+                               int &);
 
-template void PackData<Real>(
-    AthenaArray<Real> &, Real *, int, int, int, int, int, int, int, int, int &);
-template void
-PackData<Real>(AthenaArray<Real> &, Real *, int, int, int, int, int, int, int &);
+template void PackData<Real>(AthenaArray<Real> &, Real *, int, int, int, int, int, int,
+                             int, int, int &);
+template void PackData<Real>(AthenaArray<Real> &, Real *, int, int, int, int, int, int,
+                             int &);
 
 } // end namespace BufferUtility
 } // namespace parthenon

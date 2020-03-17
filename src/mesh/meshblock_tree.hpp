@@ -61,8 +61,8 @@ class MeshBlockTree {
   MeshBlockTree *FindMeshBlock(LogicalLocation tloc);
   void CountMeshBlock(int &count);
   void GetMeshBlockList(LogicalLocation *list, int *pglist, int &count);
-  MeshBlockTree *
-  FindNeighbor(LogicalLocation myloc, int ox1, int ox2, int ox3, bool amrflag = false);
+  MeshBlockTree *FindNeighbor(LogicalLocation myloc, int ox1, int ox2, int ox3,
+                              bool amrflag = false);
 
  private:
   // data

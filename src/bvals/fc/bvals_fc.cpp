@@ -46,8 +46,7 @@
 namespace parthenon {
 // constructor
 
-FaceCenteredBoundaryVariable::FaceCenteredBoundaryVariable(MeshBlock *pmb,
-                                                           FaceField *var,
+FaceCenteredBoundaryVariable::FaceCenteredBoundaryVariable(MeshBlock *pmb, FaceField *var,
                                                            FaceField &coarse_buf,
                                                            EdgeField &var_flux)
     : BoundaryVariable(pmb), var_fc(var), coarse_buf(coarse_buf) {
@@ -1042,23 +1041,13 @@ void FaceCenteredBoundaryVariable::SetupPersistentMPI() {
       tag = pmb->pbval->CreateBvalsMPITag(nb.snb.lid, nb.targetid, fc_phys_id_);
       if (bd_var_.req_send[nb.bufid] != MPI_REQUEST_NULL)
         MPI_Request_free(&bd_var_.req_send[nb.bufid]);
-      MPI_Send_init(bd_var_.send[nb.bufid],
-                    ssize,
-                    MPI_ATHENA_REAL,
-                    nb.snb.rank,
-                    tag,
-                    MPI_COMM_WORLD,
-                    &(bd_var_.req_send[nb.bufid]));
+      MPI_Send_init(bd_var_.send[nb.bufid], ssize, MPI_ATHENA_REAL, nb.snb.rank, tag,
+                    MPI_COMM_WORLD, &(bd_var_.req_send[nb.bufid]));
       tag = pmb->pbval->CreateBvalsMPITag(pmb->lid, nb.bufid, fc_phys_id_);
       if (bd_var_.req_recv[nb.bufid] != MPI_REQUEST_NULL)
         MPI_Request_free(&bd_var_.req_recv[nb.bufid]);
-      MPI_Recv_init(bd_var_.recv[nb.bufid],
-                    rsize,
-                    MPI_ATHENA_REAL,
-                    nb.snb.rank,
-                    tag,
-                    MPI_COMM_WORLD,
-                    &(bd_var_.req_recv[nb.bufid]));
+      MPI_Recv_init(bd_var_.recv[nb.bufid], rsize, MPI_ATHENA_REAL, nb.snb.rank, tag,
+                    MPI_COMM_WORLD, &(bd_var_.req_recv[nb.bufid]));
 
       // set up flux correction MPI communication buffers
       int f2csize;
@@ -1113,48 +1102,28 @@ void FaceCenteredBoundaryVariable::SetupPersistentMPI() {
           tag = pmb->pbval->CreateBvalsMPITag(nb.snb.lid, nb.targetid, fc_flx_phys_id_);
           if (bd_var_flcor_.req_send[nb.bufid] != MPI_REQUEST_NULL)
             MPI_Request_free(&bd_var_flcor_.req_send[nb.bufid]);
-          MPI_Send_init(bd_var_flcor_.send[nb.bufid],
-                        size,
-                        MPI_ATHENA_REAL,
-                        nb.snb.rank,
-                        tag,
-                        MPI_COMM_WORLD,
-                        &(bd_var_flcor_.req_send[nb.bufid]));
+          MPI_Send_init(bd_var_flcor_.send[nb.bufid], size, MPI_ATHENA_REAL, nb.snb.rank,
+                        tag, MPI_COMM_WORLD, &(bd_var_flcor_.req_send[nb.bufid]));
           tag = pmb->pbval->CreateBvalsMPITag(pmb->lid, nb.bufid, fc_flx_phys_id_);
           if (bd_var_flcor_.req_recv[nb.bufid] != MPI_REQUEST_NULL)
             MPI_Request_free(&bd_var_flcor_.req_recv[nb.bufid]);
-          MPI_Recv_init(bd_var_flcor_.recv[nb.bufid],
-                        size,
-                        MPI_ATHENA_REAL,
-                        nb.snb.rank,
-                        tag,
-                        MPI_COMM_WORLD,
-                        &(bd_var_flcor_.req_recv[nb.bufid]));
+          MPI_Recv_init(bd_var_flcor_.recv[nb.bufid], size, MPI_ATHENA_REAL, nb.snb.rank,
+                        tag, MPI_COMM_WORLD, &(bd_var_flcor_.req_recv[nb.bufid]));
         }
       }
       if (nb.snb.level > mylevel) { // finer neighbor
         tag = pmb->pbval->CreateBvalsMPITag(pmb->lid, nb.bufid, fc_flx_phys_id_);
         if (bd_var_flcor_.req_recv[nb.bufid] != MPI_REQUEST_NULL)
           MPI_Request_free(&bd_var_flcor_.req_recv[nb.bufid]);
-        MPI_Recv_init(bd_var_flcor_.recv[nb.bufid],
-                      f2csize,
-                      MPI_ATHENA_REAL,
-                      nb.snb.rank,
-                      tag,
-                      MPI_COMM_WORLD,
-                      &(bd_var_flcor_.req_recv[nb.bufid]));
+        MPI_Recv_init(bd_var_flcor_.recv[nb.bufid], f2csize, MPI_ATHENA_REAL, nb.snb.rank,
+                      tag, MPI_COMM_WORLD, &(bd_var_flcor_.req_recv[nb.bufid]));
       }
       if (nb.snb.level < mylevel) { // coarser neighbor
         tag = pmb->pbval->CreateBvalsMPITag(nb.snb.lid, nb.targetid, fc_flx_phys_id_);
         if (bd_var_flcor_.req_send[nb.bufid] != MPI_REQUEST_NULL)
           MPI_Request_free(&bd_var_flcor_.req_send[nb.bufid]);
-        MPI_Send_init(bd_var_flcor_.send[nb.bufid],
-                      f2csize,
-                      MPI_ATHENA_REAL,
-                      nb.snb.rank,
-                      tag,
-                      MPI_COMM_WORLD,
-                      &(bd_var_flcor_.req_send[nb.bufid]));
+        MPI_Send_init(bd_var_flcor_.send[nb.bufid], f2csize, MPI_ATHENA_REAL, nb.snb.rank,
+                      tag, MPI_COMM_WORLD, &(bd_var_flcor_.req_send[nb.bufid]));
       }
     } // neighbor block is on separate MPI process
   }   // end loop over neighbors

@@ -32,10 +32,8 @@ namespace parthenon {
 //  \brief Compute weighted average of AthenaArrays (including cell-averaged U in time
 //         integrator step)
 
-void MeshBlock::WeightedAve(AthenaArray<Real> &u_out,
-                            AthenaArray<Real> &u_in1,
-                            AthenaArray<Real> &u_in2,
-                            const Real wght[3]) {
+void MeshBlock::WeightedAve(AthenaArray<Real> &u_out, AthenaArray<Real> &u_in1,
+                            AthenaArray<Real> &u_in2, const Real wght[3]) {
   // consider every possible simplified form of weighted sum operator:
   // U = a*U + b*U1 + c*U2
 
@@ -157,9 +155,7 @@ void MeshBlock::WeightedAve(AthenaArray<Real> &u_out,
 //! \fn  void MeshBlock::WeightedAve
 //  \brief Compute weighted average of face-averaged B in time integrator step
 
-void MeshBlock::WeightedAve(FaceField &b_out,
-                            FaceField &b_in1,
-                            FaceField &b_in2,
+void MeshBlock::WeightedAve(FaceField &b_out, FaceField &b_in1, FaceField &b_in2,
                             const Real wght[3]) {
   int jl = js;
   int ju = je + 1;

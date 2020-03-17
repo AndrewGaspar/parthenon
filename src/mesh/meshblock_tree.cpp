@@ -354,8 +354,8 @@ void MeshBlockTree::GetMeshBlockList(LogicalLocation *list, int *pglist, int &co
 //         If it is a finer block, return the pointer to its parent.
 //         Note that this function must be called on a completed tree only
 
-MeshBlockTree *MeshBlockTree::FindNeighbor(
-    LogicalLocation myloc, int ox1, int ox2, int ox3, bool amrflag) {
+MeshBlockTree *MeshBlockTree::FindNeighbor(LogicalLocation myloc, int ox1, int ox2,
+                                           int ox3, bool amrflag) {
   std::stringstream msg;
   std::int64_t lx, ly, lz;
   int ll;

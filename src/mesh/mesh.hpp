@@ -80,39 +80,20 @@ class MeshBlock {
 #endif
 
  public:
-  MeshBlock(int igid,
-            int ilid,
-            LogicalLocation iloc,
-            RegionSize input_size,
-            BoundaryFlag *input_bcs,
-            Mesh *pm,
-            ParameterInput *pin,
-            std::vector<std::shared_ptr<PropertiesInterface>> &mats,
-            int igflag,
+  MeshBlock(int igid, int ilid, LogicalLocation iloc, RegionSize input_size,
+            BoundaryFlag *input_bcs, Mesh *pm, ParameterInput *pin,
+            std::vector<std::shared_ptr<PropertiesInterface>> &mats, int igflag,
             bool ref_flag = false);
-  MeshBlock(int igid,
-            int ilid,
-            Mesh *pm,
-            ParameterInput *pin,
+  MeshBlock(int igid, int ilid, Mesh *pm, ParameterInput *pin,
             std::vector<std::shared_ptr<PropertiesInterface>> &mats,
             std::map<std::string, std::shared_ptr<StateDescriptor>> &phys,
-            LogicalLocation iloc,
-            RegionSize input_block,
-            BoundaryFlag *input_bcs,
-            double icost,
-            char *mbdata,
-            int igflag);
+            LogicalLocation iloc, RegionSize input_block, BoundaryFlag *input_bcs,
+            double icost, char *mbdata, int igflag);
 
-  MeshBlock(int igid,
-            int ilid,
-            LogicalLocation iloc,
-            RegionSize input_block,
-            BoundaryFlag *input_bcs,
-            Mesh *pm,
-            ParameterInput *pin,
+  MeshBlock(int igid, int ilid, LogicalLocation iloc, RegionSize input_block,
+            BoundaryFlag *input_bcs, Mesh *pm, ParameterInput *pin,
             std::vector<std::shared_ptr<PropertiesInterface>> &mats,
-            std::map<std::string, std::shared_ptr<StateDescriptor>> &phys,
-            int igflag,
+            std::map<std::string, std::shared_ptr<StateDescriptor>> &phys, int igflag,
             bool ref_flag = false);
   ~MeshBlock();
 
@@ -169,12 +150,10 @@ class MeshBlock {
     return block_size.nx1 * block_size.nx2 * block_size.nx3;
   }
   void SearchAndSetNeighbors(MeshBlockTree &tree, int *ranklist, int *nslist);
-  void WeightedAve(AthenaArray<Real> &u_out,
-                   AthenaArray<Real> &u_in1,
-                   AthenaArray<Real> &u_in2,
+  void WeightedAve(AthenaArray<Real> &u_out, AthenaArray<Real> &u_in1,
+                   AthenaArray<Real> &u_in2, const Real wght[3]);
+  void WeightedAve(FaceField &b_out, FaceField &b_in1, FaceField &b_in2,
                    const Real wght[3]);
-  void
-  WeightedAve(FaceField &b_out, FaceField &b_in1, FaceField &b_in2, const Real wght[3]);
 
   void ResetToIC() { ProblemGenerator(nullptr); };
 
@@ -237,12 +216,10 @@ class Mesh {
 
  public:
   // 2x function overloads of ctor: normal and restarted simulation
-  Mesh(ParameterInput *pin,
-       std::vector<std::shared_ptr<PropertiesInterface>> &materials,
+  Mesh(ParameterInput *pin, std::vector<std::shared_ptr<PropertiesInterface>> &materials,
        std::map<std::string, std::shared_ptr<StateDescriptor>> &physics,
        int test_flag = 0);
-  Mesh(ParameterInput *pin,
-       IOWrapper &resfile,
+  Mesh(ParameterInput *pin, IOWrapper &resfile,
        std::vector<std::shared_ptr<PropertiesInterface>> &materials,
        std::map<std::string, std::shared_ptr<StateDescriptor>> &physics,
        int test_flag = 0);
@@ -280,8 +257,7 @@ class Mesh {
 
   // functions
   void Initialize(int res_flag, ParameterInput *pin);
-  void SetBlockSizeAndBoundaries(LogicalLocation loc,
-                                 RegionSize &block_size,
+  void SetBlockSizeAndBoundaries(LogicalLocation loc, RegionSize &block_size,
                                  BoundaryFlag *block_bcs);
   void NewTimeStep();
   void OutputCycleDiagnostics();
@@ -370,8 +346,8 @@ class Mesh {
   void PrepareSendFineToCoarseAMR(MeshBlock *pb, Real *sendbuf);
   // step 7: create new MeshBlock list (same MPI rank but diff level: create new block)
   void FillSameRankFineToCoarseAMR(MeshBlock *pob, MeshBlock *pmb, LogicalLocation &loc);
-  void
-  FillSameRankCoarseToFineAMR(MeshBlock *pob, MeshBlock *pmb, LogicalLocation &newloc);
+  void FillSameRankCoarseToFineAMR(MeshBlock *pob, MeshBlock *pmb,
+                                   LogicalLocation &newloc);
   // step 8: receive
   void FinishRecvSameLevel(MeshBlock *pb, Real *recvbuf);
   void FinishRecvFineToCoarseAMR(MeshBlock *pb, Real *recvbuf, LogicalLocation &lloc);
@@ -391,9 +367,7 @@ class Mesh {
   void EnrollUserExplicitSourceFunction(SrcTermFunc my_func);
   void EnrollUserTimeStepFunction(TimeStepFunc my_func);
   void AllocateUserHistoryOutput(int n);
-  void EnrollUserHistoryOutput(int i,
-                               HistoryOutputFunc my_func,
-                               const char *name,
+  void EnrollUserHistoryOutput(int i, HistoryOutputFunc my_func, const char *name,
                                UserHistoryOperation op = UserHistoryOperation::sum);
   void EnrollUserMetric(MetricFunc my_func);
   void EnrollViscosityCoefficient(ViscosityCoeffFunc my_func);
@@ -407,8 +381,8 @@ class Mesh {
 // \brief wrapper fn to compute Real x logical location for either [0., 1.] or [-0.5, 0.5]
 //        real cell ranges for MeshGenerator_[] functions (default/user vs. uniform)
 
-inline Real
-ComputeMeshGeneratorX(std::int64_t index, std::int64_t nrange, bool sym_interval) {
+inline Real ComputeMeshGeneratorX(std::int64_t index, std::int64_t nrange,
+                                  bool sym_interval) {
   // index is typically 0, ... nrange for non-ghost boundaries
   if (!sym_interval) {
     // to map to fractional logical position [0.0, 1.0], simply divide by # of faces

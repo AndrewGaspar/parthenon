@@ -121,8 +121,8 @@ class Container {
   /// @param metadata the metadata associated with the variable
   /// @param dims the size of each element
   ///
-  void
-  Add(const std::string label, const Metadata &metadata, const std::vector<int> dims);
+  void Add(const std::string label, const Metadata &metadata,
+           const std::vector<int> dims);
 
   ///
   /// Allocate and add a variable<T> to the container
@@ -135,8 +135,7 @@ class Container {
   /// @param metadata the metadata associated with the variable
   /// @param dims the size of each element
   ///
-  void Add(const std::vector<std::string> labelArray,
-           const Metadata &metadata,
+  void Add(const std::vector<std::string> labelArray, const Metadata &metadata,
            const std::vector<int> dims);
 
   ///
@@ -239,8 +238,7 @@ class Container {
   /// @param indexCount a map of names to std::pair<index,count> for each name
   /// @param matID if specified is list of materials we are interested in.  Note
   ///        that non-material variables specified are aliased in as is.
-  int GetVariables(const std::vector<std::string> &names,
-                   std::vector<Variable<T>> &vRet,
+  int GetVariables(const std::vector<std::string> &names, std::vector<Variable<T>> &vRet,
                    std::map<std::string, std::pair<int, int>> &indexCount,
                    const std::vector<int> &matID = {});
 

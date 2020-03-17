@@ -99,9 +99,7 @@ void FluxDivergence(Container<Real> &in, Container<Real> &dudt_cont) {
   return;
 }
 
-void UpdateContainer(Container<Real> &in,
-                     Container<Real> &dudt_cont,
-                     const Real dt,
+void UpdateContainer(Container<Real> &in, Container<Real> &dudt_cont, const Real dt,
                      Container<Real> &out) {
   MeshBlock *pmb = in.pmy_block;
   int is = pmb->is;

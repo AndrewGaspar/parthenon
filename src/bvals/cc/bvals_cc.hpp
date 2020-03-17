@@ -39,8 +39,7 @@ namespace parthenon {
 
 class CellCenteredBoundaryVariable : public BoundaryVariable {
  public:
-  CellCenteredBoundaryVariable(MeshBlock *pmb,
-                               AthenaArray<Real> *var,
+  CellCenteredBoundaryVariable(MeshBlock *pmb, AthenaArray<Real> *var,
                                AthenaArray<Real> *coarse_var,
                                AthenaArray<Real> *var_flux);
   ~CellCenteredBoundaryVariable();
@@ -94,13 +93,8 @@ class CellCenteredBoundaryVariable : public BoundaryVariable {
   int cc_phys_id_, cc_flx_phys_id_;
 #endif
 
-  void RemapFlux(const int n,
-                 const int k,
-                 const int jinner,
-                 const int jouter,
-                 const int i,
-                 const Real eps,
-                 const AthenaArray<Real> &var,
+  void RemapFlux(const int n, const int k, const int jinner, const int jouter,
+                 const int i, const Real eps, const AthenaArray<Real> &var,
                  AthenaArray<Real> &flux);
 };
 } // namespace parthenon

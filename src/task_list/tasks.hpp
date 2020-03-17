@@ -36,8 +36,7 @@ using SimpleTaskFunc = TaskStatus();
 using BlockTaskFunc = TaskStatus(MeshBlock *);
 using BlockStageTaskFunc = TaskStatus(MeshBlock *, int);
 using BlockStageNamesTaskFunc = TaskStatus(MeshBlock *, int, std::vector<std::string> &);
-using BlockStageNamesIntegratorTaskFunc = TaskStatus(MeshBlock *,
-                                                     int,
+using BlockStageNamesIntegratorTaskFunc = TaskStatus(MeshBlock *, int,
                                                      std::vector<std::string> &,
                                                      Integrator *);
 
@@ -103,8 +102,8 @@ class BlockTask : public BaseTask {
 
 class BlockStageTask : public BaseTask {
  public:
-  BlockStageTask(
-      TaskID id, BlockStageTaskFunc *func, TaskID dep, MeshBlock *pmb, int stage)
+  BlockStageTask(TaskID id, BlockStageTaskFunc *func, TaskID dep, MeshBlock *pmb,
+                 int stage)
       : _func(func), _pblock(pmb), _stage(stage), BaseTask(id, dep) {}
   TaskStatus operator()() { return _func(_pblock, _stage); }
 
@@ -116,12 +115,8 @@ class BlockStageTask : public BaseTask {
 
 class BlockStageNamesTask : public BaseTask {
  public:
-  BlockStageNamesTask(TaskID id,
-                      BlockStageNamesTaskFunc *func,
-                      TaskID dep,
-                      MeshBlock *pmb,
-                      int stage,
-                      const std::vector<std::string> &sname)
+  BlockStageNamesTask(TaskID id, BlockStageNamesTaskFunc *func, TaskID dep,
+                      MeshBlock *pmb, int stage, const std::vector<std::string> &sname)
       : _func(func), _pblock(pmb), _stage(stage), _sname(sname), BaseTask(id, dep) {}
   TaskStatus operator()() { return _func(_pblock, _stage, _sname); }
 
@@ -134,13 +129,9 @@ class BlockStageNamesTask : public BaseTask {
 
 class BlockStageNamesIntegratorTask : public BaseTask {
  public:
-  BlockStageNamesIntegratorTask(TaskID id,
-                                BlockStageNamesIntegratorTaskFunc *func,
-                                TaskID dep,
-                                MeshBlock *pmb,
-                                int stage,
-                                const std::vector<std::string> &sname,
-                                Integrator *integ)
+  BlockStageNamesIntegratorTask(TaskID id, BlockStageNamesIntegratorTaskFunc *func,
+                                TaskID dep, MeshBlock *pmb, int stage,
+                                const std::vector<std::string> &sname, Integrator *integ)
       : _func(func),
         _pblock(pmb),
         _stage(stage),

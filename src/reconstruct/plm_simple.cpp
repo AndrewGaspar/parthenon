@@ -32,13 +32,9 @@ namespace parthenon {
 //! \fn Reconstruction::PiecewiseLinearX1()
 //  \brief
 
-void Reconstruction::PiecewiseLinearX1(const int k,
-                                       const int j,
-                                       const int il,
-                                       const int iu,
-                                       const AthenaArray<Real> &q,
-                                       AthenaArray<Real> &ql,
-                                       AthenaArray<Real> &qr) {
+void Reconstruction::PiecewiseLinearX1(const int k, const int j, const int il,
+                                       const int iu, const AthenaArray<Real> &q,
+                                       AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
   auto &pco = pmy_block_->pcoord;
   // set work arrays to shallow copies of scratch arrays
   AthenaArray<Real> &qc = scr1_ni_, &dql = scr2_ni_, &dqr = scr3_ni_, &dqm = scr4_ni_;
@@ -114,13 +110,9 @@ void Reconstruction::PiecewiseLinearX1(const int k,
 //! \fn Reconstruction::PiecewiseLinearX2()
 //  \brief
 
-void Reconstruction::PiecewiseLinearX2(const int k,
-                                       const int j,
-                                       const int il,
-                                       const int iu,
-                                       const AthenaArray<Real> &q,
-                                       AthenaArray<Real> &ql,
-                                       AthenaArray<Real> &qr) {
+void Reconstruction::PiecewiseLinearX2(const int k, const int j, const int il,
+                                       const int iu, const AthenaArray<Real> &q,
+                                       AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
   auto &pco = pmy_block_->pcoord;
   // set work arrays to shallow copies of scratch arrays
   AthenaArray<Real> &qc = scr1_ni_, &dql = scr2_ni_, &dqr = scr3_ni_, &dqm = scr4_ni_;
@@ -194,13 +186,9 @@ void Reconstruction::PiecewiseLinearX2(const int k,
 //! \fn Reconstruction::PiecewiseLinearX3()
 //  \brief
 
-void Reconstruction::PiecewiseLinearX3(const int k,
-                                       const int j,
-                                       const int il,
-                                       const int iu,
-                                       const AthenaArray<Real> &q,
-                                       AthenaArray<Real> &ql,
-                                       AthenaArray<Real> &qr) {
+void Reconstruction::PiecewiseLinearX3(const int k, const int j, const int il,
+                                       const int iu, const AthenaArray<Real> &q,
+                                       AthenaArray<Real> &ql, AthenaArray<Real> &qr) {
   auto &pco = pmy_block_->pcoord;
   // set work arrays to shallow copies of scratch arrays
   AthenaArray<Real> &qc = scr1_ni_, &dql = scr2_ni_, &dqr = scr3_ni_, &dqm = scr4_ni_;

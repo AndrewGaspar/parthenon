@@ -43,9 +43,8 @@ int IOWrapper::Open(const char *fname, FileMode rw) {
   if (rw == FileMode::read) {
 #ifdef MPI_PARALLEL
     // NOLINTNEXTLINE
-    if (MPI_File_open(
-            comm_, const_cast<char *>(fname), MPI_MODE_RDONLY, MPI_INFO_NULL, &fh_) !=
-        MPI_SUCCESS) // use const_cast to convince the compiler.
+    if (MPI_File_open(comm_, const_cast<char *>(fname), MPI_MODE_RDONLY, MPI_INFO_NULL,
+                      &fh_) != MPI_SUCCESS) // use const_cast to convince the compiler.
 #else
     if ((fh_ = std::fopen(fname, "rb")) == nullptr) // NOLINT
 #endif
@@ -60,11 +59,8 @@ int IOWrapper::Open(const char *fname, FileMode rw) {
 #ifdef MPI_PARALLEL
     MPI_File_delete(const_cast<char *>(fname), MPI_INFO_NULL); // truncation
     // NOLINTNEXTLINE
-    if (MPI_File_open(comm_,
-                      const_cast<char *>(fname),
-                      MPI_MODE_WRONLY | MPI_MODE_CREATE,
-                      MPI_INFO_NULL,
-                      &fh_) != MPI_SUCCESS)
+    if (MPI_File_open(comm_, const_cast<char *>(fname), MPI_MODE_WRONLY | MPI_MODE_CREATE,
+                      MPI_INFO_NULL, &fh_) != MPI_SUCCESS)
 #else
     if ((fh_ = std::fopen(fname, "wb")) == nullptr) // NOLINT
 #endif
@@ -119,9 +115,7 @@ std::size_t IOWrapper::Read_all(void *buf, IOWrapperSizeT size, IOWrapperSizeT c
 //                             IOWrapperSizeT count, IOWrapperSizeT offset)
 //  \brief wrapper for {MPI_File_read_at_all} versus {std::fseek+std::fread}
 
-std::size_t IOWrapper::Read_at_all(void *buf,
-                                   IOWrapperSizeT size,
-                                   IOWrapperSizeT count,
+std::size_t IOWrapper::Read_at_all(void *buf, IOWrapperSizeT size, IOWrapperSizeT count,
                                    IOWrapperSizeT offset) {
 #ifdef MPI_PARALLEL
   MPI_Status status;
@@ -160,16 +154,13 @@ std::size_t IOWrapper::Write(const void *buf, IOWrapperSizeT size, IOWrapperSize
 //                                  IOWrapperSizeT cnt, IOWrapperSizeT offset)
 //  \brief wrapper for {MPI_File_write_at_all} versus {std::fseek+std::fwrite}.
 
-std::size_t IOWrapper::Write_at_all(const void *buf,
-                                    IOWrapperSizeT size,
-                                    IOWrapperSizeT cnt,
-                                    IOWrapperSizeT offset) {
+std::size_t IOWrapper::Write_at_all(const void *buf, IOWrapperSizeT size,
+                                    IOWrapperSizeT cnt, IOWrapperSizeT offset) {
 #ifdef MPI_PARALLEL
   MPI_Status status;
   int nwrite;
-  if (MPI_File_write_at_all(
-          fh_, offset, const_cast<void *>(buf), cnt * size, MPI_BYTE, &status) !=
-      MPI_SUCCESS)
+  if (MPI_File_write_at_all(fh_, offset, const_cast<void *>(buf), cnt * size, MPI_BYTE,
+                            &status) != MPI_SUCCESS)
     return -1;
   if (MPI_Get_count(&status, MPI_BYTE, &nwrite) == MPI_UNDEFINED) return -1;
   return nwrite / size;

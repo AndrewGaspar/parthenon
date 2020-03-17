@@ -58,119 +58,78 @@ class Coordinates {
 
   // functions...
   // ...to compute length of edges
-  virtual void Edge1Length(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &len);
-  virtual void Edge2Length(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &len);
-  virtual void Edge3Length(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &len);
+  virtual void Edge1Length(const int k, const int j, const int il, const int iu,
+                           AthenaArray<Real> &len);
+  virtual void Edge2Length(const int k, const int j, const int il, const int iu,
+                           AthenaArray<Real> &len);
+  virtual void Edge3Length(const int k, const int j, const int il, const int iu,
+                           AthenaArray<Real> &len);
   virtual Real GetEdge1Length(const int k, const int j, const int i);
   virtual Real GetEdge2Length(const int k, const int j, const int i);
   virtual Real GetEdge3Length(const int k, const int j, const int i);
   // ...to compute length connecting cell centers (for non-ideal MHD)
-  virtual void VolCenter1Length(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &len);
-  virtual void VolCenter2Length(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &len);
-  virtual void VolCenter3Length(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &len);
+  virtual void VolCenter1Length(const int k, const int j, const int il, const int iu,
+                                AthenaArray<Real> &len);
+  virtual void VolCenter2Length(const int k, const int j, const int il, const int iu,
+                                AthenaArray<Real> &len);
+  virtual void VolCenter3Length(const int k, const int j, const int il, const int iu,
+                                AthenaArray<Real> &len);
   // ...to compute physical width at cell center
-  virtual void CenterWidth1(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &dx1);
-  virtual void CenterWidth2(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &dx2);
-  virtual void CenterWidth3(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &dx3);
+  virtual void CenterWidth1(const int k, const int j, const int il, const int iu,
+                            AthenaArray<Real> &dx1);
+  virtual void CenterWidth2(const int k, const int j, const int il, const int iu,
+                            AthenaArray<Real> &dx2);
+  virtual void CenterWidth3(const int k, const int j, const int il, const int iu,
+                            AthenaArray<Real> &dx3);
 
   // ...to compute area of faces
-  virtual void Face1Area(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &area);
-  virtual void Face2Area(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &area);
-  virtual void Face3Area(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &area);
+  virtual void Face1Area(const int k, const int j, const int il, const int iu,
+                         AthenaArray<Real> &area);
+  virtual void Face2Area(const int k, const int j, const int il, const int iu,
+                         AthenaArray<Real> &area);
+  virtual void Face3Area(const int k, const int j, const int il, const int iu,
+                         AthenaArray<Real> &area);
   virtual Real GetFace1Area(const int k, const int j, const int i);
   virtual Real GetFace2Area(const int k, const int j, const int i);
   virtual Real GetFace3Area(const int k, const int j, const int i);
   // ...to compute area of faces joined by cell centers (for non-ideal MHD)
-  virtual void VolCenterFace1Area(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &area);
-  virtual void VolCenterFace2Area(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &area);
-  virtual void VolCenterFace3Area(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &area);
+  virtual void VolCenterFace1Area(const int k, const int j, const int il, const int iu,
+                                  AthenaArray<Real> &area);
+  virtual void VolCenterFace2Area(const int k, const int j, const int il, const int iu,
+                                  AthenaArray<Real> &area);
+  virtual void VolCenterFace3Area(const int k, const int j, const int il, const int iu,
+                                  AthenaArray<Real> &area);
 
   // ...to compute Laplacian of quantities in the coord system and orthogonal subspaces
-  virtual void Laplacian(const AthenaArray<Real> &s,
-                         AthenaArray<Real> &delta_s,
-                         const int il,
-                         const int iu,
-                         const int jl,
-                         const int ju,
-                         const int kl,
-                         const int ku,
-                         const int nl,
-                         const int nu);
-  virtual void LaplacianX1(const AthenaArray<Real> &s,
-                           AthenaArray<Real> &delta_s,
-                           const int n,
-                           const int k,
-                           const int j,
-                           const int il,
+  virtual void Laplacian(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                         const int il, const int iu, const int jl, const int ju,
+                         const int kl, const int ku, const int nl, const int nu);
+  virtual void LaplacianX1(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                           const int n, const int k, const int j, const int il,
                            const int iu);
-  virtual void LaplacianX1All(const AthenaArray<Real> &s,
-                              AthenaArray<Real> &delta_s,
-                              const int nl,
-                              const int nu,
-                              const int kl,
-                              const int ku,
-                              const int jl,
-                              const int ju,
-                              const int il,
-                              const int iu);
-  virtual void LaplacianX2(const AthenaArray<Real> &s,
-                           AthenaArray<Real> &delta_s,
-                           const int n,
-                           const int k,
-                           const int j,
-                           const int il,
+  virtual void LaplacianX1All(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                              const int nl, const int nu, const int kl, const int ku,
+                              const int jl, const int ju, const int il, const int iu);
+  virtual void LaplacianX2(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                           const int n, const int k, const int j, const int il,
                            const int iu);
-  virtual void LaplacianX2All(const AthenaArray<Real> &s,
-                              AthenaArray<Real> &delta_s,
-                              const int nl,
-                              const int nu,
-                              const int kl,
-                              const int ku,
-                              const int jl,
-                              const int ju,
-                              const int il,
-                              const int iu);
-  virtual void LaplacianX3(const AthenaArray<Real> &s,
-                           AthenaArray<Real> &delta_s,
-                           const int n,
-                           const int k,
-                           const int j,
-                           const int il,
+  virtual void LaplacianX2All(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                              const int nl, const int nu, const int kl, const int ku,
+                              const int jl, const int ju, const int il, const int iu);
+  virtual void LaplacianX3(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                           const int n, const int k, const int j, const int il,
                            const int iu);
-  virtual void LaplacianX3All(const AthenaArray<Real> &s,
-                              AthenaArray<Real> &delta_s,
-                              const int nl,
-                              const int nu,
-                              const int kl,
-                              const int ku,
-                              const int jl,
-                              const int ju,
-                              const int il,
-                              const int iu);
+  virtual void LaplacianX3All(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                              const int nl, const int nu, const int kl, const int ku,
+                              const int jl, const int ju, const int il, const int iu);
 
   // ...to compute volume of cells
-  virtual void CellVolume(
-      const int k, const int j, const int il, const int iu, AthenaArray<Real> &vol);
+  virtual void CellVolume(const int k, const int j, const int il, const int iu,
+                          AthenaArray<Real> &vol);
   virtual Real GetCellVolume(const int k, const int j, const int i);
 
   // ...to compute geometrical source terms
-  virtual void AddCoordTermsDivergence(const Real dt,
-                                       const AthenaArray<Real> *flux,
+  virtual void AddCoordTermsDivergence(const Real dt, const AthenaArray<Real> *flux,
                                        const AthenaArray<Real> &prim,
                                        const AthenaArray<Real> &bcc,
                                        AthenaArray<Real> &u);
@@ -181,118 +140,51 @@ class Coordinates {
   Real GetSpin() const { return bh_spin_; }
 
   // ...to compute metric
-  void Metric(Real x1,
-              Real x2,
-              Real x3,
-              ParameterInput *pin,
-              AthenaArray<Real> &g,
-              AthenaArray<Real> &g_inv,
-              AthenaArray<Real> &dg_dx1,
-              AthenaArray<Real> &dg_dx2,
-              AthenaArray<Real> &dg_dx3);
-  virtual void CellMetric(const int k,
-                          const int j,
-                          const int il,
-                          const int iu,
-                          AthenaArray<Real> &g,
-                          AthenaArray<Real> &gi) {}
-  virtual void Face1Metric(const int k,
-                           const int j,
-                           const int il,
-                           const int iu,
-                           AthenaArray<Real> &g,
-                           AthenaArray<Real> &g_inv) {}
-  virtual void Face2Metric(const int k,
-                           const int j,
-                           const int il,
-                           const int iu,
-                           AthenaArray<Real> &g,
-                           AthenaArray<Real> &g_inv) {}
-  virtual void Face3Metric(const int k,
-                           const int j,
-                           const int il,
-                           const int iu,
-                           AthenaArray<Real> &g,
-                           AthenaArray<Real> &g_inv) {}
+  void Metric(Real x1, Real x2, Real x3, ParameterInput *pin, AthenaArray<Real> &g,
+              AthenaArray<Real> &g_inv, AthenaArray<Real> &dg_dx1,
+              AthenaArray<Real> &dg_dx2, AthenaArray<Real> &dg_dx3);
+  virtual void CellMetric(const int k, const int j, const int il, const int iu,
+                          AthenaArray<Real> &g, AthenaArray<Real> &gi) {}
+  virtual void Face1Metric(const int k, const int j, const int il, const int iu,
+                           AthenaArray<Real> &g, AthenaArray<Real> &g_inv) {}
+  virtual void Face2Metric(const int k, const int j, const int il, const int iu,
+                           AthenaArray<Real> &g, AthenaArray<Real> &g_inv) {}
+  virtual void Face3Metric(const int k, const int j, const int il, const int iu,
+                           AthenaArray<Real> &g, AthenaArray<Real> &g_inv) {}
 
   // ...to transform primitives to locally flat space
-  virtual void PrimToLocal1(const int k,
-                            const int j,
-                            const int il,
-                            const int iu,
+  virtual void PrimToLocal1(const int k, const int j, const int il, const int iu,
                             const AthenaArray<Real> &b1_vals,
-                            AthenaArray<Real> &prim_left,
-                            AthenaArray<Real> &prim_right,
+                            AthenaArray<Real> &prim_left, AthenaArray<Real> &prim_right,
                             AthenaArray<Real> &bx) {}
-  virtual void PrimToLocal2(const int k,
-                            const int j,
-                            const int il,
-                            const int iu,
+  virtual void PrimToLocal2(const int k, const int j, const int il, const int iu,
                             const AthenaArray<Real> &b2_vals,
-                            AthenaArray<Real> &prim_left,
-                            AthenaArray<Real> &prim_right,
+                            AthenaArray<Real> &prim_left, AthenaArray<Real> &prim_right,
                             AthenaArray<Real> &bx) {}
-  virtual void PrimToLocal3(const int k,
-                            const int j,
-                            const int il,
-                            const int iu,
+  virtual void PrimToLocal3(const int k, const int j, const int il, const int iu,
                             const AthenaArray<Real> &b3_vals,
-                            AthenaArray<Real> &prim_left,
-                            AthenaArray<Real> &prim_right,
+                            AthenaArray<Real> &prim_left, AthenaArray<Real> &prim_right,
                             AthenaArray<Real> &bx) {}
 
   // ...to transform fluxes in locally flat space to global frame
-  virtual void FluxToGlobal1(const int k,
-                             const int j,
-                             const int il,
-                             const int iu,
-                             const AthenaArray<Real> &cons,
-                             const AthenaArray<Real> &bbx,
-                             AthenaArray<Real> &flux,
-                             AthenaArray<Real> &ey,
+  virtual void FluxToGlobal1(const int k, const int j, const int il, const int iu,
+                             const AthenaArray<Real> &cons, const AthenaArray<Real> &bbx,
+                             AthenaArray<Real> &flux, AthenaArray<Real> &ey,
                              AthenaArray<Real> &ez) {}
-  virtual void FluxToGlobal2(const int k,
-                             const int j,
-                             const int il,
-                             const int iu,
-                             const AthenaArray<Real> &cons,
-                             const AthenaArray<Real> &bbx,
-                             AthenaArray<Real> &flux,
-                             AthenaArray<Real> &ey,
+  virtual void FluxToGlobal2(const int k, const int j, const int il, const int iu,
+                             const AthenaArray<Real> &cons, const AthenaArray<Real> &bbx,
+                             AthenaArray<Real> &flux, AthenaArray<Real> &ey,
                              AthenaArray<Real> &ez) {}
-  virtual void FluxToGlobal3(const int k,
-                             const int j,
-                             const int il,
-                             const int iu,
-                             const AthenaArray<Real> &cons,
-                             const AthenaArray<Real> &bbx,
-                             AthenaArray<Real> &flux,
-                             AthenaArray<Real> &ey,
+  virtual void FluxToGlobal3(const int k, const int j, const int il, const int iu,
+                             const AthenaArray<Real> &cons, const AthenaArray<Real> &bbx,
+                             AthenaArray<Real> &flux, AthenaArray<Real> &ey,
                              AthenaArray<Real> &ez) {}
 
   // ...to raise (lower) covariant (contravariant) components of a vector
-  virtual void RaiseVectorCell(Real a_0,
-                               Real a_1,
-                               Real a_2,
-                               Real a_3,
-                               int k,
-                               int j,
-                               int i,
-                               Real *pa0,
-                               Real *pa1,
-                               Real *pa2,
-                               Real *pa3) {}
-  virtual void LowerVectorCell(Real a0,
-                               Real a1,
-                               Real a2,
-                               Real a3,
-                               int k,
-                               int j,
-                               int i,
-                               Real *pa_0,
-                               Real *pa_1,
-                               Real *pa_2,
-                               Real *pa_3) {}
+  virtual void RaiseVectorCell(Real a_0, Real a_1, Real a_2, Real a_3, int k, int j,
+                               int i, Real *pa0, Real *pa1, Real *pa2, Real *pa3) {}
+  virtual void LowerVectorCell(Real a0, Real a1, Real a2, Real a3, int k, int j, int i,
+                               Real *pa_0, Real *pa_1, Real *pa_2, Real *pa_3) {}
 
  protected:
   bool coarse_flag; // true if this coordinate object is parent (coarse) mesh in AMR

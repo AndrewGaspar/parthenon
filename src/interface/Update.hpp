@@ -20,9 +20,7 @@ namespace parthenon {
 namespace Update {
 
 void FluxDivergence(Container<Real> &in, Container<Real> &dudt_cont);
-void UpdateContainer(Container<Real> &in,
-                     Container<Real> &dudt_cont,
-                     const Real dt,
+void UpdateContainer(Container<Real> &in, Container<Real> &dudt_cont, const Real dt,
                      Container<Real> &out);
 void AverageContainers(Container<Real> &c1, Container<Real> &c2, const Real wgt1);
 

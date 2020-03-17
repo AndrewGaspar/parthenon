@@ -74,10 +74,7 @@ int CheckSignalFlags() {
 #ifdef MPI_PARALLEL
   MPI_Allreduce(MPI_IN_PLACE,
                 const_cast<void *>(reinterpret_cast<volatile void *>(signalflag)),
-                nsignal,
-                MPI_INT,
-                MPI_MAX,
-                MPI_COMM_WORLD);
+                nsignal, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
 #endif
   for (int n = 0; n < nsignal; n++)
     ret += signalflag[n];

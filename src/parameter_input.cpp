@@ -268,11 +268,8 @@ InputBlock *ParameterInput::FindOrAddBlock(std::string name) {
 //           std::string& name, std::string& value, std::string& comment)
 //  \brief parse "name = value # comment" format, return name/value/comment strings.
 
-void ParameterInput::ParseLine(InputBlock *pib,
-                               std::string line,
-                               std::string &name,
-                               std::string &value,
-                               std::string &comment) {
+void ParameterInput::ParseLine(InputBlock *pib, std::string line, std::string &name,
+                               std::string &value, std::string &comment) {
   std::size_t first_char, last_char, equal_char, hash_char, len;
 
   first_char = line.find_first_not_of(" "); // find first non-white space
@@ -311,9 +308,7 @@ void ParameterInput::ParseLine(InputBlock *pib,
 //  If a parameter with the same name already exists, the value and comment strings
 //  are replaced (overwritten).
 
-void ParameterInput::AddParameter(InputBlock *pb,
-                                  std::string name,
-                                  std::string value,
+void ParameterInput::AddParameter(InputBlock *pb, std::string name, std::string value,
                                   std::string comment) {
   InputLine *pl, *plast;
   // Search singly linked list of InputLines to see if name exists.  This also sets
@@ -652,8 +647,7 @@ Real ParameterInput::GetOrAddReal(std::string block, std::string name, Real def_
 //  \brief returns boolean value stored in block/name if it exists, or creates and sets
 //  value to def_value if it does not exist
 
-bool ParameterInput::GetOrAddBoolean(std::string block,
-                                     std::string name,
+bool ParameterInput::GetOrAddBoolean(std::string block, std::string name,
                                      bool def_value) {
   InputBlock *pb;
   InputLine *pl;
@@ -688,8 +682,7 @@ bool ParameterInput::GetOrAddBoolean(std::string block,
 //  \brief returns string value stored in block/name if it exists, or creates and sets
 //  value to def_value if it does not exist
 
-std::string ParameterInput::GetOrAddString(std::string block,
-                                           std::string name,
+std::string ParameterInput::GetOrAddString(std::string block, std::string name,
                                            std::string def_value) {
   InputBlock *pb;
   InputLine *pl;
@@ -763,8 +756,8 @@ bool ParameterInput::SetBoolean(std::string block, std::string name, bool value)
 //                                            std::string  value)
 //  \brief updates a string parameter; creates it if it does not exist
 
-std::string
-ParameterInput::SetString(std::string block, std::string name, std::string value) {
+std::string ParameterInput::SetString(std::string block, std::string name,
+                                      std::string value) {
   InputBlock *pb;
 
   Lock();

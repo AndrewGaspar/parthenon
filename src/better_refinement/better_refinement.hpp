@@ -24,9 +24,7 @@ using RefineFunction = int(Variable<Real> &, const Real, const Real);
 
 struct AMRCriteria {
  public:
-  AMRCriteria(std::string field,
-              RefineFunction *rfunc,
-              const Real refine_criteria,
+  AMRCriteria(std::string field, RefineFunction *rfunc, const Real refine_criteria,
               const Real derefine_criteria)
       : _field(field),
         _refine_func(rfunc),
@@ -39,8 +37,7 @@ struct AMRCriteria {
 
 namespace BetterRefinement {
 int CheckRefinement(Container<Real> &rc);
-int FirstDerivative(Variable<Real> &q,
-                    const Real refine_criteria,
+int FirstDerivative(Variable<Real> &q, const Real refine_criteria,
                     const Real derefine_criteria);
 }; // namespace BetterRefinement
 

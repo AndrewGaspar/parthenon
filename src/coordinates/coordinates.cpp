@@ -328,8 +328,8 @@ Coordinates::Coordinates(MeshBlock *pmb, ParameterInput *pin, bool flag)
 // EdgeXLength functions: compute physical length at cell edge-X as vector
 // Edge1(i,j,k) located at (i,j-1/2,k-1/2), i.e. (x1v(i), x2f(j), x3f(k))
 
-void Coordinates::Edge1Length(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &len) {
+void Coordinates::Edge1Length(const int k, const int j, const int il, const int iu,
+                              AthenaArray<Real> &len) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     len(i) = dx1f(i);
@@ -339,8 +339,8 @@ void Coordinates::Edge1Length(
 
 // Edge2(i,j,k) located at (i-1/2,j,k-1/2), i.e. (x1f(i), x2v(j), x3f(k))
 
-void Coordinates::Edge2Length(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &len) {
+void Coordinates::Edge2Length(const int k, const int j, const int il, const int iu,
+                              AthenaArray<Real> &len) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     len(i) = dx2f(j);
@@ -350,8 +350,8 @@ void Coordinates::Edge2Length(
 
 // Edge3(i,j,k) located at (i-1/2,j-1/2,k), i.e. (x1f(i), x2f(j), x3v(k))
 
-void Coordinates::Edge3Length(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &len) {
+void Coordinates::Edge3Length(const int k, const int j, const int il, const int iu,
+                              AthenaArray<Real> &len) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     len(i) = dx3f(k);
@@ -377,24 +377,24 @@ Real Coordinates::GetEdge3Length(const int k, const int j, const int i) {
 //----------------------------------------------------------------------------------------
 // VolCenterXLength functions: compute physical length connecting cell centers as vector
 // VolCenter1(i,j,k) located at (i+1/2,j,k), i.e. (x1f(i+1), x2v(j), x3v(k))
-void Coordinates::VolCenter1Length(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &len) {
+void Coordinates::VolCenter1Length(const int k, const int j, const int il, const int iu,
+                                   AthenaArray<Real> &len) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     len(i) = dx1v(i);
   }
   return;
 }
-void Coordinates::VolCenter2Length(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &len) {
+void Coordinates::VolCenter2Length(const int k, const int j, const int il, const int iu,
+                                   AthenaArray<Real> &len) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     len(i) = dx2v(j);
   }
   return;
 }
-void Coordinates::VolCenter3Length(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &len) {
+void Coordinates::VolCenter3Length(const int k, const int j, const int il, const int iu,
+                                   AthenaArray<Real> &len) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     len(i) = dx3v(k);
@@ -405,8 +405,8 @@ void Coordinates::VolCenter3Length(
 //----------------------------------------------------------------------------------------
 // CenterWidthX functions: return physical width in X-dir at (i,j,k) cell-center
 
-void Coordinates::CenterWidth1(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &dx1) {
+void Coordinates::CenterWidth1(const int k, const int j, const int il, const int iu,
+                               AthenaArray<Real> &dx1) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     dx1(i) = dx1f(i);
@@ -414,8 +414,8 @@ void Coordinates::CenterWidth1(
   return;
 }
 
-void Coordinates::CenterWidth2(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &dx2) {
+void Coordinates::CenterWidth2(const int k, const int j, const int il, const int iu,
+                               AthenaArray<Real> &dx2) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     dx2(i) = dx2f(j);
@@ -423,8 +423,8 @@ void Coordinates::CenterWidth2(
   return;
 }
 
-void Coordinates::CenterWidth3(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &dx3) {
+void Coordinates::CenterWidth3(const int k, const int j, const int il, const int iu,
+                               AthenaArray<Real> &dx3) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     dx3(i) = dx3f(k);
@@ -435,8 +435,8 @@ void Coordinates::CenterWidth3(
 //----------------------------------------------------------------------------------------
 // FaceXArea functions: compute area of face with normal in X-dir as vector
 
-void Coordinates::Face1Area(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &area) {
+void Coordinates::Face1Area(const int k, const int j, const int il, const int iu,
+                            AthenaArray<Real> &area) {
 #pragma nounroll
   for (int i = il; i <= iu; ++i) {
     // area1 = dy dz
@@ -446,8 +446,8 @@ void Coordinates::Face1Area(
   return;
 }
 
-void Coordinates::Face2Area(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &area) {
+void Coordinates::Face2Area(const int k, const int j, const int il, const int iu,
+                            AthenaArray<Real> &area) {
 #pragma nounroll
   for (int i = il; i <= iu; ++i) {
     // area2 = dx dz
@@ -457,8 +457,8 @@ void Coordinates::Face2Area(
   return;
 }
 
-void Coordinates::Face3Area(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &area) {
+void Coordinates::Face3Area(const int k, const int j, const int il, const int iu,
+                            AthenaArray<Real> &area) {
 #pragma nounroll
   for (int i = il; i <= iu; ++i) {
     // area3 = dx dy
@@ -487,8 +487,8 @@ Real Coordinates::GetFace3Area(const int k, const int j, const int i) {
 // VolCenterFaceXArea functions: compute area of face with normal in X-dir as vector
 // where the faces are joined by cell centers (for non-ideal MHD)
 
-void Coordinates::VolCenterFace1Area(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &area) {
+void Coordinates::VolCenterFace1Area(const int k, const int j, const int il, const int iu,
+                                     AthenaArray<Real> &area) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     Real &area_i = area(i);
@@ -497,8 +497,8 @@ void Coordinates::VolCenterFace1Area(
   return;
 }
 
-void Coordinates::VolCenterFace2Area(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &area) {
+void Coordinates::VolCenterFace2Area(const int k, const int j, const int il, const int iu,
+                                     AthenaArray<Real> &area) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     Real &area_i = area(i);
@@ -507,8 +507,8 @@ void Coordinates::VolCenterFace2Area(
   return;
 }
 
-void Coordinates::VolCenterFace3Area(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &area) {
+void Coordinates::VolCenterFace3Area(const int k, const int j, const int il, const int iu,
+                                     AthenaArray<Real> &area) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     Real &area_i = area(i);
@@ -520,8 +520,8 @@ void Coordinates::VolCenterFace3Area(
 //----------------------------------------------------------------------------------------
 // Cell Volume function: compute volume of cell as vector
 
-void Coordinates::CellVolume(
-    const int k, const int j, const int il, const int iu, AthenaArray<Real> &vol) {
+void Coordinates::CellVolume(const int k, const int j, const int il, const int iu,
+                             AthenaArray<Real> &vol) {
 #pragma omp simd
   for (int i = il; i <= iu; ++i) {
     // volume = dx dy dz
@@ -542,16 +542,9 @@ Real Coordinates::GetCellVolume(const int k, const int j, const int i) {
 // Laplacian: calculate total Laplacian of 4D scalar array s() to second order accuracy
 // may need to replace dx*f with dx*v for nonuniform coordinates for some applications
 
-void Coordinates::Laplacian(const AthenaArray<Real> &s,
-                            AthenaArray<Real> &delta_s,
-                            const int il,
-                            const int iu,
-                            const int jl,
-                            const int ju,
-                            const int kl,
-                            const int ku,
-                            const int nl,
-                            const int nu) {
+void Coordinates::Laplacian(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                            const int il, const int iu, const int jl, const int ju,
+                            const int kl, const int ku, const int nl, const int nu) {
   for (int n = nl; n <= nu; ++n) {
     for (int k = kl; k <= ku; ++k) {
       for (int j = jl; j <= ju; ++j) {
@@ -586,12 +579,8 @@ void Coordinates::Laplacian(const AthenaArray<Real> &s,
 //-------------------------------------------------------------------------------------
 // LaplacianX* functions: calculate Laplacian in subspaces orthogonal to X-dir
 
-void Coordinates::LaplacianX1(const AthenaArray<Real> &s,
-                              AthenaArray<Real> &delta_s,
-                              const int n,
-                              const int k,
-                              const int j,
-                              const int il,
+void Coordinates::LaplacianX1(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                              const int n, const int k, const int j, const int il,
                               const int iu) {
   if (pmy_block->block_size.nx3 > 1) {
 #pragma omp simd
@@ -612,16 +601,9 @@ void Coordinates::LaplacianX1(const AthenaArray<Real> &s,
   }
 }
 
-void Coordinates::LaplacianX1All(const AthenaArray<Real> &s,
-                                 AthenaArray<Real> &delta_s,
-                                 const int nl,
-                                 const int nu,
-                                 const int kl,
-                                 const int ku,
-                                 const int jl,
-                                 const int ju,
-                                 const int il,
-                                 const int iu) {
+void Coordinates::LaplacianX1All(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                                 const int nl, const int nu, const int kl, const int ku,
+                                 const int jl, const int ju, const int il, const int iu) {
   if (pmy_block->block_size.nx3 > 1) {
     for (int n = nl; n <= nu; ++n) {
       for (int k = kl; k <= ku; ++k) {
@@ -656,12 +638,8 @@ void Coordinates::LaplacianX1All(const AthenaArray<Real> &s,
   return;
 }
 
-void Coordinates::LaplacianX2(const AthenaArray<Real> &s,
-                              AthenaArray<Real> &delta_s,
-                              const int n,
-                              const int k,
-                              const int j,
-                              const int il,
+void Coordinates::LaplacianX2(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                              const int n, const int k, const int j, const int il,
                               const int iu) {
   if (pmy_block->block_size.nx3 > 1) {
 #pragma omp simd
@@ -680,16 +658,9 @@ void Coordinates::LaplacianX2(const AthenaArray<Real> &s,
   }
 }
 
-void Coordinates::LaplacianX2All(const AthenaArray<Real> &s,
-                                 AthenaArray<Real> &delta_s,
-                                 const int nl,
-                                 const int nu,
-                                 const int kl,
-                                 const int ku,
-                                 const int jl,
-                                 const int ju,
-                                 const int il,
-                                 const int iu) {
+void Coordinates::LaplacianX2All(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                                 const int nl, const int nu, const int kl, const int ku,
+                                 const int jl, const int ju, const int il, const int iu) {
   if (pmy_block->block_size.nx3 > 1) {
     for (int n = nl; n <= nu; ++n) {
       for (int k = kl; k <= ku; ++k) {
@@ -722,12 +693,8 @@ void Coordinates::LaplacianX2All(const AthenaArray<Real> &s,
   return;
 }
 
-void Coordinates::LaplacianX3(const AthenaArray<Real> &s,
-                              AthenaArray<Real> &delta_s,
-                              const int n,
-                              const int k,
-                              const int j,
-                              const int il,
+void Coordinates::LaplacianX3(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                              const int n, const int k, const int j, const int il,
                               const int iu) {
   if (pmy_block->block_size.nx2 > 1) {
 #pragma omp simd
@@ -747,16 +714,9 @@ void Coordinates::LaplacianX3(const AthenaArray<Real> &s,
   return;
 }
 
-void Coordinates::LaplacianX3All(const AthenaArray<Real> &s,
-                                 AthenaArray<Real> &delta_s,
-                                 const int nl,
-                                 const int nu,
-                                 const int kl,
-                                 const int ku,
-                                 const int jl,
-                                 const int ju,
-                                 const int il,
-                                 const int iu) {
+void Coordinates::LaplacianX3All(const AthenaArray<Real> &s, AthenaArray<Real> &delta_s,
+                                 const int nl, const int nu, const int kl, const int ku,
+                                 const int jl, const int ju, const int il, const int iu) {
   if (pmy_block->block_size.nx2 > 1) {
     for (int n = nl; n <= nu; ++n) {
       for (int k = kl; k <= ku; ++k) {
@@ -791,8 +751,7 @@ void Coordinates::LaplacianX3All(const AthenaArray<Real> &s,
 
 //----------------------------------------------------------------------------------------
 // Coordinate (Geometric) source term function
-void Coordinates::AddCoordTermsDivergence(const Real dt,
-                                          const AthenaArray<Real> *flux,
+void Coordinates::AddCoordTermsDivergence(const Real dt, const AthenaArray<Real> *flux,
                                           const AthenaArray<Real> &prim,
                                           const AthenaArray<Real> &bcc,
                                           AthenaArray<Real> &u) {
@@ -808,14 +767,9 @@ void Coordinates::AddCoordTermsDivergence(const Real dt,
 //   g,g_inv: arrays of metric covariant and contravariant components
 //   dg_dx1,dg_dx2,dg_dx3: arrays of spatial derivatives of covariant components
 
-void Coordinates::Metric(Real x1,
-                         Real x2,
-                         Real x3,
-                         ParameterInput *pin,
-                         AthenaArray<Real> &g,
-                         AthenaArray<Real> &g_inv,
-                         AthenaArray<Real> &dg_dx1,
-                         AthenaArray<Real> &dg_dx2,
+void Coordinates::Metric(Real x1, Real x2, Real x3, ParameterInput *pin,
+                         AthenaArray<Real> &g, AthenaArray<Real> &g_inv,
+                         AthenaArray<Real> &dg_dx1, AthenaArray<Real> &dg_dx2,
                          AthenaArray<Real> &dg_dx3) {
   pmy_block->pmy_mesh->UserMetric_(x1, x2, x3, pin, g, g_inv, dg_dx1, dg_dx2, dg_dx3);
   return;

@@ -42,8 +42,7 @@ void Container<T>::Add(const std::vector<std::string> labelArray,
 
 template <typename T>
 void Container<T>::Add(const std::vector<std::string> labelArray,
-                       const Metadata &metadata,
-                       const std::vector<int> dims) {
+                       const Metadata &metadata, const std::vector<int> dims) {
   for (auto label : labelArray) {
     Add(label, metadata, dims);
   }
@@ -57,8 +56,7 @@ void Container<T>::Add(const std::vector<std::string> labelArray,
 /// @param dims the size of each element
 /// @param metadata the metadata associated with the variable
 template <typename T>
-void Container<T>::Add(const std::string label,
-                       const Metadata &metadata,
+void Container<T>::Add(const std::string label, const Metadata &metadata,
                        const std::vector<int> dims) {
   std::array<int, 6> arrDims{1, 1, 1, 1, 1, 1};
   const int N = dims.size();
