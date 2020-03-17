@@ -56,46 +56,46 @@ BoundaryValues::BoundaryValues(MeshBlock *pmb,
                                BoundaryFlag *input_bcs,
                                ParameterInput *pin)
     : BoundaryBase(pmb->pmy_mesh, pmb->loc, pmb->block_size, input_bcs), pmy_block_(pmb) {
-    // Check BC functions for each of the 6 boundaries in turn ---------------------
-    for (int i = 0; i < 6; i++) {
-        switch (block_bcs[i]) {
-        case BoundaryFlag::reflect:
-        case BoundaryFlag::outflow:
-            apply_bndry_fn_[i] = true;
-            break;
-        default: // already initialized to false in class
-            break;
-        }
+  // Check BC functions for each of the 6 boundaries in turn ---------------------
+  for (int i = 0; i < 6; i++) {
+    switch (block_bcs[i]) {
+    case BoundaryFlag::reflect:
+    case BoundaryFlag::outflow:
+      apply_bndry_fn_[i] = true;
+      break;
+    default: // already initialized to false in class
+      break;
     }
-    // Inner x1
-    nface_ = 2;
-    nedge_ = 0;
-    CheckBoundaryFlag(block_bcs[BoundaryFace::inner_x1], CoordinateDirection::X1DIR);
-    CheckBoundaryFlag(block_bcs[BoundaryFace::outer_x1], CoordinateDirection::X1DIR);
+  }
+  // Inner x1
+  nface_ = 2;
+  nedge_ = 0;
+  CheckBoundaryFlag(block_bcs[BoundaryFace::inner_x1], CoordinateDirection::X1DIR);
+  CheckBoundaryFlag(block_bcs[BoundaryFace::outer_x1], CoordinateDirection::X1DIR);
 
-    if (pmb->block_size.nx2 > 1) {
-        nface_ = 4;
-        nedge_ = 4;
-        CheckBoundaryFlag(block_bcs[BoundaryFace::inner_x2], CoordinateDirection::X2DIR);
-        CheckBoundaryFlag(block_bcs[BoundaryFace::outer_x2], CoordinateDirection::X2DIR);
-    }
+  if (pmb->block_size.nx2 > 1) {
+    nface_ = 4;
+    nedge_ = 4;
+    CheckBoundaryFlag(block_bcs[BoundaryFace::inner_x2], CoordinateDirection::X2DIR);
+    CheckBoundaryFlag(block_bcs[BoundaryFace::outer_x2], CoordinateDirection::X2DIR);
+  }
 
-    if (pmb->block_size.nx3 > 1) {
-        nface_ = 6;
-        nedge_ = 12;
-        CheckBoundaryFlag(block_bcs[BoundaryFace::inner_x3], CoordinateDirection::X3DIR);
-        CheckBoundaryFlag(block_bcs[BoundaryFace::outer_x3], CoordinateDirection::X3DIR);
-    }
+  if (pmb->block_size.nx3 > 1) {
+    nface_ = 6;
+    nedge_ = 12;
+    CheckBoundaryFlag(block_bcs[BoundaryFace::inner_x3], CoordinateDirection::X3DIR);
+    CheckBoundaryFlag(block_bcs[BoundaryFace::outer_x3], CoordinateDirection::X3DIR);
+  }
 
-    // prevent reallocation of contiguous memory space for each of 4x possible calls to
-    // std::vector<BoundaryVariable *>.push_back() in Hydro, Field, PassiveScalars
-    bvars.reserve(3);
-    // TOOD(KGF): rename to "bvars_time_int"? What about a std::vector for bvars_sts?
-    bvars_main_int.reserve(2);
+  // prevent reallocation of contiguous memory space for each of 4x possible calls to
+  // std::vector<BoundaryVariable *>.push_back() in Hydro, Field, PassiveScalars
+  bvars.reserve(3);
+  // TOOD(KGF): rename to "bvars_time_int"? What about a std::vector for bvars_sts?
+  bvars_main_int.reserve(2);
 
-    // Matches initial value of Mesh::next_phys_id_
-    // reserve phys=0 for former TAG_AMR=8; now hard-coded in Mesh::CreateAMRMPITag()
-    bvars_next_phys_id_ = 1;
+  // Matches initial value of Mesh::next_phys_id_
+  // reserve phys=0 for former TAG_AMR=8; now hard-coded in Mesh::CreateAMRMPITag()
+  bvars_next_phys_id_ = 1;
 }
 
 // destructor
@@ -105,10 +105,10 @@ BoundaryValues::BoundaryValues(MeshBlock *pmb,
 //  \brief Setup persistent MPI requests to be reused throughout the entire simulation
 
 void BoundaryValues::SetupPersistentMPI() {
-    for (auto bvars_it = bvars_main_int.begin(); bvars_it != bvars_main_int.end();
-         ++bvars_it) {
-        (*bvars_it)->SetupPersistentMPI();
-    }
+  for (auto bvars_it = bvars_main_int.begin(); bvars_it != bvars_main_int.end();
+       ++bvars_it) {
+    (*bvars_it)->SetupPersistentMPI();
+  }
 }
 
 //----------------------------------------------------------------------------------------
@@ -116,10 +116,10 @@ void BoundaryValues::SetupPersistentMPI() {
 //  \brief initiate MPI_Irecv()
 
 void BoundaryValues::StartReceiving(BoundaryCommSubset phase) {
-    for (auto bvars_it = bvars_main_int.begin(); bvars_it != bvars_main_int.end();
-         ++bvars_it) {
-        (*bvars_it)->StartReceiving(phase);
-    }
+  for (auto bvars_it = bvars_main_int.begin(); bvars_it != bvars_main_int.end();
+       ++bvars_it) {
+    (*bvars_it)->StartReceiving(phase);
+  }
 }
 
 //----------------------------------------------------------------------------------------
@@ -127,14 +127,14 @@ void BoundaryValues::StartReceiving(BoundaryCommSubset phase) {
 //  \brief clean up the boundary flags after each loop
 
 void BoundaryValues::ClearBoundary(BoundaryCommSubset phase) {
-    // Note BoundaryCommSubset::mesh_init corresponds to initial exchange of conserved
-    // fluid variables and magentic fields, while BoundaryCommSubset::gr_amr corresponds
-    // to fluid primitive variables sent only in the case of GR with refinement
-    for (auto bvars_it = bvars_main_int.begin(); bvars_it != bvars_main_int.end();
-         ++bvars_it) {
-        (*bvars_it)->ClearBoundary(phase);
-    }
-    return;
+  // Note BoundaryCommSubset::mesh_init corresponds to initial exchange of conserved
+  // fluid variables and magentic fields, while BoundaryCommSubset::gr_amr corresponds
+  // to fluid primitive variables sent only in the case of GR with refinement
+  for (auto bvars_it = bvars_main_int.begin(); bvars_it != bvars_main_int.end();
+       ++bvars_it) {
+    (*bvars_it)->ClearBoundary(phase);
+  }
+  return;
 }
 
 // Public function, to be called in MeshBlock ctor for keeping MPI tag bitfields
@@ -143,13 +143,13 @@ void BoundaryValues::ClearBoundary(BoundaryCommSubset phase) {
 
 int BoundaryValues::AdvanceCounterPhysID(int num_phys) {
 #ifdef MPI_PARALLEL
-    // TODO(felker): add safety checks? input, output are positive, obey <= 31=
-    // MAX_NUM_PHYS
-    int start_id = bvars_next_phys_id_;
-    bvars_next_phys_id_ += num_phys;
-    return start_id;
+  // TODO(felker): add safety checks? input, output are positive, obey <= 31=
+  // MAX_NUM_PHYS
+  int start_id = bvars_next_phys_id_;
+  bvars_next_phys_id_ += num_phys;
+  return start_id;
 #else
-    return 0;
+  return 0;
 #endif
 }
 } // namespace parthenon

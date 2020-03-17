@@ -38,47 +38,47 @@ namespace parthenon {
 //  \brief wrapper for {MPI_File_open} versus {std::fopen} including error check
 
 int IOWrapper::Open(const char *fname, FileMode rw) {
-    std::stringstream msg;
+  std::stringstream msg;
 
-    if (rw == FileMode::read) {
+  if (rw == FileMode::read) {
 #ifdef MPI_PARALLEL
-        // NOLINTNEXTLINE
-        if (MPI_File_open(
-                comm_, const_cast<char *>(fname), MPI_MODE_RDONLY, MPI_INFO_NULL, &fh_) !=
-            MPI_SUCCESS) // use const_cast to convince the compiler.
+    // NOLINTNEXTLINE
+    if (MPI_File_open(
+            comm_, const_cast<char *>(fname), MPI_MODE_RDONLY, MPI_INFO_NULL, &fh_) !=
+        MPI_SUCCESS) // use const_cast to convince the compiler.
 #else
-        if ((fh_ = std::fopen(fname, "rb")) == nullptr) // NOLINT
+    if ((fh_ = std::fopen(fname, "rb")) == nullptr) // NOLINT
 #endif
-        {
-            msg << "### FATAL ERROR in function [IOWrapper:Open]" << std::endl
-                << "Input file '" << fname << "' could not be opened" << std::endl;
-            ATHENA_ERROR(msg);
-            return false;
-        }
-
-    } else if (rw == FileMode::write) {
-#ifdef MPI_PARALLEL
-        MPI_File_delete(const_cast<char *>(fname), MPI_INFO_NULL); // truncation
-        // NOLINTNEXTLINE
-        if (MPI_File_open(comm_,
-                          const_cast<char *>(fname),
-                          MPI_MODE_WRONLY | MPI_MODE_CREATE,
-                          MPI_INFO_NULL,
-                          &fh_) != MPI_SUCCESS)
-#else
-        if ((fh_ = std::fopen(fname, "wb")) == nullptr) // NOLINT
-#endif
-        {
-            msg << "### FATAL ERROR in function [IOWrapper:Open]" << std::endl
-                << "Output file '" << fname << "' could not be opened" << std::endl;
-            ATHENA_ERROR(msg);
-            return false;
-        }
-    } else {
-        return false;
+    {
+      msg << "### FATAL ERROR in function [IOWrapper:Open]" << std::endl
+          << "Input file '" << fname << "' could not be opened" << std::endl;
+      ATHENA_ERROR(msg);
+      return false;
     }
 
-    return true;
+  } else if (rw == FileMode::write) {
+#ifdef MPI_PARALLEL
+    MPI_File_delete(const_cast<char *>(fname), MPI_INFO_NULL); // truncation
+    // NOLINTNEXTLINE
+    if (MPI_File_open(comm_,
+                      const_cast<char *>(fname),
+                      MPI_MODE_WRONLY | MPI_MODE_CREATE,
+                      MPI_INFO_NULL,
+                      &fh_) != MPI_SUCCESS)
+#else
+    if ((fh_ = std::fopen(fname, "wb")) == nullptr) // NOLINT
+#endif
+    {
+      msg << "### FATAL ERROR in function [IOWrapper:Open]" << std::endl
+          << "Output file '" << fname << "' could not be opened" << std::endl;
+      ATHENA_ERROR(msg);
+      return false;
+    }
+  } else {
+    return false;
+  }
+
+  return true;
 }
 
 //----------------------------------------------------------------------------------------
@@ -87,14 +87,13 @@ int IOWrapper::Open(const char *fname, FileMode rw) {
 
 std::size_t IOWrapper::Read(void *buf, IOWrapperSizeT size, IOWrapperSizeT count) {
 #ifdef MPI_PARALLEL
-    MPI_Status status;
-    int nread;
-    if (MPI_File_read(fh_, buf, count * size, MPI_BYTE, &status) != MPI_SUCCESS)
-        return -1;
-    if (MPI_Get_count(&status, MPI_BYTE, &nread) == MPI_UNDEFINED) return -1;
-    return nread / size;
+  MPI_Status status;
+  int nread;
+  if (MPI_File_read(fh_, buf, count * size, MPI_BYTE, &status) != MPI_SUCCESS) return -1;
+  if (MPI_Get_count(&status, MPI_BYTE, &nread) == MPI_UNDEFINED) return -1;
+  return nread / size;
 #else
-    return std::fread(buf, size, count, fh_);
+  return std::fread(buf, size, count, fh_);
 #endif
 }
 
@@ -104,14 +103,14 @@ std::size_t IOWrapper::Read(void *buf, IOWrapperSizeT size, IOWrapperSizeT count
 
 std::size_t IOWrapper::Read_all(void *buf, IOWrapperSizeT size, IOWrapperSizeT count) {
 #ifdef MPI_PARALLEL
-    MPI_Status status;
-    int nread;
-    if (MPI_File_read_all(fh_, buf, count * size, MPI_BYTE, &status) != MPI_SUCCESS)
-        return -1;
-    if (MPI_Get_count(&status, MPI_BYTE, &nread) == MPI_UNDEFINED) return -1;
-    return nread / size;
+  MPI_Status status;
+  int nread;
+  if (MPI_File_read_all(fh_, buf, count * size, MPI_BYTE, &status) != MPI_SUCCESS)
+    return -1;
+  if (MPI_Get_count(&status, MPI_BYTE, &nread) == MPI_UNDEFINED) return -1;
+  return nread / size;
 #else
-    return std::fread(buf, size, count, fh_);
+  return std::fread(buf, size, count, fh_);
 #endif
 }
 
@@ -125,16 +124,16 @@ std::size_t IOWrapper::Read_at_all(void *buf,
                                    IOWrapperSizeT count,
                                    IOWrapperSizeT offset) {
 #ifdef MPI_PARALLEL
-    MPI_Status status;
-    int nread;
-    if (MPI_File_read_at_all(fh_, offset, buf, count * size, MPI_BYTE, &status) !=
-        MPI_SUCCESS)
-        return -1;
-    if (MPI_Get_count(&status, MPI_BYTE, &nread) == MPI_UNDEFINED) return -1;
-    return nread / size;
+  MPI_Status status;
+  int nread;
+  if (MPI_File_read_at_all(fh_, offset, buf, count * size, MPI_BYTE, &status) !=
+      MPI_SUCCESS)
+    return -1;
+  if (MPI_Get_count(&status, MPI_BYTE, &nread) == MPI_UNDEFINED) return -1;
+  return nread / size;
 #else
-    std::fseek(fh_, offset, SEEK_SET);
-    return std::fread(buf, size, count, fh_);
+  std::fseek(fh_, offset, SEEK_SET);
+  return std::fread(buf, size, count, fh_);
 #endif
 }
 
@@ -144,15 +143,15 @@ std::size_t IOWrapper::Read_at_all(void *buf,
 
 std::size_t IOWrapper::Write(const void *buf, IOWrapperSizeT size, IOWrapperSizeT cnt) {
 #ifdef MPI_PARALLEL
-    MPI_Status status;
-    int nwrite;
-    if (MPI_File_write(fh_, const_cast<void *>(buf), cnt * size, MPI_BYTE, &status) !=
-        MPI_SUCCESS)
-        return -1;
-    if (MPI_Get_count(&status, MPI_BYTE, &nwrite) == MPI_UNDEFINED) return -1;
-    return nwrite / size;
+  MPI_Status status;
+  int nwrite;
+  if (MPI_File_write(fh_, const_cast<void *>(buf), cnt * size, MPI_BYTE, &status) !=
+      MPI_SUCCESS)
+    return -1;
+  if (MPI_Get_count(&status, MPI_BYTE, &nwrite) == MPI_UNDEFINED) return -1;
+  return nwrite / size;
 #else
-    return std::fwrite(buf, size, cnt, fh_);
+  return std::fwrite(buf, size, cnt, fh_);
 #endif
 }
 
@@ -166,17 +165,17 @@ std::size_t IOWrapper::Write_at_all(const void *buf,
                                     IOWrapperSizeT cnt,
                                     IOWrapperSizeT offset) {
 #ifdef MPI_PARALLEL
-    MPI_Status status;
-    int nwrite;
-    if (MPI_File_write_at_all(
-            fh_, offset, const_cast<void *>(buf), cnt * size, MPI_BYTE, &status) !=
-        MPI_SUCCESS)
-        return -1;
-    if (MPI_Get_count(&status, MPI_BYTE, &nwrite) == MPI_UNDEFINED) return -1;
-    return nwrite / size;
+  MPI_Status status;
+  int nwrite;
+  if (MPI_File_write_at_all(
+          fh_, offset, const_cast<void *>(buf), cnt * size, MPI_BYTE, &status) !=
+      MPI_SUCCESS)
+    return -1;
+  if (MPI_Get_count(&status, MPI_BYTE, &nwrite) == MPI_UNDEFINED) return -1;
+  return nwrite / size;
 #else
-    std::fseek(fh_, offset, SEEK_SET);
-    return std::fwrite(buf, size, cnt, fh_);
+  std::fseek(fh_, offset, SEEK_SET);
+  return std::fwrite(buf, size, cnt, fh_);
 #endif
 }
 
@@ -186,9 +185,9 @@ std::size_t IOWrapper::Write_at_all(const void *buf,
 
 int IOWrapper::Close() {
 #ifdef MPI_PARALLEL
-    return MPI_File_close(&fh_);
+  return MPI_File_close(&fh_);
 #else
-    return std::fclose(fh_);
+  return std::fclose(fh_);
 #endif
 }
 
@@ -198,9 +197,9 @@ int IOWrapper::Close() {
 
 int IOWrapper::Seek(IOWrapperSizeT offset) {
 #ifdef MPI_PARALLEL
-    return MPI_File_seek(fh_, offset, MPI_SEEK_SET);
+  return MPI_File_seek(fh_, offset, MPI_SEEK_SET);
 #else
-    return std::fseek(fh_, offset, SEEK_SET);
+  return std::fseek(fh_, offset, SEEK_SET);
 #endif
 }
 
@@ -210,11 +209,11 @@ int IOWrapper::Seek(IOWrapperSizeT offset) {
 
 IOWrapperSizeT IOWrapper::GetPosition() {
 #ifdef MPI_PARALLEL
-    MPI_Offset position;
-    MPI_File_get_position(fh_, &position);
-    return position;
+  MPI_Offset position;
+  MPI_File_get_position(fh_, &position);
+  return position;
 #else
-    return ftell(fh_);
+  return ftell(fh_);
 #endif
 }
 

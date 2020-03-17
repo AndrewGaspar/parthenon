@@ -26,11 +26,11 @@ namespace parthenon {
 // TaskID constructor. Default id = 0.
 
 TaskID::TaskID(unsigned int id) {
-    if (id > 0) bitfld_.set(id - 1);
+  if (id > 0) bitfld_.set(id - 1);
 }
 
 void TaskID::Print(const std::string label) {
-    std::cout << label << " " << bitfld_.to_string() << std::endl;
+  std::cout << label << " " << bitfld_.to_string() << std::endl;
 }
 
 //----------------------------------------------------------------------------------------
@@ -46,13 +46,13 @@ void TaskID::clear() { bitfld_.reset(); }
 
 bool TaskID::IsUnfinished(const TaskID &id) const {
 #if DEBUG_TASKID
-    std::cout << "IsUnfinished " << bitfld_.to_string() << std::endl
-              << "             " << id.bitfld_.to_string() << std::endl
-              << "             " << (bitfld_ & id.bitfld_).to_string() << "             "
-              << (bitfld_ & id.bitfld_).none() << std::endl
-              << std::endl;
+  std::cout << "IsUnfinished " << bitfld_.to_string() << std::endl
+            << "             " << id.bitfld_.to_string() << std::endl
+            << "             " << (bitfld_ & id.bitfld_).to_string() << "             "
+            << (bitfld_ & id.bitfld_).none() << std::endl
+            << std::endl;
 #endif
-    return (bitfld_ & id.bitfld_).none();
+  return (bitfld_ & id.bitfld_).none();
 }
 
 //----------------------------------------------------------------------------------------
@@ -62,14 +62,14 @@ bool TaskID::IsUnfinished(const TaskID &id) const {
 
 bool TaskID::CheckDependencies(const TaskID &dep) const {
 #if DEBUG_TASKID
-    std::cout << "CheckDepende " << bitfld_.to_string() << std::endl
-              << "        dep  " << dep.bitfld_.to_string() << std::endl
-              << "       dep2  " << (bitfld_ & dep.bitfld_).to_string() << std::endl
-              << "     depAll  " << (bitfld_ & dep.bitfld_).all() << std::endl
-              << std::endl
-              << std::endl;
+  std::cout << "CheckDepende " << bitfld_.to_string() << std::endl
+            << "        dep  " << dep.bitfld_.to_string() << std::endl
+            << "       dep2  " << (bitfld_ & dep.bitfld_).to_string() << std::endl
+            << "     depAll  " << (bitfld_ & dep.bitfld_).all() << std::endl
+            << std::endl
+            << std::endl;
 #endif
-    return ((bitfld_ & dep.bitfld_) == dep.bitfld_);
+  return ((bitfld_ & dep.bitfld_) == dep.bitfld_);
 }
 
 //----------------------------------------------------------------------------------------
@@ -79,12 +79,12 @@ bool TaskID::CheckDependencies(const TaskID &dep) const {
 
 void TaskID::SetFinished(const TaskID &id) {
 #if DEBUG_TASKID
-    std::cout << "SetFinished  " << bitfld_.to_string() << std::endl
-              << "             " << id.bitfld_.to_string() << std::endl
-              << "             " << (bitfld_ ^ id.bitfld_).to_string() << std::endl
-              << std::endl;
+  std::cout << "SetFinished  " << bitfld_.to_string() << std::endl
+            << "             " << id.bitfld_.to_string() << std::endl
+            << "             " << (bitfld_ ^ id.bitfld_).to_string() << std::endl
+            << std::endl;
 #endif
-    bitfld_ ^= id.bitfld_;
+  bitfld_ ^= id.bitfld_;
 }
 
 //----------------------------------------------------------------------------------------
@@ -98,8 +98,8 @@ bool TaskID::operator==(const TaskID &rhs) const { return (bitfld_ == rhs.bitfld
 //  \brief overloading operator | for TaskID
 
 TaskID TaskID::operator|(const TaskID &rhs) const {
-    TaskID ret;
-    ret.bitfld_ = (bitfld_ | rhs.bitfld_);
-    return ret;
+  TaskID ret;
+  ret.bitfld_ = (bitfld_ | rhs.bitfld_);
+  return ret;
 }
 } // namespace parthenon

@@ -38,69 +38,69 @@ namespace parthenon {
 //  \brief
 
 class FaceCenteredBoundaryVariable : public BoundaryVariable {
-  public:
-    FaceCenteredBoundaryVariable(MeshBlock *pmb,
-                                 FaceField *var,
-                                 FaceField &coarse_buf,
-                                 EdgeField &var_flux);
-    ~FaceCenteredBoundaryVariable();
+ public:
+  FaceCenteredBoundaryVariable(MeshBlock *pmb,
+                               FaceField *var,
+                               FaceField &coarse_buf,
+                               EdgeField &var_flux);
+  ~FaceCenteredBoundaryVariable();
 
-    // may want to rebind var_fc to b, b1, b2, etc. Hence ptr member, not reference
-    FaceField *var_fc;
+  // may want to rebind var_fc to b, b1, b2, etc. Hence ptr member, not reference
+  FaceField *var_fc;
 
-    // unlke Hydro cons vs. prim, never need to rebind FaceCentered coarse_buf, so it can
-    // be a reference member: ---> must be initialized in initializer list; cannot pass
-    // nullptr
-    FaceField &coarse_buf;
+  // unlke Hydro cons vs. prim, never need to rebind FaceCentered coarse_buf, so it can
+  // be a reference member: ---> must be initialized in initializer list; cannot pass
+  // nullptr
+  FaceField &coarse_buf;
 
-    // maximum number of reserved unique "physics ID" component of MPI tag bitfield
-    // must correspond to the # of "int *phys_id_" private members, below. Convert to
-    // array?
-    static constexpr int max_phys_id = 5;
+  // maximum number of reserved unique "physics ID" component of MPI tag bitfield
+  // must correspond to the # of "int *phys_id_" private members, below. Convert to
+  // array?
+  static constexpr int max_phys_id = 5;
 
-    // BoundaryVariable:
-    int ComputeVariableBufferSize(const NeighborIndexes &ni, int cng) override;
-    int ComputeFluxCorrectionBufferSize(const NeighborIndexes &ni, int cng) override;
+  // BoundaryVariable:
+  int ComputeVariableBufferSize(const NeighborIndexes &ni, int cng) override;
+  int ComputeFluxCorrectionBufferSize(const NeighborIndexes &ni, int cng) override;
 
-    // BoundaryCommunication:
-    void SetupPersistentMPI() override;
-    void StartReceiving(BoundaryCommSubset phase) override;
-    void ClearBoundary(BoundaryCommSubset phase) override;
+  // BoundaryCommunication:
+  void SetupPersistentMPI() override;
+  void StartReceiving(BoundaryCommSubset phase) override;
+  void ClearBoundary(BoundaryCommSubset phase) override;
 
-    // BoundaryBuffer:
-    void SendFluxCorrection() override;
-    bool ReceiveFluxCorrection() override;
+  // BoundaryBuffer:
+  void SendFluxCorrection() override;
+  bool ReceiveFluxCorrection() override;
 
-  private:
-    bool edge_flag_[12];
-    int nedge_fine_[12];
+ private:
+  bool edge_flag_[12];
+  int nedge_fine_[12];
 
-    // variable switch used in 2x functions, ReceiveFluxCorrection() and StartReceiving():
-    // ready to recv flux from same level and apply correction? false= 2nd pass for fine
-    // lvl
-    bool recv_flx_same_lvl_;
+  // variable switch used in 2x functions, ReceiveFluxCorrection() and StartReceiving():
+  // ready to recv flux from same level and apply correction? false= 2nd pass for fine
+  // lvl
+  bool recv_flx_same_lvl_;
 
 #ifdef MPI_PARALLEL
-    int fc_phys_id_, fc_flx_phys_id_;
+  int fc_phys_id_, fc_flx_phys_id_;
 #endif
 
-    // BoundaryBuffer:
-    int LoadBoundaryBufferSameLevel(Real *buf, const NeighborBlock &nb) override;
-    void SetBoundarySameLevel(Real *buf, const NeighborBlock &nb) override;
-    int LoadBoundaryBufferToCoarser(Real *buf, const NeighborBlock &nb) override;
-    int LoadBoundaryBufferToFiner(Real *buf, const NeighborBlock &nb) override;
-    void SetBoundaryFromCoarser(Real *buf, const NeighborBlock &nb) override;
-    void SetBoundaryFromFiner(Real *buf, const NeighborBlock &nb) override;
+  // BoundaryBuffer:
+  int LoadBoundaryBufferSameLevel(Real *buf, const NeighborBlock &nb) override;
+  void SetBoundarySameLevel(Real *buf, const NeighborBlock &nb) override;
+  int LoadBoundaryBufferToCoarser(Real *buf, const NeighborBlock &nb) override;
+  int LoadBoundaryBufferToFiner(Real *buf, const NeighborBlock &nb) override;
+  void SetBoundaryFromCoarser(Real *buf, const NeighborBlock &nb) override;
+  void SetBoundaryFromFiner(Real *buf, const NeighborBlock &nb) override;
 
-    void CountFineEdges(); // called in SetupPersistentMPI()
+  void CountFineEdges(); // called in SetupPersistentMPI()
 
-    void RemapFlux(const int k,
-                   const int jinner,
-                   const int jouter,
-                   const int i,
-                   const Real eps,
-                   const AthenaArray<Real> &var,
-                   AthenaArray<Real> &flux);
+  void RemapFlux(const int k,
+                 const int jinner,
+                 const int jouter,
+                 const int i,
+                 const Real eps,
+                 const AthenaArray<Real> &var,
+                 AthenaArray<Real> &flux);
 };
 } // namespace parthenon
 #endif // BVALS_FC_BVALS_FC_HPP_

@@ -45,15 +45,15 @@ void PackData(AthenaArray<T> &src,
               int sk,
               int ek,
               int &offset) {
-    for (int n = sn; n <= en; ++n) {
-        for (int k = sk; k <= ek; k++) {
-            for (int j = sj; j <= ej; j++) {
+  for (int n = sn; n <= en; ++n) {
+    for (int k = sk; k <= ek; k++) {
+      for (int j = sj; j <= ej; j++) {
 #pragma omp simd
-                for (int i = si; i <= ei; i++)
-                    buf[offset++] = src(n, k, j, i);
-            }
-        }
+        for (int i = si; i <= ei; i++)
+          buf[offset++] = src(n, k, j, i);
+      }
     }
+  }
 }
 
 //----------------------------------------------------------------------------------------
@@ -71,14 +71,14 @@ void PackData(AthenaArray<T> &src,
               int sk,
               int ek,
               int &offset) {
-    for (int k = sk; k <= ek; k++) {
-        for (int j = sj; j <= ej; j++) {
+  for (int k = sk; k <= ek; k++) {
+    for (int j = sj; j <= ej; j++) {
 #pragma omp simd
-            for (int i = si; i <= ei; i++)
-                buf[offset++] = src(k, j, i);
-        }
+      for (int i = si; i <= ei; i++)
+        buf[offset++] = src(k, j, i);
     }
-    return;
+  }
+  return;
 }
 
 //----------------------------------------------------------------------------------------
@@ -98,16 +98,16 @@ void UnpackData(T *buf,
                 int sk,
                 int ek,
                 int &offset) {
-    for (int n = sn; n <= en; ++n) {
-        for (int k = sk; k <= ek; ++k) {
-            for (int j = sj; j <= ej; ++j) {
+  for (int n = sn; n <= en; ++n) {
+    for (int k = sk; k <= ek; ++k) {
+      for (int j = sj; j <= ej; ++j) {
 #pragma omp simd
-                for (int i = si; i <= ei; ++i)
-                    dst(n, k, j, i) = buf[offset++];
-            }
-        }
+        for (int i = si; i <= ei; ++i)
+          dst(n, k, j, i) = buf[offset++];
+      }
     }
-    return;
+  }
+  return;
 }
 
 //----------------------------------------------------------------------------------------
@@ -125,14 +125,14 @@ void UnpackData(T *buf,
                 int sk,
                 int ek,
                 int &offset) {
-    for (int k = sk; k <= ek; ++k) {
-        for (int j = sj; j <= ej; ++j) {
+  for (int k = sk; k <= ek; ++k) {
+    for (int j = sj; j <= ej; ++j) {
 #pragma omp simd
-            for (int i = si; i <= ei; ++i)
-                dst(k, j, i) = buf[offset++];
-        }
+      for (int i = si; i <= ei; ++i)
+        dst(k, j, i) = buf[offset++];
     }
-    return;
+  }
+  return;
 }
 
 // provide explicit instantiation definitions (C++03) to allow the template definitions to

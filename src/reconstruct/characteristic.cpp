@@ -41,7 +41,7 @@ void Reconstruction::LeftEigenmatrixDotVector(const int ivx,
                                               const AthenaArray<Real> &b1,
                                               const AthenaArray<Real> &w,
                                               AthenaArray<Real> &vect) {
-    throw std::runtime_error(std::string(__func__) + " is not implemented");
+  throw std::runtime_error(std::string(__func__) + " is not implemented");
 }
 
 //----------------------------------------------------------------------------------------
@@ -66,6 +66,6 @@ void Reconstruction::RightEigenmatrixDotVector(const int ivx,
                                                const AthenaArray<Real> &b1,
                                                const AthenaArray<Real> &w,
                                                AthenaArray<Real> &vect) {
-    throw std::runtime_error(std::string(__func__) + " is not implemented");
+  throw std::runtime_error(std::string(__func__) + " is not implemented");
 }
 } // namespace parthenon

@@ -32,13 +32,13 @@ void Reconstruction::DonorCellX1(const int k,
                                  const AthenaArray<Real> &bcc,
                                  AthenaArray<Real> &wl,
                                  AthenaArray<Real> &wr) {
-    // compute L/R states for each variable
-    for (int n = 0; n < NHYDRO; ++n) {
+  // compute L/R states for each variable
+  for (int n = 0; n < NHYDRO; ++n) {
 #pragma omp simd
-        for (int i = il; i <= iu; ++i) {
-            wl(n, i + 1) = wr(n, i) = w(n, k, j, i);
-        }
+    for (int i = il; i <= iu; ++i) {
+      wl(n, i + 1) = wr(n, i) = w(n, k, j, i);
     }
+  }
 }
 
 //----------------------------------------------------------------------------------------
@@ -53,13 +53,13 @@ void Reconstruction::DonorCellX2(const int k,
                                  const AthenaArray<Real> &bcc,
                                  AthenaArray<Real> &wl,
                                  AthenaArray<Real> &wr) {
-    // compute L/R states for each variable
-    for (int n = 0; n < NHYDRO; ++n) {
+  // compute L/R states for each variable
+  for (int n = 0; n < NHYDRO; ++n) {
 #pragma omp simd
-        for (int i = il; i <= iu; ++i) {
-            wl(n, i) = wr(n, i) = w(n, k, j, i);
-        }
+    for (int i = il; i <= iu; ++i) {
+      wl(n, i) = wr(n, i) = w(n, k, j, i);
     }
+  }
 }
 
 //----------------------------------------------------------------------------------------
@@ -74,12 +74,12 @@ void Reconstruction::DonorCellX3(const int k,
                                  const AthenaArray<Real> &bcc,
                                  AthenaArray<Real> &wl,
                                  AthenaArray<Real> &wr) {
-    // compute L/R states for each variable
-    for (int n = 0; n < NHYDRO; ++n) {
+  // compute L/R states for each variable
+  for (int n = 0; n < NHYDRO; ++n) {
 #pragma omp simd
-        for (int i = il; i <= iu; ++i) {
-            wl(n, i) = wr(n, i) = w(n, k, j, i);
-        }
+    for (int i = il; i <= iu; ++i) {
+      wl(n, i) = wr(n, i) = w(n, k, j, i);
     }
+  }
 }
 } // namespace parthenon

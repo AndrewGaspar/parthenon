@@ -24,28 +24,28 @@
 namespace parthenon {
 
 struct Integrator {
-    Integrator() = default;
-    Integrator(int nstages, std::vector<Real> beta) : _nstages(nstages), _beta(beta) {}
-    int _nstages;
-    std::vector<Real> _beta;
+  Integrator() = default;
+  Integrator(int nstages, std::vector<Real> beta) : _nstages(nstages), _beta(beta) {}
+  int _nstages;
+  std::vector<Real> _beta;
 };
 
 class MultiStageDriver : public EvolutionDriver {
-  public:
-    MultiStageDriver(ParameterInput *pin, Mesh *pm, Outputs *pout);
-    std::vector<std::string> stage_name;
-    Integrator *integrator;
-    ~MultiStageDriver() { delete integrator; }
+ public:
+  MultiStageDriver(ParameterInput *pin, Mesh *pm, Outputs *pout);
+  std::vector<std::string> stage_name;
+  Integrator *integrator;
+  ~MultiStageDriver() { delete integrator; }
 
-  private:
+ private:
 };
 
 class MultiStageBlockTaskDriver : public MultiStageDriver {
-  public:
-    MultiStageBlockTaskDriver(ParameterInput *pin, Mesh *pm, Outputs *pout)
-        : MultiStageDriver(pin, pm, pout) {}
-    TaskListStatus Step();
-    virtual TaskList MakeTaskList(MeshBlock *pmb, int stage) = 0;
+ public:
+  MultiStageBlockTaskDriver(ParameterInput *pin, Mesh *pm, Outputs *pout)
+      : MultiStageDriver(pin, pm, pout) {}
+  TaskListStatus Step();
+  virtual TaskList MakeTaskList(MeshBlock *pmb, int stage) = 0;
 };
 
 } // namespace parthenon

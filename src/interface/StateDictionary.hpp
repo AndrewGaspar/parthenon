@@ -21,8 +21,8 @@
 
 namespace parthenon {
 class StateDictionary : public std::map<std::string, Metadata> {
-  public:
-    void AddState(const std::string &field_name, Metadata &m) {
+ public:
+  void AddState(const std::string &field_name, Metadata &m) {
 #if 0
       std::cerr << "Adding " << field_name << std::endl;
       if ((!m.isSet(m.materials)) && this->count(field_name)) {
@@ -36,18 +36,18 @@ class StateDictionary : public std::map<std::string, Metadata> {
       } else {
         std::cerr << "inserting..." << std::endl;
 #endif
-        this->insert(std::pair<std::string, Metadata>(field_name, m));
-        //_fields.insert(field_name);
-        //_fields_metadata.insert( );
-        //      }
-    }
-    // std::set<std::string> GetFields() {return _fields;}
-    // Metadata GetMetadata(std::string& field_name) {return
-    // _fields_metadata[field_name];}
+    this->insert(std::pair<std::string, Metadata>(field_name, m));
+    //_fields.insert(field_name);
+    //_fields_metadata.insert( );
+    //      }
+  }
+  // std::set<std::string> GetFields() {return _fields;}
+  // Metadata GetMetadata(std::string& field_name) {return
+  // _fields_metadata[field_name];}
 
-  private:
-    // std::set<std::string> _fields;
-    // std::map<std::string, Metadata> _fields_metadata;
+ private:
+  // std::set<std::string> _fields;
+  // std::map<std::string, Metadata> _fields_metadata;
 };
 
 } // namespace parthenon

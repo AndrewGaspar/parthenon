@@ -44,21 +44,21 @@ namespace SignalHandler {
 //  \brief install handlers for selected signals
 
 void SignalHandlerInit() {
-    for (int n = 0; n < nsignal; n++) {
-        signalflag[n] = 0;
-    }
-    // C++11 standard guarantees that <csignal> places C-standard signal.h contents in
-    // std:: namespace. POSIX C extensions are likely only placed in global namespace (not
-    // std::)
-    std::signal(SIGTERM, SetSignalFlag);
-    std::signal(SIGINT, SetSignalFlag);
-    std::signal(SIGALRM, SetSignalFlag);
+  for (int n = 0; n < nsignal; n++) {
+    signalflag[n] = 0;
+  }
+  // C++11 standard guarantees that <csignal> places C-standard signal.h contents in
+  // std:: namespace. POSIX C extensions are likely only placed in global namespace (not
+  // std::)
+  std::signal(SIGTERM, SetSignalFlag);
+  std::signal(SIGINT, SetSignalFlag);
+  std::signal(SIGALRM, SetSignalFlag);
 
-    // populate set of signals to block while the handler is running; prevent premption
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGTERM);
-    sigaddset(&mask, SIGINT);
-    sigaddset(&mask, SIGALRM);
+  // populate set of signals to block while the handler is running; prevent premption
+  sigemptyset(&mask);
+  sigaddset(&mask, SIGTERM);
+  sigaddset(&mask, SIGINT);
+  sigaddset(&mask, SIGALRM);
 }
 
 //----------------------------------------------------------------------------------------
@@ -66,23 +66,23 @@ void SignalHandlerInit() {
 //  \brief Synchronize and check signal flags and return true if any of them is caught
 
 int CheckSignalFlags() {
-    // Currently, only checking for nonzero return code at the end of each timestep in
-    // main.cpp; i.e. if an issue prevents a process from reaching the end of a cycle, the
-    // signals will never be handled by that process / the solver may hang
-    int ret = 0;
-    sigprocmask(SIG_BLOCK, &mask, nullptr);
+  // Currently, only checking for nonzero return code at the end of each timestep in
+  // main.cpp; i.e. if an issue prevents a process from reaching the end of a cycle, the
+  // signals will never be handled by that process / the solver may hang
+  int ret = 0;
+  sigprocmask(SIG_BLOCK, &mask, nullptr);
 #ifdef MPI_PARALLEL
-    MPI_Allreduce(MPI_IN_PLACE,
-                  const_cast<void *>(reinterpret_cast<volatile void *>(signalflag)),
-                  nsignal,
-                  MPI_INT,
-                  MPI_MAX,
-                  MPI_COMM_WORLD);
+  MPI_Allreduce(MPI_IN_PLACE,
+                const_cast<void *>(reinterpret_cast<volatile void *>(signalflag)),
+                nsignal,
+                MPI_INT,
+                MPI_MAX,
+                MPI_COMM_WORLD);
 #endif
-    for (int n = 0; n < nsignal; n++)
-        ret += signalflag[n];
-    sigprocmask(SIG_UNBLOCK, &mask, nullptr);
-    return ret;
+  for (int n = 0; n < nsignal; n++)
+    ret += signalflag[n];
+  sigprocmask(SIG_UNBLOCK, &mask, nullptr);
+  return ret;
 }
 
 //----------------------------------------------------------------------------------------
@@ -91,22 +91,22 @@ int CheckSignalFlags() {
 //         Returns -1 if the specified signal is not handled.
 
 int GetSignalFlag(int s) {
-    int ret = -1;
-    switch (s) {
-    case SIGTERM:
-        ret = signalflag[ITERM];
-        break;
-    case SIGINT:
-        ret = signalflag[IINT];
-        break;
-    case SIGALRM:
-        ret = signalflag[IALRM];
-        break;
-    default:
-        // nothing
-        break;
-    }
-    return ret;
+  int ret = -1;
+  switch (s) {
+  case SIGTERM:
+    ret = signalflag[ITERM];
+    break;
+  case SIGINT:
+    ret = signalflag[IINT];
+    break;
+  case SIGALRM:
+    ret = signalflag[IALRM];
+    break;
+  default:
+    // nothing
+    break;
+  }
+  return ret;
 }
 
 //----------------------------------------------------------------------------------------
@@ -114,25 +114,25 @@ int GetSignalFlag(int s) {
 //  \brief Sets signal flags and reinstalls the signal handler function.
 
 void SetSignalFlag(int s) {
-    // Signal handler functions must have C linkage; C++ linkage is implemantation-defined
-    switch (s) {
-    case SIGTERM:
-        signalflag[ITERM] = 1;
-        signal(s, SetSignalFlag);
-        break;
-    case SIGINT:
-        signalflag[IINT] = 1;
-        signal(s, SetSignalFlag);
-        break;
-    case SIGALRM:
-        signalflag[IALRM] = 1;
-        signal(s, SetSignalFlag);
-        break;
-    default:
-        // nothing
-        break;
-    }
-    return;
+  // Signal handler functions must have C linkage; C++ linkage is implemantation-defined
+  switch (s) {
+  case SIGTERM:
+    signalflag[ITERM] = 1;
+    signal(s, SetSignalFlag);
+    break;
+  case SIGINT:
+    signalflag[IINT] = 1;
+    signal(s, SetSignalFlag);
+    break;
+  case SIGALRM:
+    signalflag[IALRM] = 1;
+    signal(s, SetSignalFlag);
+    break;
+  default:
+    // nothing
+    break;
+  }
+  return;
 }
 
 //----------------------------------------------------------------------------------------
@@ -140,8 +140,8 @@ void SetSignalFlag(int s) {
 //  \brief Set the wall time limit alarm
 
 void SetWallTimeAlarm(int t) {
-    alarm(t);
-    return;
+  alarm(t);
+  return;
 }
 
 //----------------------------------------------------------------------------------------
@@ -149,18 +149,18 @@ void SetWallTimeAlarm(int t) {
 //  \brief Cancel the wall time limit alarm
 
 void CancelWallTimeAlarm() {
-    alarm(0);
-    return;
+  alarm(0);
+  return;
 }
 
 void Report() {
-    if (SignalHandler::GetSignalFlag(SIGTERM) != 0) {
-        std::cout << std::endl << "Terminating on Terminate signal" << std::endl;
-    } else if (SignalHandler::GetSignalFlag(SIGINT) != 0) {
-        std::cout << std::endl << "Terminating on Interrupt signal" << std::endl;
-    } else if (SignalHandler::GetSignalFlag(SIGALRM) != 0) {
-        std::cout << std::endl << "Terminating on wall-time limit" << std::endl;
-    }
+  if (SignalHandler::GetSignalFlag(SIGTERM) != 0) {
+    std::cout << std::endl << "Terminating on Terminate signal" << std::endl;
+  } else if (SignalHandler::GetSignalFlag(SIGINT) != 0) {
+    std::cout << std::endl << "Terminating on Interrupt signal" << std::endl;
+  } else if (SignalHandler::GetSignalFlag(SIGALRM) != 0) {
+    std::cout << std::endl << "Terminating on wall-time limit" << std::endl;
+  }
 }
 
 } // namespace SignalHandler

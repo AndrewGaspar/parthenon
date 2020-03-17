@@ -1,5 +1,6 @@
 ColumnLimit: 90
-IndentWidth: 4
+IndentWidth: 2
+AccessModifierOffset: -1
 
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortIfStatementsOnASingleLine: true

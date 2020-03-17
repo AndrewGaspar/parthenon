@@ -41,38 +41,38 @@ using IOWrapperFile = FILE *;
 using IOWrapperSizeT = std::uint64_t;
 
 class IOWrapper {
-  public:
+ public:
 #ifdef MPI_PARALLEL
-    IOWrapper() : fh_(nullptr), comm_(MPI_COMM_WORLD) {}
-    void SetCommunicator(MPI_Comm scomm) { comm_ = scomm; }
+  IOWrapper() : fh_(nullptr), comm_(MPI_COMM_WORLD) {}
+  void SetCommunicator(MPI_Comm scomm) { comm_ = scomm; }
 #else
-    IOWrapper() { fh_ = nullptr; }
+  IOWrapper() { fh_ = nullptr; }
 #endif
-    ~IOWrapper() {}
-    // nested type definition of strongly typed/scoped enum in class definition
-    enum class FileMode { read, write };
+  ~IOWrapper() {}
+  // nested type definition of strongly typed/scoped enum in class definition
+  enum class FileMode { read, write };
 
-    // wrapper functions for basic I/O tasks
-    int Open(const char *fname, FileMode rw);
-    std::size_t Read(void *buf, IOWrapperSizeT size, IOWrapperSizeT count);
-    std::size_t Read_all(void *buf, IOWrapperSizeT size, IOWrapperSizeT count);
-    std::size_t Read_at_all(void *buf,
-                            IOWrapperSizeT size,
-                            IOWrapperSizeT count,
-                            IOWrapperSizeT offset);
-    std::size_t Write(const void *buf, IOWrapperSizeT size, IOWrapperSizeT count);
-    std::size_t Write_at_all(const void *buf,
-                             IOWrapperSizeT size,
-                             IOWrapperSizeT cnt,
-                             IOWrapperSizeT offset);
-    int Close();
-    int Seek(IOWrapperSizeT offset);
-    IOWrapperSizeT GetPosition();
+  // wrapper functions for basic I/O tasks
+  int Open(const char *fname, FileMode rw);
+  std::size_t Read(void *buf, IOWrapperSizeT size, IOWrapperSizeT count);
+  std::size_t Read_all(void *buf, IOWrapperSizeT size, IOWrapperSizeT count);
+  std::size_t Read_at_all(void *buf,
+                          IOWrapperSizeT size,
+                          IOWrapperSizeT count,
+                          IOWrapperSizeT offset);
+  std::size_t Write(const void *buf, IOWrapperSizeT size, IOWrapperSizeT count);
+  std::size_t Write_at_all(const void *buf,
+                           IOWrapperSizeT size,
+                           IOWrapperSizeT cnt,
+                           IOWrapperSizeT offset);
+  int Close();
+  int Seek(IOWrapperSizeT offset);
+  IOWrapperSizeT GetPosition();
 
-  private:
-    IOWrapperFile fh_;
+ private:
+  IOWrapperFile fh_;
 #ifdef MPI_PARALLEL
-    MPI_Comm comm_;
+  MPI_Comm comm_;
 #endif
 };
 

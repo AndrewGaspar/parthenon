@@ -30,56 +30,55 @@ class Outputs;
 enum class DriverStatus { complete, timeout, failed };
 
 class Driver {
-  public:
-    Driver(ParameterInput *pin, Mesh *pm, Outputs *pout)
-        : pinput(pin), pmesh(pm), pouts(pout) {}
-    virtual DriverStatus Execute() = 0;
-    ParameterInput *pinput;
-    Mesh *pmesh;
-    Outputs *pouts;
+ public:
+  Driver(ParameterInput *pin, Mesh *pm, Outputs *pout)
+      : pinput(pin), pmesh(pm), pouts(pout) {}
+  virtual DriverStatus Execute() = 0;
+  ParameterInput *pinput;
+  Mesh *pmesh;
+  Outputs *pouts;
 };
 
 class SimpleDriver : public Driver {
-  public:
-    SimpleDriver(ParameterInput *pin, Mesh *pm, Outputs *pout) : Driver(pin, pm, pout) {}
-    DriverStatus Execute() { return DriverStatus::complete; }
+ public:
+  SimpleDriver(ParameterInput *pin, Mesh *pm, Outputs *pout) : Driver(pin, pm, pout) {}
+  DriverStatus Execute() { return DriverStatus::complete; }
 };
 
 class EvolutionDriver : public Driver {
-  public:
-    EvolutionDriver(ParameterInput *pin, Mesh *pm, Outputs *pout)
-        : Driver(pin, pm, pout) {}
-    DriverStatus Execute();
-    virtual TaskListStatus Step() = 0;
+ public:
+  EvolutionDriver(ParameterInput *pin, Mesh *pm, Outputs *pout) : Driver(pin, pm, pout) {}
+  DriverStatus Execute();
+  virtual TaskListStatus Step() = 0;
 };
 
 namespace DriverUtils {
 template <typename T, class... Args>
 TaskListStatus ConstructAndExecuteBlockTasks(T *driver, Args... args) {
-    int nthreads = driver->pmesh->GetNumMeshThreads();
-    int nmb = driver->pmesh->GetNumMeshBlocksThisRank(Globals::my_rank);
-    std::vector<TaskList> task_lists;
-    task_lists.resize(nmb);
-    int i = 0;
-    MeshBlock *pmb = driver->pmesh->pblock;
-    while (pmb != nullptr) {
-        task_lists[i] = driver->MakeTaskList(pmb, std::forward<Args>(args)...);
-        i++;
-        pmb = pmb->next;
-    }
-    int complete_cnt = 0;
-    while (complete_cnt != nmb) {
+  int nthreads = driver->pmesh->GetNumMeshThreads();
+  int nmb = driver->pmesh->GetNumMeshBlocksThisRank(Globals::my_rank);
+  std::vector<TaskList> task_lists;
+  task_lists.resize(nmb);
+  int i = 0;
+  MeshBlock *pmb = driver->pmesh->pblock;
+  while (pmb != nullptr) {
+    task_lists[i] = driver->MakeTaskList(pmb, std::forward<Args>(args)...);
+    i++;
+    pmb = pmb->next;
+  }
+  int complete_cnt = 0;
+  while (complete_cnt != nmb) {
 #pragma omp parallel for reduction(+ : complete_cnt) num_threads(nthreads) schedule(dynamic,1)
-        for (auto tl = task_lists.begin(); tl < task_lists.end(); tl++) {
-            if (!tl->IsComplete()) {
-                auto status = tl->DoAvailable();
-                if (status == TaskListStatus::complete) {
-                    complete_cnt++;
-                }
-            }
+    for (auto tl = task_lists.begin(); tl < task_lists.end(); tl++) {
+      if (!tl->IsComplete()) {
+        auto status = tl->DoAvailable();
+        if (status == TaskListStatus::complete) {
+          complete_cnt++;
         }
+      }
     }
-    return TaskListStatus::complete;
+  }
+  return TaskListStatus::complete;
 }
 } // namespace DriverUtils
 

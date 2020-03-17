@@ -52,8 +52,8 @@ namespace parthenon {
 //========================================================================================
 
 void __attribute__((weak)) Mesh::InitUserMeshData(ParameterInput *pin) {
-    // do nothing
-    return;
+  // do nothing
+  return;
 }
 
 //========================================================================================
@@ -62,8 +62,8 @@ void __attribute__((weak)) Mesh::InitUserMeshData(ParameterInput *pin) {
 //========================================================================================
 
 void __attribute__((weak)) Mesh::UserWorkInLoop() {
-    // do nothing
-    return;
+  // do nothing
+  return;
 }
 
 //========================================================================================
@@ -72,8 +72,8 @@ void __attribute__((weak)) Mesh::UserWorkInLoop() {
 //========================================================================================
 
 void __attribute__((weak)) Mesh::UserWorkAfterLoop(ParameterInput *pin) {
-    // do nothing
-    return;
+  // do nothing
+  return;
 }
 
 // 5x members of MeshBlock class:
@@ -88,8 +88,8 @@ void __attribute__((weak)) Mesh::UserWorkAfterLoop(ParameterInput *pin) {
 
 std::unique_ptr<MeshBlockApplicationData> __attribute__((weak))
 MeshBlock::InitApplicationMeshBlockData(ParameterInput *pin) {
-    // do nothing
-    return nullptr;
+  // do nothing
+  return nullptr;
 }
 
 //========================================================================================
@@ -100,8 +100,8 @@ MeshBlock::InitApplicationMeshBlockData(ParameterInput *pin) {
 //========================================================================================
 
 void __attribute__((weak)) MeshBlock::InitUserMeshBlockData(ParameterInput *pin) {
-    // do nothing
-    return;
+  // do nothing
+  return;
 }
 
 //========================================================================================
@@ -110,9 +110,9 @@ void __attribute__((weak)) MeshBlock::InitUserMeshBlockData(ParameterInput *pin)
 //========================================================================================
 
 void __attribute__((weak)) MeshBlock::ProblemGenerator(ParameterInput *pin) {
-    // In practice, this function should *always* be replaced by a version
-    // that sets the initial conditions for the problem of interest.
-    return;
+  // In practice, this function should *always* be replaced by a version
+  // that sets the initial conditions for the problem of interest.
+  return;
 }
 
 //========================================================================================
@@ -121,8 +121,8 @@ void __attribute__((weak)) MeshBlock::ProblemGenerator(ParameterInput *pin) {
 //========================================================================================
 
 void __attribute__((weak)) MeshBlock::UserWorkInLoop() {
-    // do nothing
-    return;
+  // do nothing
+  return;
 }
 
 //========================================================================================
@@ -131,7 +131,7 @@ void __attribute__((weak)) MeshBlock::UserWorkInLoop() {
 //========================================================================================
 
 void __attribute__((weak)) MeshBlock::UserWorkBeforeOutput(ParameterInput *pin) {
-    // do nothing
-    return;
+  // do nothing
+  return;
 }
 } // namespace parthenon

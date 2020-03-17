@@ -55,8 +55,8 @@ namespace parthenon {
 //  \brief Restrict, pack and send the flux correction to the coarse neighbor(s) if needed
 
 void FaceCenteredBoundaryVariable::SendFluxCorrection() {
-    throw std::runtime_error(
-        "FaceCenteredBoundaryVariable::SendFluxCorrection not implemented yet");
+  throw std::runtime_error(
+      "FaceCenteredBoundaryVariable::SendFluxCorrection not implemented yet");
 }
 
 //----------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ void FaceCenteredBoundaryVariable::SendFluxCorrection() {
 //  \brief Receive and Apply the flux correction to the coarse neighbor(s) if needed
 
 bool FaceCenteredBoundaryVariable::ReceiveFluxCorrection() {
-    throw std::runtime_error(
-        "FaceCenteredBoundaryVariable::ReceiveFluxCorrection not implemented yet");
+  throw std::runtime_error(
+      "FaceCenteredBoundaryVariable::ReceiveFluxCorrection not implemented yet");
 }
 } // namespace parthenon

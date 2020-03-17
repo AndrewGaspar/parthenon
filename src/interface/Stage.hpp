@@ -36,38 +36,36 @@ class MaterialVariable;
 /// and manipulated as required.
 template <typename T>
 class Stage {
-  public:
-    /// A new stage with name
-    Stage<T>(std::string name)
-        : _name(name), locked(!(name.compare(std::string("base")))) {
-        //    std::cout << "_________________CREATE stage: " << _name << std::endl;
-    }
+ public:
+  /// A new stage with name
+  Stage<T>(std::string name) : _name(name), locked(!(name.compare(std::string("base")))) {
+    //    std::cout << "_________________CREATE stage: " << _name << std::endl;
+  }
 
-    /// A new stage named 'name' initialized from stage src
-    Stage<T>(std::string name, Stage<T> &src);
+  /// A new stage named 'name' initialized from stage src
+  Stage<T>(std::string name, Stage<T> &src);
 
-    const bool locked; // set at initialization.  Only stage named
-    // "base" is unlocked
-    const std::string name() { return _name; }
+  const bool locked; // set at initialization.  Only stage named
+  // "base" is unlocked
+  const std::string name() { return _name; }
 
-    // the variable vectors
-    std::vector<std::shared_ptr<Variable<T>>> _varArray =
-        {}; ///< the saved variable array
-    ///  std::vector<FaceVariable*> _faceArray = {};  ///< the saved face arrays
-    ///  std::vector<EdgeVariable*> _edgeArray = {};  ///< the saved face arrays
-    MaterialVariable<T> _matVars;
+  // the variable vectors
+  std::vector<std::shared_ptr<Variable<T>>> _varArray = {}; ///< the saved variable array
+  ///  std::vector<FaceVariable*> _faceArray = {};  ///< the saved face arrays
+  ///  std::vector<EdgeVariable*> _edgeArray = {};  ///< the saved face arrays
+  MaterialVariable<T> _matVars;
 
-    // debug destructor
-    //  ~Stage() {
-    //    std::cout << "_______________________________Stage DESTROY: "<<_name<<std::endl;
-    //    _varArray.clear();
-    //    std::cout << "varArray destroyed" << std::endl;
-    //  }
-  private:
-    std::string _name; ///< the stage name
+  // debug destructor
+  //  ~Stage() {
+  //    std::cout << "_______________________________Stage DESTROY: "<<_name<<std::endl;
+  //    _varArray.clear();
+  //    std::cout << "varArray destroyed" << std::endl;
+  //  }
+ private:
+  std::string _name; ///< the stage name
 
-    // we want container to be able to access our innards
-    friend class Container<T>;
+  // we want container to be able to access our innards
+  friend class Container<T>;
 };
 } // namespace parthenon
 #endif // INTERFACE_STAGE_HPP_

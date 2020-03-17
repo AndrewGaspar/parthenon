@@ -20,30 +20,30 @@
 
 namespace parthenon {
 class PropertiesInterface {
-  public:
-    virtual ~PropertiesInterface() {}
+ public:
+  virtual ~PropertiesInterface() {}
 
-    virtual StateDescriptor &State() = 0;
+  virtual StateDescriptor &State() = 0;
 
-    static int GetIDFromLabel(std::string &label) {
-        return PropertiesInterface::_label_to_id[label];
+  static int GetIDFromLabel(std::string &label) {
+    return PropertiesInterface::_label_to_id[label];
+  }
+
+  static std::string GetLabelFromID(int id) {
+    for (auto &x : PropertiesInterface::_label_to_id) {
+      if (x.second == id) return x.first;
     }
+    return "UNKNOWN";
+  }
 
-    static std::string GetLabelFromID(int id) {
-        for (auto &x : PropertiesInterface::_label_to_id) {
-            if (x.second == id) return x.first;
-        }
-        return "UNKNOWN";
-    }
+  static void InsertID(const std::string &label, const int &id) {
+    PropertiesInterface::_label_to_id[label] = id;
+  }
 
-    static void InsertID(const std::string &label, const int &id) {
-        PropertiesInterface::_label_to_id[label] = id;
-    }
-
-  private:
-    // _label_to_id is declared here and defined in
-    // PropertiesInterface.cpp
-    static std::map<std::string, int> _label_to_id;
+ private:
+  // _label_to_id is declared here and defined in
+  // PropertiesInterface.cpp
+  static std::map<std::string, int> _label_to_id;
 };
 
 using Properties_t = std::vector<std::shared_ptr<PropertiesInterface>>;

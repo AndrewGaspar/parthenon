@@ -45,10 +45,10 @@ using namespace H5;
 
 // macro to write an attribute to a HDF file
 #define WRITE_H5A(name, pData, file, dSpace, dSet, myAttrPredType, myDataPredType)       \
-    {                                                                                    \
-        Attribute attribute = dSet.createAttribute(name, myAttrPredType, dSpace);        \
-        attribute.write(myDataPredType, pData);                                          \
-    }
+  {                                                                                      \
+    Attribute attribute = dSet.createAttribute(name, myAttrPredType, dSpace);            \
+    attribute.write(myDataPredType, pData);                                              \
+  }
 #define PREDINT32 PredType::NATIVE_INT32
 #define PREDFLOAT64 PredType::NATIVE_DOUBLE
 

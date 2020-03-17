@@ -23,18 +23,18 @@ namespace parthenon {
 using RefineFunction = int(Variable<Real> &, const Real, const Real);
 
 struct AMRCriteria {
-  public:
-    AMRCriteria(std::string field,
-                RefineFunction *rfunc,
-                const Real refine_criteria,
-                const Real derefine_criteria)
-        : _field(field),
-          _refine_func(rfunc),
-          _refine_criteria(refine_criteria),
-          _derefine_criteria(derefine_criteria) {}
-    std::string _field;
-    RefineFunction *_refine_func;
-    const Real _refine_criteria, _derefine_criteria;
+ public:
+  AMRCriteria(std::string field,
+              RefineFunction *rfunc,
+              const Real refine_criteria,
+              const Real derefine_criteria)
+      : _field(field),
+        _refine_func(rfunc),
+        _refine_criteria(refine_criteria),
+        _derefine_criteria(derefine_criteria) {}
+  std::string _field;
+  RefineFunction *_refine_func;
+  const Real _refine_criteria, _derefine_criteria;
 };
 
 namespace BetterRefinement {

@@ -68,23 +68,22 @@ class FieldDiffusion;
 //  \brief stores logical location and level of MeshBlock
 
 struct LogicalLocation { // aggregate and POD type
-    // These values can exceed the range of std::int32_t even if the root grid has only a
-    // single MeshBlock if >30 levels of AMR are used, since the corresponding max index =
-    // 1*2^31 > INT_MAX = 2^31 -1 for most 32-bit signed integer type impelementations
-    std::int64_t lx1, lx2, lx3;
-    int level;
+  // These values can exceed the range of std::int32_t even if the root grid has only a
+  // single MeshBlock if >30 levels of AMR are used, since the corresponding max index =
+  // 1*2^31 > INT_MAX = 2^31 -1 for most 32-bit signed integer type impelementations
+  std::int64_t lx1, lx2, lx3;
+  int level;
 
-    // operators useful for sorting
-    bool operator==(LogicalLocation &ll) {
-        return ((ll.level == level) && (ll.lx1 == lx1) && (ll.lx2 == lx2) &&
-                (ll.lx3 == lx3));
-    }
-    static bool Lesser(const LogicalLocation &left, const LogicalLocation &right) {
-        return left.level < right.level;
-    }
-    static bool Greater(const LogicalLocation &left, const LogicalLocation &right) {
-        return left.level > right.level;
-    }
+  // operators useful for sorting
+  bool operator==(LogicalLocation &ll) {
+    return ((ll.level == level) && (ll.lx1 == lx1) && (ll.lx2 == lx2) && (ll.lx3 == lx3));
+  }
+  static bool Lesser(const LogicalLocation &left, const LogicalLocation &right) {
+    return left.level < right.level;
+  }
+  static bool Greater(const LogicalLocation &left, const LogicalLocation &right) {
+    return left.level > right.level;
+  }
 };
 
 //----------------------------------------------------------------------------------------
@@ -92,11 +91,11 @@ struct LogicalLocation { // aggregate and POD type
 //  \brief physical size and number of cells in a Mesh or a MeshBlock
 
 struct RegionSize { // aggregate and POD type; do NOT reorder member declarations:
-    Real x1min, x2min, x3min;
-    Real x1max, x2max, x3max;
-    Real x1rat, x2rat, x3rat; // ratio of dxf(i)/dxf(i-1)
-    // the size of the root grid or a MeshBlock should not exceed std::int32_t limits
-    int nx1, nx2, nx3; // number of active cells (not including ghost zones)
+  Real x1min, x2min, x3min;
+  Real x1max, x2max, x3max;
+  Real x1rat, x2rat, x3rat; // ratio of dxf(i)/dxf(i-1)
+  // the size of the root grid or a MeshBlock should not exceed std::int32_t limits
+  int nx1, nx2, nx3; // number of active cells (not including ghost zones)
 };
 
 //---------------------------------------------------------------------------------------
@@ -104,16 +103,15 @@ struct RegionSize { // aggregate and POD type; do NOT reorder member declaration
 //  \brief container for face-centered fields
 
 struct FaceField {
-    AthenaArray<Real> x1f, x2f, x3f;
-    FaceField() = default;
-    FaceField(
-        int ncells3,
-        int ncells2,
-        int ncells1,
-        AthenaArray<Real>::DataStatus init = AthenaArray<Real>::DataStatus::allocated)
-        : x1f(ncells3, ncells2, ncells1 + 1, init),
-          x2f(ncells3, ncells2 + 1, ncells1, init),
-          x3f(ncells3 + 1, ncells2, ncells1, init) {}
+  AthenaArray<Real> x1f, x2f, x3f;
+  FaceField() = default;
+  FaceField(int ncells3,
+            int ncells2,
+            int ncells1,
+            AthenaArray<Real>::DataStatus init = AthenaArray<Real>::DataStatus::allocated)
+      : x1f(ncells3, ncells2, ncells1 + 1, init),
+        x2f(ncells3, ncells2 + 1, ncells1, init),
+        x3f(ncells3 + 1, ncells2, ncells1, init) {}
 };
 
 //----------------------------------------------------------------------------------------
@@ -121,16 +119,15 @@ struct FaceField {
 //  \brief container for edge-centered fields
 
 struct EdgeField {
-    AthenaArray<Real> x1e, x2e, x3e;
-    EdgeField() = default;
-    EdgeField(
-        int ncells3,
-        int ncells2,
-        int ncells1,
-        AthenaArray<Real>::DataStatus init = AthenaArray<Real>::DataStatus::allocated)
-        : x1e(ncells3 + 1, ncells2 + 1, ncells1, init),
-          x2e(ncells3 + 1, ncells2, ncells1 + 1, init),
-          x3e(ncells3, ncells2 + 1, ncells1 + 1, init) {}
+  AthenaArray<Real> x1e, x2e, x3e;
+  EdgeField() = default;
+  EdgeField(int ncells3,
+            int ncells2,
+            int ncells1,
+            AthenaArray<Real>::DataStatus init = AthenaArray<Real>::DataStatus::allocated)
+      : x1e(ncells3 + 1, ncells2 + 1, ncells1, init),
+        x2e(ncells3 + 1, ncells2, ncells1 + 1, init),
+        x3e(ncells3, ncells2 + 1, ncells1 + 1, init) {}
 };
 
 //----------------------------------------------------------------------------------------
