@@ -15,6 +15,7 @@ add_executable(
     parthenon-example
         calculate_pi.cpp
         pi.cpp
+        pi.hpp
 )
 target_link_libraries(parthenon-example PRIVATE parthenon)
 format_sources(parthenon-example)
