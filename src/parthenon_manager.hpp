@@ -26,17 +26,17 @@
 
 namespace parthenon {
 
-enum class ParthenonStatus {ok, complete, error};
+enum class ParthenonStatus { ok, complete, error };
 
 class ParthenonManager {
- public:
+  public:
     ParthenonManager() = default;
     ParthenonStatus ParthenonInit(int argc, char *argv[]);
     ParthenonStatus ParthenonFinalize();
 
     bool Restart() { return (arg.restart_filename == nullptr ? false : true); }
-    Properties_t ProcessProperties(std::unique_ptr<ParameterInput>& pin);
-    Packages_t ProcessPackages(std::unique_ptr<ParameterInput>& pin);
+    Properties_t ProcessProperties(std::unique_ptr<ParameterInput> &pin);
+    Packages_t ProcessPackages(std::unique_ptr<ParameterInput> &pin);
     void SetFillDerivedFunctions();
     void PreDriver();
     void PostDriver(DriverStatus driver_status);
@@ -45,7 +45,8 @@ class ParthenonManager {
     std::unique_ptr<ParameterInput> pinput;
     std::unique_ptr<Mesh> pmesh;
     std::unique_ptr<Outputs> pouts;
- private:
+
+  private:
     ArgParse arg;
     clock_t tstart_;
     double omp_start_time_;

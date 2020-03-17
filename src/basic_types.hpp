@@ -16,8 +16,8 @@
 #include <memory>
 
 namespace parthenon {
-  template<class T>
-    using SmartArray = std::unique_ptr<T []>;
+template <class T>
+using SmartArray = std::unique_ptr<T[]>;
 }
 
 #endif

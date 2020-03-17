@@ -38,38 +38,40 @@ class Mesh;
 //  \brief Objects are nodes in an AMR MeshBlock tree structure
 
 class MeshBlockTree {
-  friend class Mesh;
-  friend class MeshBlock;
-  friend class BoundaryBase;
- public:
-  explicit MeshBlockTree(Mesh *pmesh);
-  MeshBlockTree(MeshBlockTree *parent, int ox1, int ox2, int ox3);
-  ~MeshBlockTree();
+    friend class Mesh;
+    friend class MeshBlock;
+    friend class BoundaryBase;
 
-  // accessor
-  MeshBlockTree* GetLeaf(int ox1, int ox2, int ox3)
-  { return pleaf_[(ox1 + (ox2<<1) + (ox3<<2))]; }
+  public:
+    explicit MeshBlockTree(Mesh *pmesh);
+    MeshBlockTree(MeshBlockTree *parent, int ox1, int ox2, int ox3);
+    ~MeshBlockTree();
 
-  // functions
-  void CreateRootGrid();
-  void AddMeshBlock(LogicalLocation rloc, int &nnew);
-  void AddMeshBlockWithoutRefine(LogicalLocation rloc);
-  void Refine(int &nnew);
-  void Derefine(int &ndel);
-  MeshBlockTree* FindMeshBlock(LogicalLocation tloc);
-  void CountMeshBlock(int& count);
-  void GetMeshBlockList(LogicalLocation *list, int *pglist, int& count);
-  MeshBlockTree* FindNeighbor(LogicalLocation myloc, int ox1, int ox2, int ox3,
-                              bool amrflag=false);
+    // accessor
+    MeshBlockTree *GetLeaf(int ox1, int ox2, int ox3) {
+        return pleaf_[(ox1 + (ox2 << 1) + (ox3 << 2))];
+    }
 
- private:
-  // data
-  MeshBlockTree** pleaf_;
-  int gid_;
-  LogicalLocation loc_;
+    // functions
+    void CreateRootGrid();
+    void AddMeshBlock(LogicalLocation rloc, int &nnew);
+    void AddMeshBlockWithoutRefine(LogicalLocation rloc);
+    void Refine(int &nnew);
+    void Derefine(int &ndel);
+    MeshBlockTree *FindMeshBlock(LogicalLocation tloc);
+    void CountMeshBlock(int &count);
+    void GetMeshBlockList(LogicalLocation *list, int *pglist, int &count);
+    MeshBlockTree *
+    FindNeighbor(LogicalLocation myloc, int ox1, int ox2, int ox3, bool amrflag = false);
 
-  static MeshBlockTree* proot_;
-  static int nleaf_;
+  private:
+    // data
+    MeshBlockTree **pleaf_;
+    int gid_;
+    LogicalLocation loc_;
+
+    static MeshBlockTree *proot_;
+    static int nleaf_;
 };
-}
+} // namespace parthenon
 #endif // MESH_MESHBLOCK_TREE_HPP_

@@ -25,35 +25,35 @@
 // C++ headers
 
 // Athena++ headers
-#include "athena.hpp"         // Real
-#include "athena_arrays.hpp"  // AthenaArray
+#include "athena.hpp"        // Real
+#include "athena_arrays.hpp" // AthenaArray
 
 namespace parthenon {
 class InterpTable2D {
- public:
-  InterpTable2D() = default;
-  InterpTable2D(const int nvar, const int nx2, const int nx1);
+  public:
+    InterpTable2D() = default;
+    InterpTable2D(const int nvar, const int nx2, const int nx1);
 
-  void SetSize(const int nvar, const int nx2, const int nx1);
-  Real interpolate(int nvar, Real x2, Real x1);
-  int nvar();
-  AthenaArray<Real> data;
-  void SetX1lim(Real x1min, Real x1max);
-  void SetX2lim(Real x2min, Real x2max);
-  void GetX1lim(Real &x1min, Real &x1max);
-  void GetX2lim(Real &x2min, Real &x2max);
-  void GetSize(int &nvar, int &nx2, int &nx1);
+    void SetSize(const int nvar, const int nx2, const int nx1);
+    Real interpolate(int nvar, Real x2, Real x1);
+    int nvar();
+    AthenaArray<Real> data;
+    void SetX1lim(Real x1min, Real x1max);
+    void SetX2lim(Real x2min, Real x2max);
+    void GetX1lim(Real &x1min, Real &x1max);
+    void GetX2lim(Real &x2min, Real &x2max);
+    void GetSize(int &nvar, int &nx2, int &nx1);
 
- private:
-  int nvar_;
-  int nx1_;
-  int nx2_;
-  Real x1min_;
-  Real x1max_;
-  Real x1norm_;
-  Real x2min_;
-  Real x2max_;
-  Real x2norm_;
+  private:
+    int nvar_;
+    int nx1_;
+    int nx2_;
+    Real x1min_;
+    Real x1max_;
+    Real x1norm_;
+    Real x2min_;
+    Real x2max_;
+    Real x2norm_;
 };
-}
-#endif //UTILS_INTERP_TABLE_HPP_
+} // namespace parthenon
+#endif // UTILS_INTERP_TABLE_HPP_

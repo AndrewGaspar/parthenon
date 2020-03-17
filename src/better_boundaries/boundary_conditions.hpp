@@ -17,7 +17,7 @@
 #include "interface/Container.hpp"
 
 namespace parthenon {
-void ApplyBoundaryConditions(Container<Real>& rc);
+void ApplyBoundaryConditions(Container<Real> &rc);
 }
 
 #endif

@@ -20,10 +20,11 @@ namespace parthenon {
 namespace Update {
 
 void FluxDivergence(Container<Real> &in, Container<Real> &dudt_cont);
-void UpdateContainer(Container<Real> &in, Container<Real> &dudt_cont,
-                     const Real dt, Container<Real> &out);
-void AverageContainers(Container<Real> &c1, Container<Real> &c2,
-                       const Real wgt1);
+void UpdateContainer(Container<Real> &in,
+                     Container<Real> &dudt_cont,
+                     const Real dt,
+                     Container<Real> &out);
+void AverageContainers(Container<Real> &c1, Container<Real> &c2, const Real wgt1);
 
 void FillDerived(Container<Real> &rc);
 
@@ -32,9 +33,9 @@ Real EstimateTimestep(Container<Real> &rc);
 } // namespace Update
 
 namespace FillDerivedVariables {
-  using FillDerivedFunc = void (Container<Real>&);
-  void SetFillDerivedFunctions(FillDerivedFunc *pre, FillDerivedFunc *post);
-  void FillDerived(Container<Real> &rc); 
-}
-}
+using FillDerivedFunc = void(Container<Real> &);
+void SetFillDerivedFunctions(FillDerivedFunc *pre, FillDerivedFunc *post);
+void FillDerived(Container<Real> &rc);
+} // namespace FillDerivedVariables
+} // namespace parthenon
 #endif

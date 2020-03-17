@@ -46,6 +46,9 @@ set(NUMBER_GHOST_CELLS 2) # TODO: Make this a CMake option and check it
 
 configure_file(defs.hpp.in generated/defs.hpp @ONLY)
 
+# Get header files just to add them to the library
+file(GLOB_RECURSE HEADERS "*.hpp")
+
 add_library(parthenon
   better_boundaries/boundary_conditions.cpp
 
@@ -115,6 +118,8 @@ add_library(parthenon
   globals.cpp
   parameter_input.cpp
   parthenon_manager.cpp
+
+  ${HEADERS}
 )
 target_compile_features(parthenon PUBLIC cxx_std_14)
 

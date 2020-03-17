@@ -14,12 +14,12 @@
 #ifndef MULTISTAGE_HPP
 #define MULTISTAGE_HPP
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "driver/driver.hpp"
-#include "parameter_input.hpp"
 #include "mesh/mesh.hpp"
+#include "parameter_input.hpp"
 
 namespace parthenon {
 
@@ -35,18 +35,17 @@ class MultiStageDriver : public EvolutionDriver {
     MultiStageDriver(ParameterInput *pin, Mesh *pm, Outputs *pout);
     std::vector<std::string> stage_name;
     Integrator *integrator;
-    ~MultiStageDriver() {
-      delete integrator;
-    }
+    ~MultiStageDriver() { delete integrator; }
+
   private:
 };
 
 class MultiStageBlockTaskDriver : public MultiStageDriver {
   public:
-    MultiStageBlockTaskDriver(ParameterInput *pin, Mesh *pm, Outputs *pout) : MultiStageDriver(pin,pm,pout) {}
+    MultiStageBlockTaskDriver(ParameterInput *pin, Mesh *pm, Outputs *pout)
+        : MultiStageDriver(pin, pm, pout) {}
     TaskListStatus Step();
     virtual TaskList MakeTaskList(MeshBlock *pmb, int stage) = 0;
-
 };
 
 } // namespace parthenon
