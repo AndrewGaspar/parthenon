@@ -1,6 +1,7 @@
 
 add_library(catch2_define catch2_define.cpp)
 target_link_libraries(catch2_define PUBLIC Catch2::Catch2)
+format_sources(catch2_define)
 
 if(${ENABLE_UNIT_TESTS})
   message(STATUS "Building unit tests.")

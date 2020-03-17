@@ -19,6 +19,7 @@ list(APPEND unit_tests_SOURCES test_unit_params.cpp)
 
 add_executable(unit_tests ${unit_tests_SOURCES})
 target_link_libraries(unit_tests PRIVATE parthenon catch2_define )
+format_sources(unit_tests)
 ParseAndAddCatchTests(unit_tests)
 
 

@@ -318,7 +318,7 @@ void BoundaryValues::ProlongateGhostCells(
 
     // prolongate cell-centered S/AMR-enrolled quantities (hydro, radiation, scalars, ...)
     //(unique to Hydro, PassiveScalars): swap ptrs to (w, coarse_prim) from (u,
-    //coarse_cons)
+    // coarse_cons)
 
     for (auto cc_pair : pmr->pvars_cc_) {
         AthenaArray<Real> *var_cc = std::get<0>(cc_pair);
